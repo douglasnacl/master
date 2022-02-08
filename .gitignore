@@ -6,7 +6,10 @@ _inspiration
 _references
 _documents
 .ipynb_checkpoints
-g
+logs
+.vscode
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
