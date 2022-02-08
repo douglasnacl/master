@@ -6,9 +6,8 @@ _inspiration
 _references
 _documents
 .ipynb_checkpoints
-logs
 .vscode
-
+logs
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
