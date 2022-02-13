@@ -20,7 +20,10 @@ class StockDataGenerator(yf.Ticker):
         self.STOCK_NAME = STOCK_NAME
         self.period = PERIOD
         self.interval = INTERVAL
-        
+        try:
+            self.database = self.connect()
+        except Exception as e:
+            raise e
     def connect(self):
         try:
             return yf.Ticker(self.STOCK_NAME)
@@ -46,37 +49,30 @@ class StockDataGenerator(yf.Ticker):
     @dispatch()
     def get_data(self) -> pd.DataFrame:
         try:
-            database = self.connect()
-            dataframe =  pd.DataFrame(database.history(period=self.PERIOD, interval=self.INTERVAL))
-            dataframe = dataframe.reset_index()
-            try:
-                return dataframe[['Date', 'Open','High','Low','Close']]
-            except:
-                return dataframe[['Datetime',  'Open','High','Low','Close']]
-        except:
-            pass
+            logging.info(f"Getting the historical data - period {self.PERIOD} and interval {self.INTERVAL} for the last {self.PERIOD} days")
+            dataframe =  pd.DataFrame(self.database.history(period=self.PERIOD, interval=self.INTERVAL))
+            return dataframe
+        except Exception as e:
+            raise e
 
     @dispatch(datetime, datetime)
     def get_data(self, start_date: datetime, end_date: datetime):
         try: 
-            database = self.connect()
+            logging.info(f"Getting the historical data - period{self.PERIOD} and interval {self.INTERVAL} \n from {start_date} to {end_date}")
             dataframe = self.database.history(period=self.PERIOD, interval=self.INTERVAL, start=start_date, end=end_date)
-            dataframe = dataframe.reset_index()
-            try:
-                return dataframe[['Date', 'Open','High','Low','Close']]
-            except:
-                return dataframe[['Datetime',  'Open','High','Low','Close']]
-        except :
-            pass
+            return dataframe
+        except Exception as e:
+            raise e
     
     def export_csv(self):
         
         path = ASSETS_URL
         file_name = OUTPUT_FILE_NAME
-        pathfile = ASSETS_URL + OUTPUT_FILE_NAME
+        pathfile = ASSETS_URL + OUTPUT_FILE_NAME + '-'+ str(datetime.now().date()) + '.csv'
         
         dataframe = self.get_data()
         if not os.path.exists(path):
+            logging.info(f"The folder to store the file has being created")
             os.mkdir(path)
         files_present = os.path.isfile(pathfile) 
         if not files_present:
