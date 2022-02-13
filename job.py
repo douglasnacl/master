@@ -1,10 +1,10 @@
-from sympy import arg
 from utilities.io.stock_data_generator import StockDataGenerator
+from utilities.io.stock_data_generator import StockDataGenerator
+from utilities.methods import routine
 import logging
 import os
 from datetime import datetime
 import argparse
-
 
 logs_path = "logs/"
 
@@ -23,10 +23,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "-dd",
     "--download_data",
-    help="OPCIONAL : executa rotina para obter novos dados",
+    help="optional: executa rotina para obter novos dados",
+    action="store_true",
 )
 
-args = vars(parser.parse_args())
+args = parser.parse_args()
+
 if __name__ == "__main__":
     
     if not os.path.exists(logs_path):
@@ -39,3 +41,5 @@ if __name__ == "__main__":
     if(args.download_data):
         stock_data = StockDataGenerator()
         stock_data.export_csv()
+    else:
+        routine()
