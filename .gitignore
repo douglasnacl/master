@@ -8,7 +8,9 @@ _documents
 .ipynb_checkpoints
 .vscode
 logs
-
+start.sh
+.env
+logs/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
