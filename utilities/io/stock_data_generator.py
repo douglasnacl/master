@@ -20,6 +20,7 @@ class StockDataGenerator(yf.Ticker):
         self.STOCK_NAME = STOCK_NAME
         self.period = PERIOD
         self.interval = INTERVAL
+   
         try:
             self.database = self.connect()
         except Exception as e:
