@@ -12,9 +12,9 @@ def routine():
     
     input_shape = (None, NUM_OBSERVATIONS)
     output_action = NUM_ACTIONS
-    model = NeuralNetwork()
+    nn = NeuralNetwork()
     
-    model.build(input_shape, output_action)
+    model = nn.build(input_shape, output_action)
     model.summary()
 
     print("Here")
