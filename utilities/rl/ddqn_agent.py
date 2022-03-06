@@ -60,10 +60,14 @@ class DDQNAgent:
         
         n = len(self.architecture)
 
-        model = NeuralNetwork(
-            self.state_dim, self.num_actions, self.architecture, 
-            self.learning_rate, self.l2_reg)
-        model = model.build()
+        neural_network = NeuralNetwork(
+            self.state_dim, 
+            self.num_actions, 
+            self.architecture, 
+            self.learning_rate, 
+            self.l2_reg)
+
+        model = neural_network.build()
 
         return model
 
@@ -118,3 +122,9 @@ class DDQNAgent:
 
         if self.total_steps % self.tau == 0:
             self.update_target()
+
+    def result(self):
+        return self.experience
+        
+    def training(self):
+        pass
