@@ -3,13 +3,13 @@ import logging
 from re import S
 import gym
 from importlib_metadata import metadata
-from utilities.env.quandl_env_src import QuandlEnvSrc
-from utilities.env.trading_sim import TradingSim
+from utilities.environment.quandl_env_src import QuandlEnvSrc
+from utilities.environment.trading_sim import TradingSim
 
 class TradingEnv(gym.Env):
     """ Esta classe implementa um ambiente de trading para RL
 
-    O gym disponibiliza observações baseadas nos mercados reais de dados obidos
+    O gym disponibiliza observações baseadas nos mercadsos reais de dados obidos
     do Quandl onde, por padrão. Um episódio é definido como _intervalo_ de dias
     contínuos do conjunto de dados geral
     Cada _intervalo_ é um 'passo' no gym e, em cada passo, o algoritmo realiza 
@@ -35,9 +35,10 @@ class TradingEnv(gym.Env):
     """
     metadata = {'render.modes': ['human']}
 
-    def __init__(self):
+    def __init__(self, data_source_object: object):
         self.days = 252 # self.interval = 252
-        self.src = QuandlEnvSrc(days=self.days)
+        self.src = data_source_object
+        print("SRC: ", self.src, type(self.src))
         self.sim = TradingSim(
             steps=self.days,
             trading_cost_bps=1e-3,
