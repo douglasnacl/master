@@ -83,7 +83,7 @@ def routine():
                  tau=tau,
                  batch_size=batch_size)
     
-    ddqn.online_network.summary()
+    # ddqn.online_network.summary()
 
     ## Run Experiment
     ### Set parameters
@@ -99,17 +99,22 @@ def routine():
 
     start = time()
     results = []
+    actions = []
+    navs = []
     for episode in range(1, max_episodes + 1):
         this_state = trading_environment.reset()
         for episode_step in range(max_episode_steps):
             action = ddqn.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, state_dim))
-            next_state, reward, done, _ = trading_environment.step(action)
+            next_state, reward, done, info = trading_environment.step(action)
         
             ddqn.memorize_transition(this_state, 
                                     action, 
                                     reward, 
                                     next_state, 
                                     0.0 if done else 1.0)
+            actions.append(action)
+            navs.append(info['nav'])
+
             if ddqn.train:
                 ddqn.experience_replay()
             if done:
@@ -117,7 +122,10 @@ def routine():
             this_state = next_state
 
         # get DataFrame with sequence of actions, returns and nav values
+        # NAV = (Assets - Liabilities) / Total number of outstanding shares
         result = ddqn.result() # trading_environment.env.simulator.result()
+        print("INFO: ", navs)
+        # print("INFO2: ",result, type(result))
         # get results of last step
         final = result.iloc[-1]
 
