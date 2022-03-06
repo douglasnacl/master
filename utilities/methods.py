@@ -18,6 +18,7 @@ import gym
 import pandas as pd
 import numpy as np
 from gym.envs.registration import register
+import os
 
 NUM_ACTIONS = 3 # [buy, sell, hold]
 NUM_OBSERVATIONS = 4 # Deve ser 
@@ -29,7 +30,7 @@ trading_days = 252
 #     timestep_limit=trading_days,
 # )
 def routine():
-    
+
     logging.info("Running the routine")
     check_computer_device()
     
@@ -82,77 +83,77 @@ def routine():
                  tau=tau,
                  batch_size=batch_size)
     
-    ddqn.online_network.summary()
+    # ddqn.online_network.summary()
 
-    ## Run Experiment
-    ### Set parameters
+    # ## Run Experiment
+    # ### Set parameters
 
-    total_steps = 0
-    max_episodes = 1000    
+    # total_steps = 0
+    # max_episodes = 1000    
 
-    ### Initialize variables
+    # ### Initialize variables
 
-    episode_time, navs, market_navs, diffs, episode_eps = [], [], [], [], []
+    # episode_time, navs, market_navs, diffs, episode_eps = [], [], [], [], []
 
-    start = time()
-    results = []
-    for episode in range(1, max_episodes + 1):
-        this_state = trading_environment.reset()
-        for episode_step in range(max_episode_steps):
-            action = ddqn.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, state_dim))
-            next_state, reward, done, _ = trading_environment.step(action)
+    # start = time()
+    # results = []
+    # for episode in range(1, max_episodes + 1):
+    #     this_state = trading_environment.reset()
+    #     for episode_step in range(max_episode_steps):
+    #         action = ddqn.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, state_dim))
+    #         next_state, reward, done, _ = trading_environment.step(action)
         
-            ddqn.memorize_transition(this_state, 
-                                    action, 
-                                    reward, 
-                                    next_state, 
-                                    0.0 if done else 1.0)
-            if ddqn.train:
-                ddqn.experience_replay()
-            if done:
-                break
-            this_state = next_state
+    #         ddqn.memorize_transition(this_state, 
+    #                                 action, 
+    #                                 reward, 
+    #                                 next_state, 
+    #                                 0.0 if done else 1.0)
+    #         if ddqn.train:
+    #             ddqn.experience_replay()
+    #         if done:
+    #             break
+    #         this_state = next_state
 
-        # get DataFrame with sequence of actions, returns and nav values
-        result = trading_environment.env.simulator.result()
-        # get results of last step
-        final = result.iloc[-1]
+    #     # get DataFrame with sequence of actions, returns and nav values
+    #     result = trading_environment.env.simulator.result()
+    #     # get results of last step
+    #     final = result.iloc[-1]
 
-        # apply return (net of cost) of last action to last starting nav 
-        nav = final.nav * (1 + final.strategy_return)
-        navs.append(nav)
+    #     # apply return (net of cost) of last action to last starting nav 
+    #     nav = final.nav * (1 + final.strategy_return)
+    #     navs.append(nav)
 
-        # market nav 
-        market_nav = final.market_nav
-        market_navs.append(market_nav)
+    #     # market nav 
+    #     market_nav = final.market_nav
+    #     market_navs.append(market_nav)
 
-        # track difference between agent an market NAV results
-        diff = nav - market_nav
-        diffs.append(diff)
+    #     # track difference between agent an market NAV results
+    #     diff = nav - market_nav
+    #     diffs.append(diff)
         
-        if episode % 10 == 0:
-            track_results(episode,  
-                        # show mov. average results for 100 (10) periods
-                        np.mean(navs[-100:]), 
-                        np.mean(navs[-10:]), 
-                        np.mean(market_navs[-100:]), 
-                        np.mean(market_navs[-10:]), 
-                        # share of agent wins, defined as higher ending nav
-                        np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100), 
-                        time() - start, ddqn.epsilon)
-        if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
-            print(result.tail())
-            break
+    #     if episode % 10 == 0:
+    #         track_results(episode,  
+    #                     # show mov. average results for 100 (10) periods
+    #                     np.mean(navs[-100:]), 
+    #                     np.mean(navs[-10:]), 
+    #                     np.mean(market_navs[-100:]), 
+    #                     np.mean(market_navs[-10:]), 
+    #                     # share of agent wins, defined as higher ending nav
+    #                     np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100), 
+    #                     time() - start, ddqn.epsilon)
+    #     if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
+    #         print(result.tail())
+    #         break
 
-    trading_environment.close()
+    # trading_environment.close()
 
-    results = pd.DataFrame({'Episode': list(range(1, episode+1)),
-                        'Agent': navs,
-                        'Market': market_navs,
-                        'Difference': diffs}).set_index('Episode')
+    # results = pd.DataFrame({'Episode': list(range(1, episode+1)),
+    #                     'Agent': navs,
+    #                     'Market': market_navs,
+    #                     'Difference': diffs}).set_index('Episode')
 
-    results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
-    results.info()
+    # results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
+    # results.info()
 
 
 

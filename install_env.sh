@@ -10,9 +10,8 @@ pip install numpy
 pip install pandas
 pip install multipledispatch
 pip install yfinance 
-conda install -c anaconda tensorflow-gpu==1.15
-pip install gym==2.0.0
-pip install gym-anytrading==1.2.0
-pip install stable-baselines==3.7.0
+# conda install -c anaconda tensorflow-gpu==1.15
+pip install gym
+pip install quandl
 pip install -U scikit-learn==1.7.3
 pip install python-dotenv==0.19.2

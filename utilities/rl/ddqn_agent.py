@@ -3,8 +3,10 @@ import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.regularizers import l2
+
 from random import sample
+
+from utilities.nn.neural_network import NeuralNetwork
 
 import numpy as np
 import pandas as pd
@@ -55,22 +57,14 @@ class DDQNAgent:
         self.train = True
 
     def build_model(self, trainable=True):
-        layers = []
+        
         n = len(self.architecture)
-        for i, units in enumerate(self.architecture, 1):
-            layers.append(Dense(units=units,
-                                input_dim=self.state_dim if i == 1 else None,
-                                activation='relu',
-                                kernel_regularizer=l2(self.l2_reg),
-                                name=f'Dense_{i}',
-                                trainable=trainable))
-        layers.append(Dropout(.1))
-        layers.append(Dense(units=self.num_actions,
-                            trainable=trainable,
-                            name='Output'))
-        model = Sequential(layers)
-        model.compile(loss='mean_squared_error',
-                      optimizer=Adam(lr=self.learning_rate))
+
+        model = NeuralNetwork(
+            self.state_dim, self.num_actions, self.architecture, 
+            self.learning_rate, self.l2_reg)
+        model = model.build()
+
         return model
 
     def update_target(self):

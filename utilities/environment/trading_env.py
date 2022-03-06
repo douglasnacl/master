@@ -1,6 +1,4 @@
-from curses import meta
 import logging
-from re import S
 import gym
 from importlib_metadata import metadata
 from utilities.environment.quandl_env_src import QuandlEnvSrc
@@ -38,7 +36,6 @@ class TradingEnv(gym.Env):
     def __init__(self, data_source_object: object):
         self.days = 252 # self.interval = 252
         self.src = data_source_object
-        print("SRC: ", self.src, type(self.src))
         self.sim = TradingSim(
             steps=self.days,
             trading_cost_bps=1e-3,
@@ -48,7 +45,6 @@ class TradingEnv(gym.Env):
                 self.src.min_values.to_numpy(),
                 self.src.max_values.to_numpy()
             )
-        print("Observation: ", self.observation_space, type(self.observation_space))
         self._reset()
 
     def _reset(self):
