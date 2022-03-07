@@ -30,140 +30,141 @@ trading_days = 252
 #     timestep_limit=trading_days,
 # )
 def routine():
-
-    logging.info("Running the routine")
-    check_computer_device()
+    NASDAQ_API = os.getenv("NASDAQ_API")
+    # logging.info("Running the routine")
+    # check_computer_device()
     
+    print(NASDAQ_API)
+    # quandl_env_src = QuandlEnvSrc(days=trading_days)
+    # trading_environment = TradingEnv(quandl_env_src)
+    # trading_environment.timestep_limit=trading_days
+    # trading_environment.seed(42)
+
+    # ### Get Environment Params
+    # state_dim = trading_environment.observation_space.shape[0]
+    # num_actions = trading_environment.action_space.n
+    # # max_episode_steps = trading_environment.spec.max_episode_steps
+    # max_episode_steps = 252
+
+    # ## Define hyperparameters
+    # gamma = .99,  # discount factor
+    # tau = 100  # target network update frequency
+
+    # ### NN Architecture
+    # architecture = (64, 256, 64)  # units per layer
+    # learning_rate = 0.0001  # learning rate
+    # l2_reg = 1e-6  # L2 regularization
+
+    # ### Experience Replay
+    # replay_capacity = int(1e6)
+    # batch_size = 4096
+
+    # ### $\epsilon$-greedy Policy
+    # epsilon_start = 1.0
+    # epsilon_end = .01
+    # epsilon_decay_steps = 250
+    # epsilon_exponential_decay = .99
+
+    # ## Create DDQN Agent
+    # # We will use [TensorFlow](https://www.tensorflow.org/) to create our Double Deep Q-Network .
+    # tf.keras.backend.clear_session()
     
-    quandl_env_src = QuandlEnvSrc(days=trading_days)
-    trading_environment = TradingEnv(quandl_env_src)
-    trading_environment.timestep_limit=trading_days
-    trading_environment.seed(42)
-
-    ### Get Environment Params
-    state_dim = trading_environment.observation_space.shape[0]
-    num_actions = trading_environment.action_space.n
-    # max_episode_steps = trading_environment.spec.max_episode_steps
-    max_episode_steps = 252
-
-    ## Define hyperparameters
-    gamma = .99,  # discount factor
-    tau = 100  # target network update frequency
-
-    ### NN Architecture
-    architecture = (64, 256, 64)  # units per layer
-    learning_rate = 0.0001  # learning rate
-    l2_reg = 1e-6  # L2 regularization
-
-    ### Experience Replay
-    replay_capacity = int(1e6)
-    batch_size = 4096
-
-    ### $\epsilon$-greedy Policy
-    epsilon_start = 1.0
-    epsilon_end = .01
-    epsilon_decay_steps = 250
-    epsilon_exponential_decay = .99
-
-    ## Create DDQN Agent
-    # We will use [TensorFlow](https://www.tensorflow.org/) to create our Double Deep Q-Network .
-    tf.keras.backend.clear_session()
+    # ddqn = DDQNAgent(state_dim=state_dim,
+    #              num_actions=num_actions,
+    #              learning_rate=learning_rate,
+    #              gamma=gamma,
+    #              epsilon_start=epsilon_start,
+    #              epsilon_end=epsilon_end,
+    #              epsilon_decay_steps=epsilon_decay_steps,
+    #              epsilon_exponential_decay=epsilon_exponential_decay,
+    #              replay_capacity=replay_capacity,
+    #              architecture=architecture,
+    #              l2_reg=l2_reg,
+    #              tau=tau,
+    #              batch_size=batch_size)
     
-    ddqn = DDQNAgent(state_dim=state_dim,
-                 num_actions=num_actions,
-                 learning_rate=learning_rate,
-                 gamma=gamma,
-                 epsilon_start=epsilon_start,
-                 epsilon_end=epsilon_end,
-                 epsilon_decay_steps=epsilon_decay_steps,
-                 epsilon_exponential_decay=epsilon_exponential_decay,
-                 replay_capacity=replay_capacity,
-                 architecture=architecture,
-                 l2_reg=l2_reg,
-                 tau=tau,
-                 batch_size=batch_size)
-    
-    # ddqn.online_network.summary()
+    # # ddqn.online_network.summary()
 
-    ## Run Experiment
-    ### Set parameters
+    # ## Run Experiment
+    # ### Set parameters
 
-    total_steps = 0
-    max_episodes = 1000    
+    # total_steps = 0
+    # max_episodes = 1000    
 
-    ### Initialize variables
+    # ### Initialize variables
 
-    episode_time, navs, market_navs, diffs, episode_eps = [], [], [], [], []
+    # episode_time, navs, market_navs, diffs, episode_eps = [], [], [], [], []
 
-    # ddqn.training()
+    # # ddqn.training()
 
-    start = time()
-    results = []
-    actions = []
-    navs = []
-    for episode in range(1, max_episodes + 1):
-        this_state = trading_environment.reset()
-        for episode_step in range(max_episode_steps):
-            action = ddqn.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, state_dim))
-            next_state, reward, done, info = trading_environment.step(action)
+    # start = time()
+    # results = []
+    # actions = []
+    # actual_navs = []
+    # mkt_navs = []
+    # for episode in range(1, max_episodes + 1):
+    #     this_state = trading_environment.reset()
+    #     for episode_step in range(max_episode_steps):
+    #         action = ddqn.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, state_dim))
+    #         next_state, reward, done, info = trading_environment.step(action)
         
-            ddqn.memorize_transition(this_state, 
-                                    action, 
-                                    reward, 
-                                    next_state, 
-                                    0.0 if done else 1.0)
-            actions.append(action)
-            navs.append(info['nav'])
+    #         ddqn.memorize_transition(this_state, 
+    #                                 action, 
+    #                                 reward, 
+    #                                 next_state, 
+    #                                 0.0 if done else 1.0)
+    #         actions.append(action)
+    #         actual_navs.append(info['nav'])
+    #         mkt_navs.append(info['mkt_nav'])
+    #         if ddqn.train:
+    #             ddqn.experience_replay()
+    #         if done:
+    #             break
+    #         this_state = next_state
 
-            if ddqn.train:
-                ddqn.experience_replay()
-            if done:
-                break
-            this_state = next_state
-
-        # get DataFrame with sequence of actions, returns and nav values
-        # NAV = (Assets - Liabilities) / Total number of outstanding shares
-        result = ddqn.result() # trading_environment.env.simulator.result()
-        print("INFO: ", navs)
-        # print("INFO2: ",result, type(result))
-        # get results of last step
-        final = result.iloc[-1]
-
-        # apply return (net of cost) of last action to last starting nav 
-        nav = final.nav * (1 + final.strategy_return)
-        navs.append(nav)
-
-        # market nav 
-        market_nav = final.market_nav
-        market_navs.append(market_nav)
-
-        # track difference between agent an market NAV results
-        diff = nav - market_nav
-        diffs.append(diff)
+    #     # get DataFrame with sequence of actions, returns and nav values
+    #     # NAV = (Assets - Liabilities) / Total number of outstanding shares
+    #     # result = ddqn.result() # trading_environment.env.simulator.result()
         
-        if episode % 10 == 0:
-            track_results(episode,  
-                        # show mov. average results for 100 (10) periods
-                        np.mean(navs[-100:]), 
-                        np.mean(navs[-10:]), 
-                        np.mean(market_navs[-100:]), 
-                        np.mean(market_navs[-10:]), 
-                        # share of agent wins, defined as higher ending nav
-                        np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100), 
-                        time() - start, ddqn.epsilon)
-        if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
-            print(result.tail())
-            break
+    #     result = pd.DataFrame(info)
+    #     # get results of last step
+    #     final = result.iloc[-1]
+    #     print("FINAL: ", info)
+    #     # apply return (net of cost) of last action to last starting nav 
+    #     nav = final.nav * (1 + final.strategy_return)
+    #     navs.append(nav)
 
-    trading_environment.close()
+    #     # market nav 
+    #     market_nav = final.market_nav
+    #     market_navs.append(market_nav)
 
-    results = pd.DataFrame({'Episode': list(range(1, episode+1)),
-                        'Agent': navs,
-                        'Market': market_navs,
-                        'Difference': diffs}).set_index('Episode')
+    #     # track difference between agent an market NAV results
+    #     diff = nav - market_nav
+    #     diffs.append(diff)
+        
+    #     if episode % 10 == 0:
+    #         track_results(episode,  
+    #                     # show mov. average results for 100 (10) periods
+    #                     np.mean(navs[-100:]), 
+    #                     np.mean(navs[-10:]), 
+    #                     np.mean(market_navs[-100:]), 
+    #                     np.mean(market_navs[-10:]), 
+    #                     # share of agent wins, defined as higher ending nav
+    #                     np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100), 
+    #                     time() - start, ddqn.epsilon)
+    #     if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
+    #         print(result.tail())
+    #         break
 
-    results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
-    results.info()
+    # trading_environment.close()
+
+    # results = pd.DataFrame({'Episode': list(range(1, episode+1)),
+    #                     'Agent': navs,
+    #                     'Market': market_navs,
+    #                     'Difference': diffs}).set_index('Episode')
+
+    # results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
+    # results.info()
 
 
 

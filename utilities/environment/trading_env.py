@@ -66,7 +66,7 @@ class TradingEnv(gym.Env):
         yret = observation[2]
 
         reward, info = self.sim._step(action, yret)
-        # info = { 'pnl': daypnl, 'nav':self.nav, 'costs':costs }
+        # info = { 'reward': reward, 'nav':self.navs[self.step],  'mkt_nav':self.mkt_nav[self.step], 'costs':self.costs[self.step], 'strategy_return': self.strat_retrns[self.step] }
 
         return observation, reward, done, info
     

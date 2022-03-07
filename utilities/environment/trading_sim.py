@@ -58,7 +58,7 @@ class TradingSim(object):
             self.navs[self.step] =  bod_nav * (1 + self.strat_retrns[self.step-1])
             self.mkt_nav[self.step] =  mkt_nav * (1 + self.mkt_retrns[self.step-1])
         
-        info = { 'reward': reward, 'nav':self.navs[self.step], 'costs':self.costs[self.step] }
+        info = { 'reward': reward, 'nav':self.navs[self.step],  'mkt_nav':self.mkt_nav[self.step], 'costs':self.costs[self.step], 'strategy_return': self.strat_retrns[self.step] }
 
         self.step += 1      
         return reward, info

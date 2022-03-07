@@ -123,8 +123,7 @@ class DDQNAgent:
         if self.total_steps % self.tau == 0:
             self.update_target()
 
-    def result(self):
-        return self.experience
+    
         
     def training(self):
         pass
