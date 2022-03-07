@@ -1,8 +1,7 @@
+from utilities.environment.trading_sim import TradingSim
+from importlib_metadata import metadata
 import logging
 import gym
-from importlib_metadata import metadata
-from utilities.environment.quandl_env_src import QuandlEnvSrc
-from utilities.environment.trading_sim import TradingSim
 
 class TradingEnv(gym.Env):
     """ Esta classe implementa um ambiente de trading para RL

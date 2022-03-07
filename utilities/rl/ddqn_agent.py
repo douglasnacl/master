@@ -1,16 +1,12 @@
-from collections import deque
-import tensorflow as tf
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.optimizers import Adam
-
-from random import sample
-from time import time
-
 from utilities.nn.neural_network import NeuralNetwork
 from utilities.utils.checks import track_results
-import numpy as np
+from collections import deque
+from random import sample
+import tensorflow as tf
+from time import time
 import pandas as pd
+import numpy as np
+
 
 class DDQNAgent:
     def __init__(self, state_dim,
@@ -123,29 +119,23 @@ class DDQNAgent:
 
         if self.total_steps % self.tau == 0:
             self.update_target()
-
     
         
-    def training(self, env, ):
+    def training(self, trading_environment):
         
-        trading_environment = env
+        # Inicializa variáveis necessárias 
         total_steps = 0
         max_episodes = 1000    
         max_episode_steps =252
-        ### Initialize variables
 
-        episode_time, navs, market_navs, diffs, episode_eps = [], [], [], [], []
-
-        # ddqn.training()
+        ### Listas que utilizaremos para o cálculo das métricas
+        episode_time, navs, market_navs, diffs, episode_eps = [], [], [], [], [] 
 
         start = time()
         results = []
         
         for episode in range(1, max_episodes + 1):
-            step_actions = []
-            step_navs = []
-            step_mkt_navs = []
-            step_strategy_return = []
+            this_state_actions, this_state_navs, this_state_mkt_navs, this_state_strategy_return = [], [], [], []
             this_state = trading_environment.reset()
             for episode_step in range(max_episode_steps):
                 action = self.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, self.state_dim))
@@ -156,10 +146,10 @@ class DDQNAgent:
                                         reward, 
                                         next_state, 
                                         0.0 if done else 1.0)
-                step_actions.append(action)
-                step_navs.append(info['nav'])
-                step_mkt_navs.append(info['mkt_nav'])
-                step_strategy_return.append(info['strategy_return'])
+                this_state_actions.append(action)
+                this_state_navs.append(info['nav'])
+                this_state_mkt_navs.append(info['mkt_nav'])
+                this_state_strategy_return.append(info['strategy_return'])
 
                 if self.train:
                     self.experience_replay()
@@ -167,11 +157,11 @@ class DDQNAgent:
                     break
                 this_state = next_state
 
-            nav =  step_navs[-1] * (1 + step_strategy_return[-1])
+            nav =  this_state_navs[-1] * (1 + this_state_strategy_return[-1])
 
             navs.append(nav)
 
-            market_nav = step_mkt_navs[-1]
+            market_nav = this_state_mkt_navs[-1]
             market_navs.append(market_nav)
 
             # track difference between agent an market NAV results
@@ -180,14 +170,14 @@ class DDQNAgent:
             
             if episode % 10 == 0:
                 track_results(episode,  
-                            # show mov. average results for 100 (10) periods
-                            np.mean(navs[-100:]), 
-                            np.mean(navs[-10:]), 
-                            np.mean(market_navs[-100:]), 
-                            np.mean(market_navs[-10:]), 
-                            # share of agent wins, defined as higher ending nav
-                            np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100), 
-                            time() - start, self.epsilon)
+                    # show mov. average results for 100 (10) periods
+                    np.mean(navs[-100:]), 
+                    np.mean(navs[-10:]), 
+                    np.mean(market_navs[-100:]), 
+                    np.mean(market_navs[-10:]), 
+                    # share of agent wins, defined as higher ending nav
+                    np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100), 
+                    time() - start, self.epsilon)
             if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
                 # print(result.tail())
                 break
@@ -201,3 +191,5 @@ class DDQNAgent:
 
         results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
         results.info()
+
+        return results

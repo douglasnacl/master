@@ -17,6 +17,7 @@ class NeuralNetwork:
         self.l2_reg = l2_reg
     
     def build(self):
+       
         layers = []
         for i, units in enumerate(self.architecture, 1):
             layers.append(Dense(units=units,
@@ -32,21 +33,6 @@ class NeuralNetwork:
         model = Sequential(layers)
         model.compile(loss='mean_squared_error',
                       optimizer=Adam(learning_rate=self.learning_rate))
-
-        # # Construindo Input Shape
-        
-        
-        # # Cria o base da rede neural
-        # model = Sequential()
-        # model.add(Dense(16, input_shape=input_shape))
-        # # model.add(Flatten(input_shape=(1,) + env.observation_space.shape))
-        # model.add(Activation('relu'))
-
-        # model.add(Dense(32))
-        # model.add(Activation('relu'))
-
-        # model.add(Dense(classes))
-        # model.add(Activation('linear'))
 
         return model
 

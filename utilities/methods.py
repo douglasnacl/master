@@ -1,36 +1,22 @@
-from utilities.environment.trading_env import TradingEnv
-from utilities.rl.deep_q_network import DeepQNetwork
-from utilities.io.stock_data_generator import StockDataGenerator
-from utilities.nn.neural_network import NeuralNetwork
-from utilities.rl.deep_q_network import DeepQNetwork
 from utilities.environment.quandl_env_src import QuandlEnvSrc
-from utilities.utils.checks import check_computer_device
+from utilities.environment.trading_env import TradingEnv
 from utilities.rl.ddqn_agent import DDQNAgent
+from utilities.utils.checks import check_computer_device
+from utilities.utils.checks import track_results
+import tensorflow as tf
 from time import time
 import logging
+
 from dotenv import load_dotenv
 load_dotenv()
 
-from utilities.utils.checks import track_results
-# from utilities.rl.policy_gradient import PolicyGradient
-import tensorflow as tf
-import gym
-import pandas as pd
-import numpy as np
-from gym.envs.registration import register
 import os
 
-NUM_ACTIONS = 3 # [buy, sell, hold]
-NUM_OBSERVATIONS = 4 # Deve ser 
-
+NASDAQ_API = os.getenv("NASDAQ_API")
 trading_days = 252
-# register(
-#     id='trading-v0',
-#     entry_point='gym_trading.envs.trading_env:TradingEnv',
-#     timestep_limit=trading_days,
-# )
+
 def routine():
-    NASDAQ_API = os.getenv("NASDAQ_API")
+    
     logging.info("Running the routine")
     check_computer_device()
     
@@ -42,9 +28,8 @@ def routine():
     ### Get Environment Params
     state_dim = trading_environment.observation_space.shape[0]
     num_actions = trading_environment.action_space.n
-    # max_episode_steps = trading_environment.spec.max_episode_steps
-    max_episode_steps = 252
-
+    print("ACTIONS: ", num_actions)
+    
     ## Define hyperparameters
     gamma = .99,  # discount factor
     tau = 100  # target network update frequency
@@ -83,15 +68,8 @@ def routine():
                  batch_size=batch_size)
     
     # ddqn.online_network.summary()
-
-    ## Run Experiment
-    ### Set parameters
-    ddqn.training(trading_environment)
     
-
-    ################################################
-    ##########--------SEGUNDO MODO--------##########
-    ################################################
+    ddqn.training(trading_environment)
 
     # stayflat     = lambda o,e: 1   # stand pat
     # buyandhold   = lambda o,e: 2   # buy on day #1 and hold
