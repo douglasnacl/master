@@ -43,14 +43,14 @@ def routine():
     replay_capacity = int(1e6)
     batch_size = 4096
 
-    ### $\epsilon$-greedy Policy
+    ### epsilon-greedy Policy
     epsilon_start = 1.0
     epsilon_end = .01
     epsilon_decay_steps = 250
     epsilon_exponential_decay = .99
 
-    ## Create DDQN Agent
-    # We will use [TensorFlow](https://www.tensorflow.org/) to create our Double Deep Q-Network .
+    ## Criando nossa DDQN
+    ## Para tal, iremos usar tensorflow
     tf.keras.backend.clear_session()
     
     ddqn = DDQNAgent(state_dim=state_dim,
@@ -66,8 +66,6 @@ def routine():
                  l2_reg=l2_reg,
                  tau=tau,
                  batch_size=batch_size)
-    
-    # ddqn.online_network.summary()
     
     ddqn.training(trading_environment)
 
