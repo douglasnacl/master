@@ -40,13 +40,18 @@ class QuandlEnvSrc(object):
 
         df['ClosePctl'] = df['Nominal Price'].expanding(self.MinPercentileDays).apply(pctrank)
         df['VolumePctl'] = df['Share Volume (000)'].expanding(self.MinPercentileDays).apply(pctrank)
+        # DRopa os valores nulos por linhas (rows/index)
         df.dropna(axis=0,inplace=True)
+        # Retorno
         R = df.Return
+        
+        # Escalona os valores para o dataframe
         if scale:
             mean_values = df.mean(axis=0)
             std_values = df.std(axis=0)
             df = (df - np.array(mean_values))/ np.array(std_values)
         df['Return'] = R # não queremos que nossos retornos sejam dimensionados
+        # Persiste os resultados em variáveis 
         self.min_values = df.min(axis=0)
         self.max_values = df.max(axis=0)
         self.data = df

@@ -22,52 +22,52 @@ def routine():
     
     quandl_env_src = QuandlEnvSrc(days=trading_days)
     trading_environment = TradingEnv(quandl_env_src)
-    trading_environment.timestep_limit=trading_days
-    trading_environment.seed(42)
+    # trading_environment.timestep_limit=trading_days
+    # trading_environment.seed(42)
 
-    ### Get Environment Params
-    state_dim = trading_environment.observation_space.shape[0]
-    num_actions = trading_environment.action_space.n
-    print("ACTIONS: ", num_actions)
+    # ### Get Environment Params
+    # state_dim = trading_environment.observation_space.shape[0]
+    # num_actions = trading_environment.action_space.n
+    # print("ACTIONS: ", num_actions)
     
-    ## Define hyperparameters
-    gamma = .99,  # discount factor
-    tau = 100  # target network update frequency
+    # ## Define hyperparameters
+    # gamma = .99,  # discount factor
+    # tau = 100  # target network update frequency
 
-    ### NN Architecture
-    architecture = (256, 256)  # units per layer
-    learning_rate = 0.0001  # learning rate
-    l2_reg = 1e-6  # L2 regularization
+    # ### NN Architecture
+    # architecture = (256, 256)  # units per layer
+    # learning_rate = 0.0001  # learning rate
+    # l2_reg = 1e-6  # L2 regularization
 
-    ### Experience Replay
-    replay_capacity = int(1e6)
-    batch_size = 4096
+    # ### Experience Replay
+    # replay_capacity = int(1e6)
+    # batch_size = 4096
 
-    ### epsilon-greedy Policy
-    epsilon_start = 1.0
-    epsilon_end = .01
-    epsilon_decay_steps = 250
-    epsilon_exponential_decay = .99
+    # ### epsilon-greedy Policy
+    # epsilon_start = 1.0
+    # epsilon_end = .01
+    # epsilon_decay_steps = 250
+    # epsilon_exponential_decay = .99
 
-    ## Criando nossa DDQN
-    ## Para tal, iremos usar tensorflow
-    tf.keras.backend.clear_session()
+    # ## Criando nossa DDQN
+    # ## Para tal, iremos usar tensorflow
+    # tf.keras.backend.clear_session()
     
-    ddqn = DDQNAgent(state_dim=state_dim,
-                 num_actions=num_actions,
-                 learning_rate=learning_rate,
-                 gamma=gamma,
-                 epsilon_start=epsilon_start,
-                 epsilon_end=epsilon_end,
-                 epsilon_decay_steps=epsilon_decay_steps,
-                 epsilon_exponential_decay=epsilon_exponential_decay,
-                 replay_capacity=replay_capacity,
-                 architecture=architecture,
-                 l2_reg=l2_reg,
-                 tau=tau,
-                 batch_size=batch_size)
+    # ddqn = DDQNAgent(state_dim=state_dim,
+    #              num_actions=num_actions,
+    #              learning_rate=learning_rate,
+    #              gamma=gamma,
+    #              epsilon_start=epsilon_start,
+    #              epsilon_end=epsilon_end,
+    #              epsilon_decay_steps=epsilon_decay_steps,
+    #              epsilon_exponential_decay=epsilon_exponential_decay,
+    #              replay_capacity=replay_capacity,
+    #              architecture=architecture,
+    #              l2_reg=l2_reg,
+    #              tau=tau,
+    #              batch_size=batch_size)
     
-    ddqn.training(trading_environment)
+    # ddqn.training(trading_environment)
 
     # stayflat     = lambda o,e: 1   # stand pat
     # buyandhold   = lambda o,e: 2   # buy on day #1 and hold
