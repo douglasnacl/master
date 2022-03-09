@@ -14,7 +14,7 @@ class DDQNAgent:
                  num_actions,
                  learning_rate,
                  gamma,
-                 epsilon_start,
+                 epsilon_start, 
                  epsilon_end,
                  epsilon_decay_steps,
                  epsilon_exponential_decay,
@@ -81,6 +81,7 @@ class DDQNAgent:
         return model
 
     def update_target(self):
+        # Atualiza os pesos de target_network usando os pesos de online_network
         self.target_network.set_weights(self.online_network.get_weights())
 
     def epsilon_greedy_policy(self, state):
@@ -95,7 +96,7 @@ class DDQNAgent:
         # pega a ação com maior probabilidade (max)
         return np.argmax(q, axis=1).squeeze()
 
-    def memorize_transition(self, state, action, reward, state_prime, not_done):
+    def meipytize_transition(self, state, action, reward, state_prime, not_done):
         # Para a experiencia de repetição agente memoriza cada transição de estado 
         # para que possa amostrar aleatoriamente um mini-lote durante o treinamento
         if not_done:
@@ -103,12 +104,15 @@ class DDQNAgent:
             self.episode_length += 1
         else:
             if self.train:
+                # Se o episódio for menor que epsilon_decay_steps (250) então:
                 if self.episodes < self.epsilon_decay_steps:
                     self.epsilon -= self.epsilon_decay
+                # Caso contrário, epsilon é multiplicado por epsilon_exponential_decay (0.99)
                 else:
                     self.epsilon *= self.epsilon_exponential_decay
 
             self.episodes += 1
+            # enquanto o treinamento não estiver terminado a recompensa é armazenada no histórico junto com os passos por episódio
             self.rewards_history.append(self.episode_reward)
             self.steps_per_episode.append(self.episode_length)
             self.episode_reward, self.episode_length = 0, 0
@@ -165,7 +169,7 @@ class DDQNAgent:
             this_state = trading_environment.reset()
 
             for episode_step in range(max_episode_steps):
-                # Toma uma ação baseado na politica epsilon greedy
+                # Seleciona a melhor ação baseado na politica epsilon greedy
                 action = self.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, self.state_dim))
                 next_state, reward, done, info = trading_environment.step(action)
             
