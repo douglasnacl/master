@@ -18,22 +18,31 @@ class QuandlEnvSrc(object):
     Name = QUANDL_TARGET_NAME
 
     def __init__(self, days=252, name=Name, auth=QuandlAuthToken, scale=True):
+        # Carrega as variáveis da entrada
         self.name = name
         self.auth = auth
         self.days = days+1
         logging.info(f'getting data for {QuandlEnvSrc.Name} from quandl...')
         df = quandl.get(self.name) if self.auth == '' else quandl.get(self.name, authtoken=self.auth)
+        
+        # df = Date | Nominal Price | Net Change | Change (%) | Bid | Ask | P/E(x) | High | Low | Previous Close | Share Volume (000) | Turnover (000) | Lot Size
+
         logging.info(f'got data for {QuandlEnvSrc.Name} from quandl...')
         df = df[~np.isnan(df['Share Volume (000)'])][['Nominal Price','Share Volume (000)']]
-        # nós calculamos os retornos e percentis, quando removemos os valores nulos (nan)
-        df = df[['Nominal Price','Share Volume (000)']]   
-        df['Share Volume (000)'].replace(0,1,inplace=True) # dias não deveriam ter volume zero...
+
+        # Agora vamos calcular os retornos e percentis, quando removemos os valores nulos (nan)
+        df = df[['Nominal Price','Share Volume (000)']]
+        # Para os dias com volume zero, vamos substituir 0 por 1 pois os dias não deveriam ter volume 0
+        df['Share Volume (000)'].replace(0,1,inplace=True) 
+        # O retorno o será o percentual dado pelo preço nominal menos o preço nominal anterior dividido preço nominal
         df['Return'] = (df['Nominal Price']-df['Nominal Price'].shift())/df['Nominal Price'].shift()
         pctrank = lambda x: pd.Series(x).rank(pct=True).iloc[-1]
+
         df['ClosePctl'] = df['Nominal Price'].expanding(self.MinPercentileDays).apply(pctrank)
         df['VolumePctl'] = df['Share Volume (000)'].expanding(self.MinPercentileDays).apply(pctrank)
         # DRopa os valores nulos por linhas (rows/index)
         df.dropna(axis=0,inplace=True)
+        # Retorno
         R = df.Return
         # Escalona os valores para o dataframe
         if scale:
