@@ -1,7 +1,7 @@
 from tensorflow.keras.models import Sequential # Para unir várias camadas
 from tensorflow.keras.layers import Dense, Dropout # Para Camadas Fully-connected 
 from tensorflow.keras.layers import Activation # Função de Ativação
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam # Gradient Descent operations
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.models import clone_model
 

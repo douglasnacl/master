@@ -21,8 +21,7 @@ class QuandlEnvSrc(object):
         self.name = name
         self.auth = auth
         self.days = days+1
-        # logging.info(f'getting data for {QuandlEnvSrc.Name} from quandl...')
-        print(f'getting data for {QuandlEnvSrc.Name} from quandl...')
+        logging.info(f'getting data for {QuandlEnvSrc.Name} from quandl...')
         df = quandl.get(self.name) if self.auth == '' else quandl.get(self.name, authtoken=self.auth)
         logging.info(f'got data for {QuandlEnvSrc.Name} from quandl...')
         df = df[~np.isnan(df['Share Volume (000)'])][['Nominal Price','Share Volume (000)']]
@@ -33,13 +32,16 @@ class QuandlEnvSrc(object):
         pctrank = lambda x: pd.Series(x).rank(pct=True).iloc[-1]
         df['ClosePctl'] = df['Nominal Price'].expanding(self.MinPercentileDays).apply(pctrank)
         df['VolumePctl'] = df['Share Volume (000)'].expanding(self.MinPercentileDays).apply(pctrank)
+        # DRopa os valores nulos por linhas (rows/index)
         df.dropna(axis=0,inplace=True)
         R = df.Return
+        # Escalona os valores para o dataframe
         if scale:
             mean_values = df.mean(axis=0)
             std_values = df.std(axis=0)
             df = (df - np.array(mean_values))/ np.array(std_values)
         df['Return'] = R # não queremos que nossos retornos sejam dimensionados
+        # Persiste os resultados em variáveis
         self.min_values = df.min(axis=0)
         self.max_values = df.max(axis=0)
         self.data = df

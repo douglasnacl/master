@@ -2,7 +2,7 @@ from utilities.environment.quandl_env_src import QuandlEnvSrc
 from utilities.environment.trading_env import TradingEnv
 from utilities.rl.ddqn_agent import DDQNAgent
 from utilities.utils.checks import check_computer_device
-from utilities.utils.checks import track_results
+from utilities.utils.checks import track_results, use_cpu
 import tensorflow as tf
 from time import time
 import logging
@@ -16,7 +16,7 @@ NASDAQ_API = os.getenv("NASDAQ_API")
 trading_days = 252
 
 def routine():
-    
+    # use_cpu()
     logging.info("Running the routine")
     check_computer_device()
     
@@ -69,8 +69,9 @@ def routine():
     
     # ddqn.online_network.summary()
     
-    ddqn.training(trading_environment)
+    results = ddqn.training(trading_environment)
 
+    print(results)
     # stayflat     = lambda o,e: 1   # stand pat
     # buyandhold   = lambda o,e: 2   # buy on day #1 and hold
     # randomtrader = lambda o,e: e.action_space.sample() # retail trader

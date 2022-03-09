@@ -39,7 +39,14 @@ class TradingEnv(gym.Env):
             steps=self.days,
             trading_cost_bps=1e-3,
             time_cost_bps=1e-4)
+        '''
+        Ações possíveis
+        1 - Buy: Invest all capital for a long position in the stock.
+        2 - Flat: Hold cash only
+        3 - Sell short: Take a short position equal to the amount of capital.
+        '''
         self.action_space = gym.spaces.Discrete(3)
+
         self.observation_space = gym.spaces.Box(
                 self.src.min_values.to_numpy(),
                 self.src.max_values.to_numpy()
