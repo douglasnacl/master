@@ -29,7 +29,7 @@ class TradingSim(object):
         self.navs.fill(1)
         self.mkt_nav.fill(1)
         self.strategy_returns.fill(0)
-        self.posns.fill(0)
+        self.eod_pos.fill(0)
         self.costs.fill(0)
         self.trades.fill(0)
         self.mkt_returns.fill(0)

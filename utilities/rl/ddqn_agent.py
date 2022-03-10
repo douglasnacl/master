@@ -96,7 +96,7 @@ class DDQNAgent:
         # pega a ação com maior probabilidade (max)
         return np.argmax(q, axis=1).squeeze()
 
-    def meipytize_transition(self, state, action, reward, state_prime, not_done):
+    def memorize_transition(self, state, action, reward, state_prime, not_done):
         # Para a experiencia de repetição agente memoriza cada transição de estado 
         # para que possa amostrar aleatoriamente um mini-lote durante o treinamento
         if not_done:

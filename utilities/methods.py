@@ -28,9 +28,8 @@ def routine():
     trading_environment.seed(42)
 
     ### Get Environment Params
-    state_dim = trading_environment.oSbservation_space.shape[0]
+    state_dim = trading_environment.observation_space.shape[0]
     num_actions = trading_environment.action_space.n
-    print("ACTIONS: ", num_actions)
     
     ## Define hyperparameters
     gamma = .99,  # discount factor
