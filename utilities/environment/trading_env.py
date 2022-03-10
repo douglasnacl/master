@@ -75,9 +75,9 @@ class TradingEnv(gym.Env):
         # Obtem uma observação e caso o passo seja maior que o número total de dias de treinamento (Done = True)
         observation, done = self.src._step()
         # [0] Close   [1] Volume   [2]  Return [3] ClosePctl [4] VolumePctl
-        yret = observation[2]
+        y_return = observation[2]
 
-        reward, info = self.sim._step(action, yret)
+        reward, info = self.sim._step(action, y_return)
         # info = { 'reward': reward, 'nav':self.navs[self.step],  'mkt_nav':self.mkt_nav[self.step], 'costs':self.costs[self.step], 'strategy_return': self.strat_retrns[self.step] }
 
         return observation, reward, done, info

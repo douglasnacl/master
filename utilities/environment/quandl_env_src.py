@@ -69,7 +69,3 @@ class QuandlEnvSrc(object):
         self.step += 1
         done = self.step >= self.days
         return obs, done
-    
-    
-
-    
