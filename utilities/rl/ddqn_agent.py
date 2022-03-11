@@ -102,12 +102,10 @@ class DDQNAgent:
             self.episode_reward += reward
             self.episode_length += 1
         else:
-            if self.train:
-                # Se o episódio for menor que epsilon_decay_steps (250) então:
-                if self.episodes < self.epsilon_decay_steps:
-                    self.epsilon -= self.epsilon_decay
-                # Caso contrário, epsilon é multiplicado por epsilon_exponential_decay (0.99)
-                else:
+            if self.train: # se estiver em treinamento, então:
+                if self.episodes < self.epsilon_decay_steps: # se o episódio for menor que o epsilon_decay_steps (250), então:
+                    self.epsilon -= self.epsilon_decay # reduz o valor de epsilon em epsilon_decay
+                else: # caso contrário, epsilon x epsilon_exponential_decay (0.99) 
                     self.epsilon *= self.epsilon_exponential_decay
 
             self.episodes += 1
