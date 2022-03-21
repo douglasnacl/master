@@ -21,7 +21,7 @@ class DDQNAgent:
                  architecture,              # arquitetura de rede neural utilizada em target_network e, por consequencia, online_network
                  l2_reg,                    # taxa de regularização l2
                  tau,                       # frequencia de atualização da rede neural
-                 batch_size):               # tamanho do lote
+                 batch_size):               # tamanho do lote (4096)
 
         epsilon_start = 1.0
         epsilon_end = .01
@@ -117,6 +117,9 @@ class DDQNAgent:
         self.experience.append((state, action, reward, state_prime, not_done))
 
     def experience_replay(self):
+        '''
+        O experience_replay ocorre tão logo quanto o lote te
+        '''
         # O replay da experiencia memorizada acontece tão logo tenhamos um lote para isto
         if self.batch_size > len(self.experience):
             return
