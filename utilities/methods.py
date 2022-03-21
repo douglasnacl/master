@@ -21,7 +21,6 @@ def routine():
     check_computer_device()
     
     quandl_env_src = QuandlEnvSrc(days=trading_days)
-    obs, done = quandl_env_src._step()
     
     trading_environment = TradingEnv(quandl_env_src)
     trading_environment.timestep_limit=trading_days
@@ -53,7 +52,6 @@ def routine():
     ## Criando nossa DDQN
     ## Para tal, iremos usar tensorflow
     tf.keras.backend.clear_session()
-    
     ddqn = DDQNAgent(state_dim=state_dim,
                  num_actions=num_actions,
                  learning_rate=learning_rate,
@@ -72,7 +70,7 @@ def routine():
     
     results = ddqn.training(trading_environment)
 
-    # print(results)
+    print(results)
     # stayflat     = lambda o,e: 1   # stand pat
     # buyandhold   = lambda o,e: 2   # buy on day #1 and hold
     # randomtrader = lambda o,e: e.action_space.sample() # retail trader

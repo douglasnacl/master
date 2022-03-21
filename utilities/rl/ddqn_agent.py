@@ -30,8 +30,9 @@ class DDQNAgent:
 
         self.state_dim = state_dim # num de dimensões do estado, dada por trading_environment.observation_space.shape[0]
         self.num_actions = num_actions # num ações, dada por trading_environment.action_space.n
+        
         self.experience = deque([], maxlen=replay_capacity) # estabelece o tamanho do lote para a experiencia de replay do aprendizado
-
+        
         self.learning_rate = learning_rate 
         self.gamma = gamma
 
@@ -64,8 +65,6 @@ class DDQNAgent:
         self.train = True
 
     def build_model(self, trainable=True):
-        
-        n = len(self.architecture)
 
         # cria uma instacia de network que será usada no aprendizado
         neural_network = NeuralNetwork(
@@ -73,7 +72,8 @@ class DDQNAgent:
             self.num_actions, 
             self.architecture, 
             self.learning_rate, 
-            self.l2_reg)
+            self.l2_reg,
+            trainable=trainable)
 
         model = neural_network.build()
         return model
@@ -121,9 +121,11 @@ class DDQNAgent:
         O experience_replay ocorre tão logo quanto o lote te
         '''
         # O replay da experiencia memorizada acontece tão logo tenhamos um lote para isto
+        
         if self.batch_size > len(self.experience):
             return
         # amostra de minibatch da experiência
+
         minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
         states, actions, rewards, next_states, not_done = minibatch
 
@@ -140,7 +142,7 @@ class DDQNAgent:
 
         # Valores de q previstos
         q_values = self.online_network.predict_on_batch(states)
-        q_values[[self.idx, actions]] = targets
+        q_values[tuple([self.idx, actions])] = targets
         # Treina o modelo
         loss = self.online_network.train_on_batch(x=states, y=q_values)
         self.losses.append(loss)
@@ -158,8 +160,8 @@ class DDQNAgent:
 
         ### Listas que utilizaremos para armazenar as métricas armazenadas
         episode_time, navs, market_navs, diffs, episode_eps = [], [], [], [], [] 
-        # Variável para controle do tempo de processamento
-        start = time()
+        
+        start = time() # variável para controle do tempo de processamento
         results = []
         
         for episode in range(1, max_episodes + 1):
