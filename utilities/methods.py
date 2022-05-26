@@ -66,8 +66,6 @@ def routine():
                  tau=tau,
                  batch_size=batch_size)
     
-    ddqn.online_network.summary()
-    
     results = ddqn.training(trading_environment)
 
     print(results)

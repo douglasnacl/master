@@ -6,7 +6,7 @@ import gym
 class TradingEnv(gym.Env):
     """ Esta classe implementa um ambiente de trading para RL
 
-    O gym disponibiliza observações baseadas nos mercadsos reais de dados obidos
+    O gym disponibiliza observações baseadas nos mercados reais de dados obtidos
     do Quandl onde, por padrão. Um episódio é definido como _intervalo_ de dias
     contínuos do conjunto de dados geral
     Cada _intervalo_ é um 'passo' no gym e, em cada passo, o algoritmo realiza 

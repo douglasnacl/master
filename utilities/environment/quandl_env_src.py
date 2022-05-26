@@ -64,6 +64,7 @@ class QuandlEnvSrc(object):
         self.step = 0
     
     def _step(self):
+        # obtem o estado atual. ex: valor da ação
         obs = self.data.iloc[self.idx]
         self.idx += 1
         self.step += 1
