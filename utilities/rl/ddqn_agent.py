@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from utilities.nn.neural_network import NeuralNetwork
 from utilities.utils.checks import track_results
 from collections import deque
@@ -90,7 +91,7 @@ class DDQNAgent:
         if np.random.rand() <= self.epsilon: # se o numero aleatório for maior ou igual a epsilon, uma ação aleatório é executada
             return np.random.choice(self.num_actions)
         # Prevê o que usando a rede neural, retorna um conjunto de probilidade por ação
-        q = self.online_network.predict(state) # caso contrário, a ação tomada será aquela onde Q obtem seu máximo valor
+        q = self.online_network.predict(state, verbose=0) # caso contrário, a ação tomada será aquela onde Q obtem seu máximo valor
         return np.argmax(q, axis=1).squeeze()
 
     def memorize_transition(self, state, action, reward, state_prime, not_done):
@@ -121,11 +122,11 @@ class DDQNAgent:
         O experience_replay ocorre tão logo quanto o lote te
         '''
         # O replay da experiencia memorizada acontece tão logo tenhamos um lote para isto
-        
+        # print(self.batch_size)
         if self.batch_size > len(self.experience):
             return
+        
         # amostra de minibatch da experiência
-
         minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
         states, actions, rewards, next_states, not_done = minibatch
 
@@ -143,6 +144,7 @@ class DDQNAgent:
         # Valores de q previstos
         q_values = self.online_network.predict_on_batch(states)
         q_values[tuple([self.idx, actions])] = targets
+
         # Treina o modelo
         loss = self.online_network.train_on_batch(x=states, y=q_values)
         self.losses.append(loss)
@@ -191,6 +193,7 @@ class DDQNAgent:
                     break
                 this_state = next_state
 
+
             # Net Asset Value (NAV) 
             # Episodio começa com NAV  de 1 unidade de dinheiro
             # se o NAV cai para 0, o episódio termina e  o agente perde
@@ -226,7 +229,8 @@ class DDQNAgent:
             'Episode': list(range(1, episode+1)),
             'Agent': navs,
             'Market': market_navs,
-            'Difference': diffs}).set_index('Episode')
+            'Difference': diffs
+        }).set_index('Episode')
 
         results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
         results.info()

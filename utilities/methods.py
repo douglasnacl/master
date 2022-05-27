@@ -7,9 +7,6 @@ import tensorflow as tf
 from time import time
 import logging
 
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
 
 NASDAQ_API = os.getenv("NASDAQ_API")
@@ -40,7 +37,7 @@ def routine():
     l2_reg = 1e-6  # L2 regularization
 
     ### Experience Replay
-    replay_capacity = int(1e6)
+    replay_capacity = int(1e5)#1e3)
     batch_size = 4096
 
     ### epsilon-greedy Policy

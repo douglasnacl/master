@@ -5,9 +5,6 @@ import logging
 import os
 import pandas as pd
 
-from dotenv import load_dotenv
-load_dotenv()
-
 STOCK_NAME = os.getenv("STOCK_NAME")
 OUTPUT_FILE_NAME = os.getenv("OUTPUT_FILE_NAME")
 PERIOD = os.getenv("PERIOD")

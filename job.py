@@ -1,5 +1,4 @@
 from utilities.io.stock_data_generator import StockDataGenerator
-from utilities.io.stock_data_generator import StockDataGenerator
 from utilities.methods import routine
 import logging
 import os
