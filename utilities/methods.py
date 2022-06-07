@@ -37,7 +37,7 @@ def routine():
     l2_reg = 1e-6  # L2 regularization
 
     ### Experience Replay
-    replay_capacity = int(1e5)#1e3)
+    replay_capacity = 6 * 4096# int(1e3) # int(1e6)
     batch_size = 4096
 
     ### epsilon-greedy Policy
