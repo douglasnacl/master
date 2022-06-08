@@ -52,9 +52,6 @@ class TradingEnv(gym.Env):
                 self.src.max_values.to_numpy()
             )
 
-        print("ACTIONS: ", self.action_space)
-        print("OBSERVATIONS: ", self.observation_space)
-        print("MIN_VALUES: ", self.src.min_values)
         self._reset()
 
     def _reset(self):

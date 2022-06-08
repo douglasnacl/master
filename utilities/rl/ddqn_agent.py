@@ -62,7 +62,7 @@ class DDQNAgent:
         self.batch_size = batch_size
         self.tau = tau
         self.losses = []
-        self.idx = tf.range(batch_size)
+        self.idx = tf.range(batch_size) # <tf.Tensor: shape=(4000,), dtype=int32, numpy=array([   0,    1,    2, ..., 3997, 3998, 3999], dtype=int32)>
         self.train = True
 
     def build_model(self, trainable=True):
@@ -129,7 +129,7 @@ class DDQNAgent:
         # amostra de minibatch da experiência
         minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
         states, actions, rewards, next_states, not_done = minibatch
-
+        
         # preve os próximos valores Q para escolher a melhor ação
         next_q_values = self.online_network.predict_on_batch(next_states)
         best_actions = tf.argmax(next_q_values, axis=1)
@@ -157,7 +157,7 @@ class DDQNAgent:
         
         # Define o número máximo de episodios e o numero maximo de passos por episodio
         total_steps = 0
-        max_episodes = 1000
+        max_episodes = 100 #1000
         max_episode_steps =252
 
         ### Listas que utilizaremos para armazenar as métricas armazenadas

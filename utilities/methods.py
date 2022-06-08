@@ -6,7 +6,6 @@ from utilities.utils.checks import track_results, use_cpu
 import tensorflow as tf
 from time import time
 import logging
-
 import os
 
 NASDAQ_API = os.getenv("NASDAQ_API")
@@ -16,7 +15,7 @@ def routine():
     # use_cpu()
     logging.info("Running the routine")
     check_computer_device()
-    
+
     quandl_env_src = QuandlEnvSrc(days=trading_days)
     
     trading_environment = TradingEnv(quandl_env_src)
@@ -37,7 +36,7 @@ def routine():
     l2_reg = 1e-6  # L2 regularization
 
     ### Experience Replay
-    replay_capacity = 6 * 4096# int(1e3) # int(1e6)
+    replay_capacity = int(1e6) # 6 * 4096# int(1e3) # int(1e6)
     batch_size = 4096
 
     ### epsilon-greedy Policy

@@ -17,7 +17,7 @@ class NeuralNetwork:
     
     def build(self):
         layers = []
-        optimizer = SGD(lr=0.01, decay=0.01 / 40, momentum=0.9, nesterov=True) # Adam(learning_rate=self.learning_rate) # 
+        optimizer = SGD(learning_rate=0.01, decay=0.01 / 40, momentum=0.9, nesterov=True) # Adam(learning_rate=self.learning_rate) # 
         for i, units in enumerate(self.architecture, 1):
             layers.append(Dense(units=units,
                                 input_dim=self.state_dim if i == 1 else None,
