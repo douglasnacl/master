@@ -67,9 +67,10 @@ class TradingEnv(gym.Env):
         return [seed]
     
     def step(self, action):
-        # Testa se a dada action está em action_space
+        # Testa se ação é permitida
         assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
-        # Obtem uma observação e caso o passo seja maior que o número total de dias de treinamento (Done = True)
+        
+        # Obtem a observação e status do treinamento (if step > self.days => done = True)
         observation, done = self.src._step()
         # [0] Close   [1] Volume   [2]  Return [3] ClosePctl [4] VolumePctl
         y_return = observation[2]

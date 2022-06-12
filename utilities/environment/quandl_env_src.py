@@ -70,3 +70,16 @@ class QuandlEnvSrc(object):
         self.step += 1
         done = self.step >= self.days
         return obs, done
+
+        # [0] Close   [1] Volume   [2]  Return [3] ClosePctl [4] VolumePctl
+        # [0] NominalPrice   [1] ShareVolume   [2]  Return [3] ClosePctl [4] VolumePctl
+
+        # SAIDA
+        # done:  False
+        # obs format:
+            # Nominal Price        -0.758694
+            # Share Volume (000)    0.217773
+            # Return                0.007085
+            # ClosePctl            -0.770138
+            # VolumePctl            1.018742
+            # Name: 2016-06-21 00:00:00, dtype: float64
