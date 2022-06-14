@@ -59,6 +59,9 @@ class TradingEnv(gym.Env):
         self.sim.reset()
         return self.src._step()[0]
 
+    def reset(self):
+        return self._reset()
+
     def _configure(self, display=None):
         self.display = display
     
@@ -80,14 +83,7 @@ class TradingEnv(gym.Env):
 
         return observation, reward, done, info
     
-    def _reset(self):
-        self.src.reset()
-        self.sim.reset()
-        return self.src._step()[0]
 
-    def reset(self):
-        return self._reset()
-    
     def _render(self, mode='human', close=False):
         pass
 

@@ -1,0 +1,871 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="3840"
+   height="2160"
+   viewBox="0 0 3840 2160"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="schema.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.25872006"
+     inkscape:cx="3921.2266"
+     inkscape:cy="923.77838"
+     inkscape:window-width="1439"
+     inkscape:window-height="1211"
+     inkscape:window-x="2657"
+     inkscape:window-y="888"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="2855.7341"
+       y="1276.3988"
+       width="125.92178"
+       height="341.44741"
+       id="rect8796" />
+    <rect
+       x="2773.071"
+       y="1376.9792"
+       width="303.10393"
+       height="763.37477"
+       id="rect8742" />
+    <rect
+       x="1503.6959"
+       y="836.78862"
+       width="31.067482"
+       height="73.776806"
+       id="rect3062" />
+    <rect
+       x="116.22331"
+       y="201.6072"
+       width="1056.365"
+       height="453.54114"
+       id="rect611" />
+    <rect
+       x="100.99577"
+       y="239.0992"
+       width="1096.3485"
+       height="431.76212"
+       id="rect605" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1056.365"
+       height="453.54114"
+       id="rect611-1" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1056.365"
+       height="453.54114"
+       id="rect611-7" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1056.365"
+       height="453.54114"
+       id="rect611-6" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1056.365"
+       height="453.54114"
+       id="rect611-7-7" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1096.2279"
+       height="1839.2182"
+       id="rect611-7-7-3" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1056.365"
+       height="453.54114"
+       id="rect611-9" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1056.365"
+       height="453.54114"
+       id="rect611-9-7" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1096.2279"
+       height="1839.2181"
+       id="rect611-7-7-3-6" />
+    <rect
+       x="116.22331"
+       y="201.60719"
+       width="1096.2279"
+       height="1839.2181"
+       id="rect611-7-7-3-2" />
+  </defs>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:1.16232"
+       id="rect171"
+       width="1205.2045"
+       height="664.1795"
+       x="44.104584"
+       y="44.362431"
+       ry="67.69751" />
+    <rect
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:1.16232"
+       id="rect171-7"
+       width="1205.2045"
+       height="664.1795"
+       x="44.104584"
+       y="743.76483"
+       ry="67.69751" />
+    <rect
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:1.16232"
+       id="rect171-7-5"
+       width="1205.2045"
+       height="664.1795"
+       x="44.104584"
+       y="1443.1672"
+       ry="67.69751" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:85.3333px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+       x="111.46473"
+       y="176.96584"
+       id="text514"><tspan
+         sodipodi:role="line"
+         id="tspan512"
+         x="111.46473"
+         y="176.96584"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:85.3333px;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy'">quandl_env_src</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:85.3333px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+       x="113.13139"
+       y="875.59393"
+       id="text514-7"><tspan
+         sodipodi:role="line"
+         id="tspan512-5"
+         x="113.13139"
+         y="875.59393"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:85.3333px;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy'">trading_env</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:85.3333px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+       x="113.13139"
+       y="1573.3793"
+       id="text514-7-5"><tspan
+         sodipodi:role="line"
+         id="tspan512-5-6"
+         x="113.13139"
+         y="1573.3793"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:85.3333px;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy'">trading_sim</tspan></text>
+    <text
+       xml:space="preserve"
+       id="text603"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect605);display:inline;fill:#000000;fill-opacity:1;stroke:none" />
+    <text
+       xml:space="preserve"
+       id="text609"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect611);display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(-2.6107943,28)"><tspan
+         x="116.22266"
+         y="238.00243"
+         id="tspan9263"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9261">__init__:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="289.39743"
+         id="tspan9267"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9265">reset:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="340.79244"
+         id="tspan9271"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9269">_step:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="392.18746"
+         id="tspan9275"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9273">to_df:</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       id="text609-3"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect611-7);display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(-2.6107943,726.36227)"><tspan
+         x="116.22266"
+         y="238.00243"
+         id="tspan9279"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9277">__init__:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="289.39743"
+         id="tspan9283"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9281">_reset:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="340.79244"
+         id="tspan9287"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9285">reset:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="392.18746"
+         id="tspan9291"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9289">_configure:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="443.58248"
+         id="tspan9295"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9293">_seed:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="494.9775"
+         id="tspan9299"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9297">step:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="546.37252"
+         id="tspan9303"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9301">_render:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="597.7675"
+         id="tspan9307"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9305">run_strat:</tspan></tspan></text>
+    <rect
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:2.05275"
+       id="rect171-7-9"
+       width="1205.2045"
+       height="2071.6016"
+       x="1380.2358"
+       y="43.077587"
+       ry="66.497139" />
+    <rect
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:2.05275"
+       id="rect171-7-9-3"
+       width="1205.2045"
+       height="2071.6016"
+       x="2484.1201"
+       y="43.061871"
+       ry="66.497139" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:85.3333px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+       x="1449.2627"
+       y="173.58293"
+       id="text514-7-2"><tspan
+         sodipodi:role="line"
+         id="tspan512-5-0"
+         x="1449.2627"
+         y="173.58293"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:85.3333px;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy'">DDQNAgent</tspan></text>
+    <text
+       xml:space="preserve"
+       id="text609-3-2-7"
+       style="font-style:normal;font-weight:normal;font-size:26.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect611-7-7-3);display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(1331.4469,25.115836)"><tspan
+         x="116.22266"
+         y="225.87079"
+         id="tspan9319"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9309">def </tspan><tspan
+           style="font-weight:bold"
+           id="tspan9311">training</tspan><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9313">(self, </tspan><tspan
+           style="font-weight:bold"
+           id="tspan9315">trading_environment</tspan><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9317">):
+</tspan></tspan><tspan
+         x="116.22266"
+         y="260.13417"
+         id="tspan9323"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9321">        total_steps = 0
+</tspan></tspan><tspan
+         x="116.22266"
+         y="294.39755"
+         id="tspan9327"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9325">        max_episodes = 100 #1000
+</tspan></tspan><tspan
+         x="116.22266"
+         y="328.66095"
+         id="tspan9331"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9329">        max_episode_steps =252
+</tspan></tspan><tspan
+         x="116.22266"
+         y="362.92432"
+         id="tspan9335"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9333">        episode_time, navs, market_navs, diffs, episode_eps = [], [], [], [], [] 
+</tspan></tspan><tspan
+         x="116.22266"
+         y="397.18769"
+         id="tspan9339"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9337">        start = time()
+</tspan></tspan><tspan
+         x="116.22266"
+         y="431.45105"
+         id="tspan9343"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9341">        results = []
+</tspan></tspan><tspan
+         x="116.22266"
+         y="465.71442"
+         id="tspan9347"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9345">        for episode in range(1, max_episodes + 1):
+</tspan></tspan><tspan
+         x="116.22266"
+         y="499.97779"
+         id="tspan9351"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9349">            this_state_actions, this_state_navs, this_state_mkt_navs, this_state_strategy_return = [], </tspan></tspan><tspan
+         x="116.22266"
+         y="534.24115"
+         id="tspan9355"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9353">[], [], []
+</tspan></tspan><tspan
+         x="116.22266"
+         y="568.50452"
+         id="tspan9359"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9357">            this_state = trading_environment.reset()
+</tspan></tspan><tspan
+         x="116.22266"
+         y="602.76789"
+         id="tspan9363"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9361">            for episode_step in range(max_episode_steps):
+</tspan></tspan><tspan
+         x="116.22266"
+         y="637.03125"
+         id="tspan9367"><tspan
+           dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.0001001358 0.00011444092"
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9365">                action = self.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, self.state_dim))
+</tspan></tspan><tspan
+         x="116.22266"
+         y="671.29462"
+         id="tspan9371"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9369">                next_state, reward, done, info = trading_environment.step(action)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="705.55799"
+         id="tspan9375"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9373">                self.memorize_transition(this_state, action, reward, next_state, 0.0 if done else 1.0)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="739.82135"
+         id="tspan9379"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9377">                this_state_actions.append(action)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="774.08472"
+         id="tspan9383"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9381">                this_state_navs.append(info['nav'])
+</tspan></tspan><tspan
+         x="116.22266"
+         y="808.34809"
+         id="tspan9387"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9385">                this_state_mkt_navs.append(info['mkt_nav'])
+</tspan></tspan><tspan
+         x="116.22266"
+         y="842.61145"
+         id="tspan9391"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9389">                this_state_strategy_return.append(info['strategy_return'])
+</tspan></tspan><tspan
+         x="116.22266"
+         y="876.87482"
+         id="tspan9395"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9393">                if self.train:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="911.13819"
+         id="tspan9399"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9397">                    self.experience_replay()
+</tspan></tspan><tspan
+         x="116.22266"
+         y="945.40155"
+         id="tspan9403"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9401">                if done:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="979.66492"
+         id="tspan9407"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9405">                    break
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1013.9283"
+         id="tspan9411"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9409">                this_state = next_state
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1048.1917"
+         id="tspan9415"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9413">            nav =  this_state_navs[-1] * (1 + this_state_strategy_return[-1])
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1082.455"
+         id="tspan9419"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9417">            navs.append(nav)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1116.7184"
+         id="tspan9423"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9421">            market_nav = this_state_mkt_navs[-1]
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1150.9819"
+         id="tspan9427"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9425">            market_navs.append(market_nav)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1185.2453"
+         id="tspan9431"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9429">            diff = nav - market_nav
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1219.5087"
+         id="tspan9435"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9433">            diffs.append(diff)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1253.7722"
+         id="tspan9439"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9437">            if episode % 10 == 0:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1288.0356"
+         id="tspan9443"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9441">                track_results(episode,  np.mean(navs[-100:]),  np.mean(navs[-10:]), </tspan></tspan><tspan
+         x="116.22266"
+         y="1322.299"
+         id="tspan9447"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9445">np.mean(market_navs[-100:]), 
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1356.5624"
+         id="tspan9451"><tspan
+           dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.0001001358"
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9449">                    np.mean(market_navs[-10:]), np.sum([s &gt; 0 for s in diffs[-100:]])/min(len(diffs), 100),  
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1390.8259"
+         id="tspan9455"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9453">                    time() - start, self.epsilon)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1425.0893"
+         id="tspan9459"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9457">            if len(diffs) &gt; 25 and all([r &gt; 0 for r in diffs[-25:]]):
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1459.3527"
+         id="tspan9463"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9461">                break
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1493.6162"
+         id="tspan9467"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9465">        trading_environment.close()
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1527.8796"
+         id="tspan9471"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9469">        results = pd.DataFrame({
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1562.143"
+         id="tspan9475"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9473">            'Episode': list(range(1, episode+1)), 'Agent': navs, 'Market': market_navs, 'Difference': </tspan></tspan><tspan
+         x="116.22266"
+         y="1596.4064"
+         id="tspan9479"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9477">diffs}).set_index('Episode')
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1630.6699"
+         id="tspan9483"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9481">        results['Strategy Wins (%)'] = (results.Difference &gt; 0).rolling(100).sum()
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1664.9333"
+         id="tspan9487"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9485">        results.info()
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1699.1967"
+         id="tspan9491"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9489">        results.describe()
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1733.4601"
+         id="tspan9495"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9493">        return results
+</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       id="text609-3-2-7-9"
+       style="font-style:normal;font-weight:normal;font-size:26.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect611-7-7-3-2);display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(2461.9111,25.440304)"><tspan
+         x="116.22266"
+         y="225.87079"
+         id="tspan9503"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9497">def </tspan><tspan
+           style="font-weight:bold;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9499">epsilon_greedy_policy</tspan><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9501">(self, state):
+</tspan></tspan><tspan
+         x="116.22266"
+         y="260.13417"
+         id="tspan9507"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9505">        self.total_steps += 1 # incrementa o contador de passos
+</tspan></tspan><tspan
+         x="116.22266"
+         y="294.39755"
+         id="tspan9511"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9509">        if np.random.rand() &lt;= self.epsilon: 
+</tspan></tspan><tspan
+         x="116.22266"
+         y="328.66095"
+         id="tspan9515"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9513">            return np.random.choice(self.num_actions)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="362.92432"
+         id="tspan9519"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9517">        q = self.online_network.predict(state, verbose=0) 
+</tspan></tspan><tspan
+         x="116.22266"
+         y="397.18769"
+         id="tspan9523"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9521">        return np.argmax(q, axis=1).squeeze()
+</tspan></tspan><tspan
+         x="116.22266"
+         y="431.45105"
+         id="tspan9527"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9525">
+</tspan></tspan><tspan
+         x="116.22266"
+         y="465.71442"
+         id="tspan9535"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9529">def </tspan><tspan
+           style="font-weight:bold;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9531">memorize_transition</tspan><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9533">(self, state, action, reward, state_prime, not_done):
+</tspan></tspan><tspan
+         x="116.22266"
+         y="499.97779"
+         id="tspan9539"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9537">       if not_done:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="534.24115"
+         id="tspan9543"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9541">            self.episode_reward += reward
+</tspan></tspan><tspan
+         x="116.22266"
+         y="568.50452"
+         id="tspan9547"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9545">            self.episode_length += 1
+</tspan></tspan><tspan
+         x="116.22266"
+         y="602.76789"
+         id="tspan9551"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9549">        else:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="637.03125"
+         id="tspan9555"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9553">            if self.train: 
+</tspan></tspan><tspan
+         x="116.22266"
+         y="671.29462"
+         id="tspan9559"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9557">                if self.episodes &lt; self.epsilon_decay_steps: 
+</tspan></tspan><tspan
+         x="116.22266"
+         y="705.55799"
+         id="tspan9563"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9561">                    self.epsilon -= self.epsilon_decay 
+</tspan></tspan><tspan
+         x="116.22266"
+         y="739.82135"
+         id="tspan9567"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9565">                else: 
+</tspan></tspan><tspan
+         x="116.22266"
+         y="774.08472"
+         id="tspan9571"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9569">                    self.epsilon *= self.epsilon_exponential_decay
+</tspan></tspan><tspan
+         x="116.22266"
+         y="808.34809"
+         id="tspan9575"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9573">            self.episodes += 1
+</tspan></tspan><tspan
+         x="116.22266"
+         y="842.61145"
+         id="tspan9579"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9577">            self.rewards_history.append(self.episode_reward)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="876.87482"
+         id="tspan9583"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9581">            self.steps_per_episode.append(self.episode_length)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="911.13819"
+         id="tspan9587"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9585">            self.episode_reward, self.episode_length = 0, 0
+</tspan></tspan><tspan
+         x="116.22266"
+         y="945.40155"
+         id="tspan9591"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9589">        self.experience.append((state, action, reward, state_prime, not_done))
+</tspan></tspan><tspan
+         x="116.22266"
+         y="979.66492"
+         id="tspan9595"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9593">
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1013.9283"
+         id="tspan9603"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9597">def </tspan><tspan
+           style="font-weight:bold"
+           id="tspan9599">experience_replay</tspan><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9601">(self):
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1048.1917"
+         id="tspan9607"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9605">        if self.batch_size &gt; len(self.experience):
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1082.455"
+         id="tspan9611"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9609">            return
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1116.7184"
+         id="tspan9615"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9613">        minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1150.9819"
+         id="tspan9619"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9617">        states, actions, rewards, next_states, not_done = minibatch
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1185.2453"
+         id="tspan9623"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9621">        next_q_values = self.online_network.predict_on_batch(next_states)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1219.5087"
+         id="tspan9627"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9625">        best_actions = tf.argmax(next_q_values, axis=1)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1253.7722"
+         id="tspan9631"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9629">        next_q_values_target = self.target_network.predict_on_batch(next_states)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1288.0356"
+         id="tspan9635"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9633">        target_q_values = tf.gather_nd(next_q_values_target,
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1322.299"
+         id="tspan9639"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9637">                                       tf.stack((self.idx, tf.cast(best_actions, tf.int32)), axis=1))
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1356.5624"
+         id="tspan9643"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9641">        targets = rewards + not_done * self.gamma * target_q_values
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1390.8259"
+         id="tspan9647"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9645">        q_values = self.online_network.predict_on_batch(states)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1425.0893"
+         id="tspan9651"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9649">        q_values[tuple([self.idx, actions])] = targets
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1459.3527"
+         id="tspan9655"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9653">        loss = self.online_network.train_on_batch(x=states, y=q_values)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1493.6162"
+         id="tspan9659"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9657">        self.losses.append(loss)
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1527.8796"
+         id="tspan9663"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9661">        if self.total_steps % self.tau == 0:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="1562.143"
+         id="tspan9669"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9665">            self.update_target()</tspan><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9667">
+</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       id="text609-2"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect611-6);display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(-2.6107943,1424.8158)"><tspan
+         x="116.22266"
+         y="238.00243"
+         id="tspan9673"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9671">__init__:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="289.39743"
+         id="tspan9677"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9675">reset:
+</tspan></tspan><tspan
+         x="116.22266"
+         y="340.79244"
+         id="tspan9681"><tspan
+           style="font-weight:300;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
+           id="tspan9679">_step:</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       id="text3060"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect3062);display:inline;fill:#000000;fill-opacity:1;stroke:none" />
+    <text
+       xml:space="preserve"
+       id="text8740"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect8742);display:inline;fill:#000000;fill-opacity:1;stroke:none" />
+    <text
+       xml:space="preserve"
+       id="text8794"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect8796);display:inline;fill:#000000;fill-opacity:1;stroke:none" />
+  </g>
+</svg>
