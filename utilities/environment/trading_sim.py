@@ -22,6 +22,8 @@ class TradingSim(object):
         self.costs            = np.zeros(self.steps)
         self.trades           = np.zeros(self.steps)
         self.mkt_returns      = np.zeros(self.steps)
+        # BOD (Beginning Of Day)
+        # EOD (End Of Day) 
 
     def reset(self):
         self.step = 0
@@ -41,9 +43,9 @@ class TradingSim(object):
         '''
         # Pega a posição, nav e mkt nav para o começo do dia (BOD) | = fim do dia anterior (EOD)
         if self.step == 0:
-            bod_pos = 0.0
+            bod_pos = 0.0 # posição no beginning of day
             bod_nav  = 1.0
-            mkt_nav  = 1.0
+            mkt_nav  = 1.0 # NAV = (Assets – liabilities) / Total shares outstanding
         else: 
             bod_pos = self.eod_pos[self.step-1]
             bod_nav  = self.navs[self.step-1]
@@ -88,3 +90,4 @@ class TradingSim(object):
                             columns=cols)
         return df   
 
+    
