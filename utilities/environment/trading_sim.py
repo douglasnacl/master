@@ -52,7 +52,7 @@ class TradingSim(object):
             mkt_nav  = self.mkt_nav[self.step-1]
 
 
-        self.mkt_returns[self.step] = return_
+        self.mkt_returns[self.step] = return_ # retorno do quandl_env_src
         self.actions[self.step] = action
         
         self.eod_pos[self.step] = action - 1     
