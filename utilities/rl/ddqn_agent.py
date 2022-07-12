@@ -157,7 +157,7 @@ class DDQNAgent:
         
         # Define o número máximo de episodios e o numero maximo de passos por episodio
         total_steps = 0
-        max_episodes = 100 #1000
+        max_episodes = 1000
         max_episode_steps =252
 
         ### Listas que utilizaremos para armazenar as métricas armazenadas

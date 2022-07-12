@@ -30,22 +30,26 @@ class QuandlEnvSrc(object):
         logging.info(f'got data for {QuandlEnvSrc.Name} from quandl...')
         df = df[~np.isnan(df['Share Volume (000)'])][['Nominal Price','Share Volume (000)']]
 
-        # [0] Close   [1] Volume   [2]  Return [3] ClosePctl [4] VolumePctl    
-        # A seguir é calulado os retornos e percentis    
+        # Agora vamos calcular os retornos e percentis, quando removemos os valores nulos (nan)
         df = df[['Nominal Price','Share Volume (000)']]
-        df['Share Volume (000)'].replace(0,1,inplace=True) # Nos dias com volume zero, substitui-se 0 por 1 pois os dias não deveriam ter volume 0
-        df['Return'] = (df['Nominal Price']-df['Nominal Price'].shift())/df['Nominal Price'].shift() # O retorno o será o percentual dado pelo preço nominal menos o preço nominal anterior dividido preço nominal
+        # Para os dias com volume zero, vamos substituir 0 por 1 pois os dias não deveriam ter volume 0
+        df['Share Volume (000)'].replace(0,1,inplace=True) 
+        # O retorno o será o percentual dado pelo preço nominal menos o preço nominal anterior dividido preço nominal
+        df['Return'] = (df['Nominal Price']-df['Nominal Price'].shift())/df['Nominal Price'].shift()
         pctrank = lambda x: pd.Series(x).rank(pct=True).iloc[-1]
+
         df['ClosePctl'] = df['Nominal Price'].expanding(self.MinPercentileDays).apply(pctrank)
         df['VolumePctl'] = df['Share Volume (000)'].expanding(self.MinPercentileDays).apply(pctrank)
-        df.dropna(axis=0,inplace=True) # elimina os valores nulos por linhas (row/index)
-        R = df.Return # retornos de cada dia
-        # Escalona os valores para o dataframe
+        # DRopa os valores nulos por linhas (rows/index)
+        df.dropna(axis=0,inplace=True)
+        # Retorno
+        R = df.Return
+        # Escalona os valores para o dagit aframe
         if scale:
             mean_values = df.mean(axis=0)
             std_values = df.std(axis=0)
             df = (df - np.array(mean_values))/ np.array(std_values)
-        df['Return'] = R # não queremos que nossos retornos sejam escalonados
+        df['Return'] = R # não queremos que nossos retornos sejam dimensionados
         # Persiste os resultados em variáveis
         self.min_values = df.min(axis=0)
         self.max_values = df.max(axis=0)
