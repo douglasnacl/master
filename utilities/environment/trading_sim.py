@@ -16,7 +16,7 @@ class TradingSim(object):
         self.step             = 0
         self.actions          = np.zeros(self.steps)
         self.navs             = np.ones(self.steps)
-        self.mkt_nav          = np.ones(self.steps)
+        self.mkt_nav          = np.ones(self.steps) # Net Asset Value (NAV) - Valor Patrimonial Líquido (VPL)
         self.strategy_returns = np.ones(self.steps)
         self.eod_pos          = np.zeros(self.steps)
         self.costs            = np.zeros(self.steps)
@@ -38,14 +38,14 @@ class TradingSim(object):
     
     def _step(self, action, return_):
         '''
-        Dada uma ação e retorno do período anterior, calcula custos, navs, etc
+        Dada uma ação e retorno do período anterior, calcula custos, vpls, etc
         e retorna a recompensa e um resumo da atividade do dia.
         '''
         # Pega a posição, nav e mkt nav para o começo do dia (BOD) | = fim do dia anterior (EOD)
         if self.step == 0:
             bod_pos = 0.0 # posição no beginning of day
             bod_nav  = 1.0
-            mkt_nav  = 1.0 # NAV = (Assets – liabilities) / Total shares outstanding
+            mkt_nav  = 1.0 # MKT VPL = (Ativos - Passivos) / Total de ações em circulação -> NAV = (Assets – liabilities) / Total shares outstanding
         else: 
             bod_pos = self.eod_pos[self.step-1]
             bod_nav  = self.navs[self.step-1]
@@ -55,12 +55,15 @@ class TradingSim(object):
         self.mkt_returns[self.step] = return_ # retorno do quandl_env_src
         self.actions[self.step] = action
         
-        self.eod_pos[self.step] = action - 1     
+        self.eod_pos[self.step] = action -1   
+
         self.trades[self.step] = self.eod_pos[self.step] - bod_pos
         
         trade_costs_pct = abs(self.trades[self.step]) * self.trading_cost_bps 
         self.costs[self.step] = trade_costs_pct +  self.time_cost_bps
+
         reward = ( (bod_pos * return_) - self.costs[self.step] )
+        
         self.strategy_returns[self.step] = reward
         
         # Se não for o primeiro passo armazena o nav e mkt_nav do passo atual

@@ -92,7 +92,8 @@ class DDQNAgent:
             return np.random.choice(self.num_actions)
         # Prevê o que usando a rede neural, retorna um conjunto de probilidade por ação
         q = self.online_network.predict(state, verbose=0) # caso contrário, a ação tomada será aquela onde Q obtem seu máximo valor
-        return np.argmax(q, axis=1).squeeze()
+        action = np.argmax(q, axis=1).squeeze()
+        return action
 
     def memorize_transition(self, state, action, reward, state_prime, not_done):
         '''
@@ -182,6 +183,7 @@ class DDQNAgent:
                                         reward, 
                                         next_state, 
                                         0.0 if done else 1.0)
+                
                 this_state_actions.append(action)
                 this_state_navs.append(info['nav'])
                 this_state_mkt_navs.append(info['mkt_nav'])

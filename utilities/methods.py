@@ -31,7 +31,7 @@ def routine():
     tau = 100  # target network update frequency
 
     ### NN Architecture
-    architecture = (256, 256)  # units per layer
+    architecture = (20, 60)  # units per layer
     learning_rate = 0.0001  # learning rate
     l2_reg = 1e-6  # L2 regularization
 

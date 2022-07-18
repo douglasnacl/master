@@ -72,11 +72,10 @@ class TradingEnv(gym.Env):
     def step(self, action):
         # Testa se ação é permitida
         assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
-        
         # Obtem a observação e status do treinamento (if step > self.days => done = True)
         observation, done = self.src._step()
         # [0] Close   [1] Volume   [2]  Return [3] ClosePctl [4] VolumePctl
-        y_return = observation[2] # mkt_returns
+        y_return = observation[2] # return <- mkt_returns
 
         reward, info = self.sim._step(action, y_return) 
         # info = { 'reward': reward, 'nav':self.navs[self.step],  'mkt_nav':self.mkt_nav[self.step], 'costs':self.costs[self.step], 'strategy_return': self.strat_retrns[self.step] }
