@@ -25,7 +25,9 @@ class QuandlEnvSrc(object):
         logging.info(f'getting data for {QuandlEnvSrc.Name} from quandl...')
         df = quandl.get(self.name) if self.auth == '' else quandl.get(self.name, authtoken=self.auth)
         
-        # df = Date | Nominal Price | Net Change | Change (%) | Bid | Ask | P/E(x) | High | Low | Previous Close | Share Volume (000) | Turnover (000) | Lot Size
+        # df = Date | Nominal Price | Net Change | Change (%) | 
+        # Bid | Ask | P/E(x) | High | Low | Previous Close | 
+        # Share Volume (000) | Turnover (000) | Lot Size
 
         logging.info(f'got data for {QuandlEnvSrc.Name} from quandl...')
         df = df[~np.isnan(df['Share Volume (000)'])][['Nominal Price','Share Volume (000)']]
@@ -40,7 +42,7 @@ class QuandlEnvSrc(object):
 
         df['ClosePctl'] = df['Nominal Price'].expanding(self.MinPercentileDays).apply(pctrank)
         df['VolumePctl'] = df['Share Volume (000)'].expanding(self.MinPercentileDays).apply(pctrank)
-        # DRopa os valores nulos por linhas (rows/index)
+        # Dropa os valores nulos por linhas (rows/index)
         df.dropna(axis=0,inplace=True)
         # Retorno
         R = df.Return

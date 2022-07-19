@@ -24,18 +24,22 @@ def format_time(t):
     return '{:02.0f}:{:02.0f}:{:02.0f}'.format(h, m, s)
 
 
-def track_results(episode, nav_ma_100, nav_ma_10,
-                  market_nav_100, market_nav_10,
-                  win_ratio, total, epsilon):
+def track_results(episode, nav_mean_100, nav_mean_10,
+                  market_nav_mean_100, market_nav_mean_10,
+                  win_ratio, total_time, epsilon):
     episode_time = []
     time_ma = np.mean([episode_time[-100:]])
     T = np.sum(episode_time)
     
     template = '{:>4d} | {} | Agent: {:>6.1%} ({:>6.1%}) | '
     template += 'Market: {:>6.1%} ({:>6.1%}) | '
-    template += 'Wins: {:>5.1%} | eps: {:>6.3f}'
-    # 70 | 00:10:43 | Agent: -24.3% (-23.4%) | Market:  -3.9% ( -8.3%) | Wins: 20.0% | eps:  0.723
-    print(template.format(episode, format_time(total), 
-                          nav_ma_100-1, nav_ma_10-1, 
-                          market_nav_100-1, market_nav_10-1, 
+    template += 'Wins: {:>5.1%} | epsilon: {:>6.3f}'
+    print(template.format(episode, format_time(total_time), 
+                          nav_mean_100-1, nav_mean_10-1, 
+                          market_nav_mean_100-1, market_nav_mean_10-1, 
                           win_ratio, epsilon))
+    
+    # 70 - episode | 00:10:43 - total_time |
+    # Agent: -24.3% - nav_mean_100-1 (-23.4% - nav_mean_10-1) |
+    # Market:  -3.9% - market_nav_100-1 ( -8.3% - market_nav_10-1) | 
+    # Wins: 20.0% (win_ration) | epsilon:  0.723 - epsilon

@@ -177,7 +177,8 @@ class DDQNAgent:
                 # Seleciona a melhor ação baseado na politica epsilon greedy
                 action = self.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, self.state_dim))
                 next_state, reward, done, info = trading_environment.step(action)
-            
+                # observation, reward, done, info 
+                # info = { 'reward': reward, 'nav':self.navs[self.step],  'mkt_nav':self.mkt_nav[self.step], 'costs':self.costs[self.step], 'strategy_return': self.strat_retrns[self.step] }
                 self.memorize_transition(this_state, 
                                         action, 
                                         reward, 
@@ -199,7 +200,7 @@ class DDQNAgent:
             # Net Asset Value (NAV) 
             # Episodio começa com NAV  de 1 unidade de dinheiro
             # se o NAV cai para 0, o episódio termina e  o agente perde
-            # se o Nava atinget 2.0, o agnete vence
+            # se o NAV atinge 2.0, o agente vence
             nav =  this_state_navs[-1] * (1 + this_state_strategy_return[-1])
 
             navs.append(nav)
@@ -214,13 +215,15 @@ class DDQNAgent:
             if episode % 10 == 0:
                 track_results(episode,  
                     # show mov. average results for 100 (10) periods
-                    np.mean(navs[-100:]), 
-                    np.mean(navs[-10:]), 
-                    np.mean(market_navs[-100:]), 
-                    np.mean(market_navs[-10:]), 
+                    np.mean(navs[-100:]), # nav_mean_100
+                    np.mean(navs[-10:]), # nav_mean_10
+                    np.mean(market_navs[-100:]),  # market_nav_mean_100
+                    np.mean(market_navs[-10:]), # market_nav_10
                     # share of agent wins, defined as higher ending nav
-                    np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100), 
-                    time() - start, self.epsilon)
+                    np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100),  # win_ratio
+                    time() - start, 
+                    self.epsilon) # total , epsilon
+
             if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
                 # print(result.tail())
                 break
