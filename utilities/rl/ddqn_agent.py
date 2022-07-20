@@ -211,7 +211,7 @@ class DDQNAgent:
             # track difference between agent an market NAV results
             diff = nav - market_nav
             diffs.append(diff)
-            
+
             if episode % 5 == 0:
                 track_results(episode,  
                     # show mov. average results for 100 (10) periods
@@ -220,7 +220,7 @@ class DDQNAgent:
                     np.mean(market_navs[-100:]),  # market_nav_mean_100
                     np.mean(market_navs[-10:]), # market_nav_10
                     # share of agent wins, defined as higher ending nav
-                    np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100),  # win_ratio
+                    np.sum([s > 0 for s in diffs[-100:]]) / min(len(diffs), 100),  # win_ratio
                     time() - start, 
                     self.epsilon) # total , epsilon
            
