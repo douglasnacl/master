@@ -8,7 +8,6 @@ from time import time
 import pandas as pd
 import numpy as np
 
-
 class DDQNAgent:
     def __init__(self, state_dim,           # dimensões do estado
                  num_actions,               # número de açoes possíveis
@@ -137,9 +136,10 @@ class DDQNAgent:
 
         # prevê usando a target network
         next_q_values_target = self.target_network.predict_on_batch(next_states)
+        
         target_q_values = tf.gather_nd(next_q_values_target,
                                        tf.stack((self.idx, tf.cast(best_actions, tf.int32)), axis=1))
-
+        
         targets = rewards + not_done * self.gamma * target_q_values
 
         # Valores de q previstos
@@ -158,7 +158,7 @@ class DDQNAgent:
         
         # Define o número máximo de episodios e o numero maximo de passos por episodio
         total_steps = 0
-        max_episodes = 1000
+        max_episodes = 200
         max_episode_steps =252
 
         ### Listas que utilizaremos para armazenar as métricas armazenadas
@@ -212,7 +212,7 @@ class DDQNAgent:
             diff = nav - market_nav
             diffs.append(diff)
             
-            if episode % 10 == 0:
+            if episode % 5 == 0:
                 track_results(episode,  
                     # show mov. average results for 100 (10) periods
                     np.mean(navs[-100:]), # nav_mean_100
@@ -223,21 +223,29 @@ class DDQNAgent:
                     np.sum([s > 0 for s in diffs[-100:]])/min(len(diffs), 100),  # win_ratio
                     time() - start, 
                     self.epsilon) # total , epsilon
+           
+            
 
             if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
-                # print(result.tail())
+                results = pd.DataFrame({
+                    'Episode': list(range(1, episode+1)),
+                    'Agent': navs,
+                    'Market': market_navs,
+                    'Difference': diffs
+                }).set_index('Episode')
+                print(results.tail())
                 break
 
         trading_environment.close()
 
         results = pd.DataFrame({
-            'Episode': list(range(1, episode+1)),
-            'Agent': navs,
-            'Market': market_navs,
-            'Difference': diffs
+            'Episodes': list(range(1, episode+1)),
+            'Agent Avg Return (%)': navs,
+            'Market Avg Return (%)': market_navs,
+            'Difference [NAV_Agent - NAV_Market]': diffs
         }).set_index('Episode')
 
-        results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
+        results['Strategy Wins (%)'] = (results['Difference [NAV_Agent - NAV_Market]'] > 0).rolling(100).sum()
         results.info()
         results.describe()
         return results

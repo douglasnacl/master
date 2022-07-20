@@ -63,6 +63,7 @@ class TradingSim(object):
         self.costs[self.step] = trade_costs_pct +  self.time_cost_bps
 
         reward = ( (bod_pos * return_) - self.costs[self.step] )
+
         
         self.strategy_returns[self.step] = reward
         

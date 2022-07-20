@@ -2,7 +2,8 @@ from utilities.environment.quandl_env_src import QuandlEnvSrc
 from utilities.environment.trading_env import TradingEnv
 from utilities.rl.ddqn_agent import DDQNAgent
 from utilities.utils.checks import check_computer_device
-from utilities.utils.checks import track_results, use_cpu
+from utilities.utils.checks import track_results, use_cpu, generate_file_name
+from datetime import datetime
 import tensorflow as tf
 from time import time
 import logging
@@ -31,7 +32,7 @@ def routine():
     tau = 100  # target network update frequency
 
     ### NN Architecture
-    architecture = (20, 60)  # units per layer
+    architecture = (256, 256)  # units per layer
     learning_rate = 0.0001  # learning rate
     l2_reg = 1e-6  # L2 regularization
 
@@ -63,31 +64,5 @@ def routine():
                  batch_size=batch_size)
     
     results = ddqn.training(trading_environment)
-
+    results.to_csv(generate_file_name(datetime.now()))
     print(results)
-    # stayflat     = lambda o,e: 1   # stand pat
-    # buyandhold   = lambda o,e: 2   # buy on day #1 and hold
-    # randomtrader = lambda o,e: e.action_space.sample() # retail trader
-
-    # # to run singly, we call run_strat.  we are returned a dataframe containing 
-    # #  all steps in the sim.
-    # bhdf = env.run_strat(buyandhold)
-
-    # print(bhdf.head())
-
-    # # we can easily plot our nav in time:
-    # bhdf.bod_nav.plot(title='buy & hold nav')
-
-    # env.run_strat(buyandhold).bod_nav.plot(title='same strat, different results')
-    # env.run_strat(buyandhold).bod_nav.plot()
-    # env.run_strat(buyandhold).bod_nav.plot()
-
-
-    # # create the tf session
-    # tf.compat.v1.reset_default_graph() 
-    # sess1 = tf.compat.v1.InteractiveSession()
-    # # create policygradient
-    # pg = PolicyGradient(sess1, obs_dim=5, num_actions=3, learning_rate=1e-2 )
-
-    # # and now let's train it and evaluate its progress.  NB: this could take some time...
-    # df,sf = pg.train_model( env,episodes=25001, log_freq=100)#, load_model=True)

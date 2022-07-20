@@ -1,6 +1,8 @@
-import logging
+from datetime import datetime
 import tensorflow as tf
+from io import BytesIO
 import logging
+import uuid
 import numpy as np
 import os
 
@@ -23,6 +25,8 @@ def format_time(t):
     h, m = divmod(m_, 60)
     return '{:02.0f}:{:02.0f}:{:02.0f}'.format(h, m, s)
 
+def generate_file_name(date):
+    return f"training_{date.date()}-{uuid.uuid4()}-{int(datetime.timestamp(date))}.csv"
 
 def track_results(episode, nav_mean_100, nav_mean_10,
                   market_nav_mean_100, market_nav_mean_10,
@@ -31,8 +35,8 @@ def track_results(episode, nav_mean_100, nav_mean_10,
     time_ma = np.mean([episode_time[-100:]])
     T = np.sum(episode_time)
     
-    template = '{:>4d} | {} | Agent: {:>6.1%} ({:>6.1%}) | '
-    template += 'Market: {:>6.1%} ({:>6.1%}) | '
+    template = '{:>4d} | {} | Agent Avg Return (%) [100:10]: {:>6.1%} ({:>6.1%}) | '
+    template += 'Market Avg Return (%) [100:10]: {:>6.1%} ({:>6.1%}) | '
     template += 'Wins: {:>5.1%} | epsilon: {:>6.3f}'
     print(template.format(episode, format_time(total_time), 
                           nav_mean_100-1, nav_mean_10-1, 
