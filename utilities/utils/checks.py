@@ -37,7 +37,7 @@ def track_results(episode, nav_mean_100, nav_mean_10,
     
     template = '{:>4d} | {} | Agent Avg Return (%) [100:10]: {:>6.1%} ({:>6.1%}) | '
     template += 'Market Avg Return (%) [100:10]: {:>6.1%} ({:>6.1%}) | '
-    template += 'Wins: {:>5.1%} | epsilon: {:>6.3f}'
+    template += 'Win Ratio [\% of (NAV Agent > NAV Market) ]: {:>5.1%} | epsilon: {:>6.3f}'
     print(template.format(episode, format_time(total_time), 
                           nav_mean_100-1, nav_mean_10-1, 
                           market_nav_mean_100-1, market_nav_mean_10-1, 
