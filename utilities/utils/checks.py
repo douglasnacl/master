@@ -28,8 +28,8 @@ def format_time(t):
 def generate_file_name(date):
     return f"training_{date.date()}-{uuid.uuid4()}-{int(datetime.timestamp(date))}.csv"
 
-def generate_file_name_weights(date):
-    return f"weight_{int(datetime.timestamp(date))}.h5"
+def generate_file_name_weights(epsilon, date):
+    return f"weight_{epsilon:.6f}_{int(datetime.timestamp(date))}.h5"
 
 def track_results(episode, nav_mean_100, nav_mean_10,
                   market_nav_mean_100, market_nav_mean_10,

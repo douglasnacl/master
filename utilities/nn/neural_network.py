@@ -33,7 +33,6 @@ class NeuralNetwork:
         model.compile(loss='mean_squared_error',
                       optimizer= optimizer)
 
-        print(model.summary())
         return model
         
 

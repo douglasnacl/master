@@ -42,11 +42,6 @@ class DDQNAgent:
         self.architecture = architecture
         self.l2_reg = l2_reg
 
-        # Para aprendizado são utilizadas duas redes, porém para comparação entre st e st+1 é preciso congelar os pesos
-        self.save_weights = save_weights
-        self.online_network = self.build_model()
-        self.target_network = self.build_model(trainable=False)
-        self.update_target()
 
         # A política $\epsilon$ começa com valor 'epsilon' e decai 'epsilon_decay' por 'epsilon_decay_steps'
         self.epsilon = epsilon_start
@@ -54,6 +49,22 @@ class DDQNAgent:
         self.epsilon_decay = (epsilon_start - epsilon_end) / epsilon_decay_steps # (1 - 0.01) / 250 = 0.00396
         self.epsilon_exponential_decay = epsilon_exponential_decay # 0.99
         self.epsilon_history = []
+
+        # Para aprendizado são utilizadas duas redes, porém para comparação entre st e st+1 é preciso congelar os pesos
+        self.save_weights = save_weights
+        self.online_network = self.build_model()
+        self.target_network = self.build_model(trainable=False)
+        if self.save_weights:
+            try:
+                self.online_network.load_weights(newest_file_in_dir('./weights/'))
+                print(newest_file_in_dir('weights/'))
+                path = newest_file_in_dir('weights/')
+                self.epsilon = float(path[len('weights/weight_'):len('weights/weight_')+8])
+                print('epsilon: ', float(path[len('weights/weight_'):len('weights/weight_')+8]))
+            except:
+                pass
+        self.update_target()
+
 
         # Inicializa a função com valores nulos
         self.total_steps = self.train_steps = 0
@@ -80,12 +91,7 @@ class DDQNAgent:
             trainable=trainable)
 
         model = neural_network.build()
-        if self.save_weights:
-            try:
-                model.load_weights(newest_file_in_dir('./weights/'))
-                print(newest_file_in_dir('./weights/'))
-            except:
-                pass
+       
         return model
 
     def update_target(self):
@@ -235,7 +241,7 @@ class DDQNAgent:
                     time() - start, 
                     self.epsilon) # total , epsilon
                 if self.save_weights:
-                    self.online_network.save_weights('weights/'+generate_file_name_weights(datetime.now()))
+                    self.online_network.save_weights('weights/'+generate_file_name_weights(self.epsilon, datetime.now()))
            
             
 
