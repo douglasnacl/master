@@ -240,7 +240,7 @@ class DDQNAgent:
                     np.sum([s > 0 for s in diffs[-100:]]) / min(len(diffs), 100),  # win_ratio
                     time() - start, 
                     self.epsilon) # total , epsilon
-                if self.save_weights:
+                if self.save_weights & (episode % 10 == 0):
                     self.online_network.save_weights('weights/'+generate_file_name_weights(self.epsilon, datetime.now()))
            
             
