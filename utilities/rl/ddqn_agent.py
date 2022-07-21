@@ -1,3 +1,4 @@
+from datetime import datetime
 from tabnanny import verbose
 from utilities.nn.neural_network import NeuralNetwork
 from utilities.utils.checks import track_results
@@ -7,6 +8,7 @@ import tensorflow as tf
 from time import time
 import pandas as pd
 import numpy as np
+from utilities.utils.checks import generate_file_name_weights, newest_file_in_dir
 
 class DDQNAgent:
     def __init__(self, state_dim,           # dimensões do estado
@@ -19,6 +21,7 @@ class DDQNAgent:
                  epsilon_exponential_decay, # decaimento exponencial para epsilon
                  replay_capacity,           # capacidade de mecanismo de repetição (replay)
                  architecture,              # arquitetura de rede neural utilizada em target_network e, por consequencia, online_network
+                 save_weights,         # Salvar os pesos da rede
                  l2_reg,                    # taxa de regularização l2
                  tau,                       # frequencia de atualização da rede neural
                  batch_size):               # tamanho do lote (4096)
@@ -40,6 +43,7 @@ class DDQNAgent:
         self.l2_reg = l2_reg
 
         # Para aprendizado são utilizadas duas redes, porém para comparação entre st e st+1 é preciso congelar os pesos
+        self.save_weights = save_weights
         self.online_network = self.build_model()
         self.target_network = self.build_model(trainable=False)
         self.update_target()
@@ -76,6 +80,12 @@ class DDQNAgent:
             trainable=trainable)
 
         model = neural_network.build()
+        if self.save_weights:
+            try:
+                model.load_weights(newest_file_in_dir('./weights/'))
+                print(newest_file_in_dir('./weights/'))
+            except:
+                pass
         return model
 
     def update_target(self):
@@ -146,6 +156,7 @@ class DDQNAgent:
         q_values = self.online_network.predict_on_batch(states)
         q_values[tuple([self.idx, actions])] = targets
 
+        
         # Treina o modelo
         loss = self.online_network.train_on_batch(x=states, y=q_values)
         self.losses.append(loss)
@@ -223,6 +234,8 @@ class DDQNAgent:
                     np.sum([s > 0 for s in diffs[-100:]]) / min(len(diffs), 100),  # win_ratio
                     time() - start, 
                     self.epsilon) # total , epsilon
+                if self.save_weights:
+                    self.online_network.save_weights('weights/'+generate_file_name_weights(datetime.now()))
            
             
 

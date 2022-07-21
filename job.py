@@ -25,6 +25,12 @@ parser.add_argument(
     help="optional: executa rotina para obter novos dados",
     action="store_true",
 )
+parser.add_argument(
+    "-sw",
+    "--save_weights",
+    help="optional: executa rotina para salvar pesos",
+    action="store_true",
+)
 
 args = parser.parse_args()
 
@@ -40,5 +46,7 @@ if __name__ == "__main__":
     if(args.download_data):
         stock_data = StockDataGenerator()
         stock_data.export_csv()
+    if(args.save_weights):
+        routine(save_weights=True)
     else:
         routine()

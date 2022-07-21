@@ -28,6 +28,9 @@ def format_time(t):
 def generate_file_name(date):
     return f"training_{date.date()}-{uuid.uuid4()}-{int(datetime.timestamp(date))}.csv"
 
+def generate_file_name_weights(date):
+    return f"weight_{int(datetime.timestamp(date))}.h5"
+
 def track_results(episode, nav_mean_100, nav_mean_10,
                   market_nav_mean_100, market_nav_mean_10,
                   win_ratio, total_time, epsilon):
@@ -47,3 +50,8 @@ def track_results(episode, nav_mean_100, nav_mean_10,
     # Agent: -24.3% - nav_mean_100-1 (-23.4% - nav_mean_10-1) |
     # Market:  -3.9% - market_nav_100-1 ( -8.3% - market_nav_10-1) | 
     # Wins: 20.0% (win_ration) | epsilon:  0.723 - epsilon
+
+def newest_file_in_dir(path):
+    files = os.listdir(path)
+    paths = [os.path.join(path, basename) for basename in files]
+    return max(paths, key=os.path.getctime)

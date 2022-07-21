@@ -12,7 +12,7 @@ import os
 NASDAQ_API = os.getenv("NASDAQ_API")
 trading_days = 252
 
-def routine():
+def routine(save_weights=False):
     # use_cpu()
     logging.info("Running the routine")
     check_computer_device()
@@ -59,6 +59,7 @@ def routine():
                  epsilon_exponential_decay=epsilon_exponential_decay,
                  replay_capacity=replay_capacity,
                  architecture=architecture,
+                 save_weights=save_weights,
                  l2_reg=l2_reg,
                  tau=tau,
                  batch_size=batch_size)
