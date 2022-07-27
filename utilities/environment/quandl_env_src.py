@@ -10,7 +10,7 @@ NASDAQ_API = os.getenv("NASDAQ_API")
 class QuandlEnvSrc(object):
     '''
     Implementação baseada em Quandl de uma fonte de dados da TradingEnv.
-
+    
     Extrai dados do Quandl, prepara para uso pelo TradingEnv e atua como provedor de dados para cada novo episódio.
     '''
     MinPercentileDays = 100 
