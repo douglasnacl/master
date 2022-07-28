@@ -1,4 +1,4 @@
-from utilities.environment.trading_sim import TradingSim
+from .trading_sim import TradingSim
 from importlib_metadata import metadata
 import logging
 import gym
