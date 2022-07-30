@@ -31,8 +31,8 @@ class DDQNAgent:
         epsilon_decay_steps = 250
         epsilon_exponential_decay = .99
 
-        self.state_dim = state_dim # num de dimensões do estado, dada por trading_environment.observation_space.shape[0]
-        self.num_actions = num_actions # num ações, dada por trading_environment.action_space.n
+        self.state_dim = state_dim # num de dimensões do estado, dada por trading_env.observation_space.shape[0]
+        self.num_actions = num_actions # num ações, dada por trading_env.action_space.n
         
         self.experience = deque([], maxlen=replay_capacity) # estabelece o tamanho do lote para a experiencia de replay do aprendizado
         
@@ -171,7 +171,7 @@ class DDQNAgent:
             self.update_target()
     
         
-    def training(self, trading_environment):
+    def training(self, trading_env):
         
         # Define o número máximo de episodios e o numero maximo de passos por episodio
         total_steps = 0
@@ -188,12 +188,12 @@ class DDQNAgent:
             # Inicialização das listas para calculo do episódio
             this_state_actions, this_state_navs, this_state_mkt_navs, this_state_strategy_return = [], [], [], []
             # Reinicia o ambiente
-            this_state = trading_environment.reset()
+            this_state = trading_env.reset()
 
             for episode_step in range(max_episode_steps):
                 # Seleciona a melhor ação baseado na politica epsilon greedy
                 action = self.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, self.state_dim))
-                next_state, reward, done, info = trading_environment.step(action)
+                next_state, reward, done, info = trading_env.step(action)
                 # observation, reward, done, info 
                 # info = { 'reward': reward, 'nav':self.navs[self.step],  'mkt_nav':self.mkt_nav[self.step], 'costs':self.costs[self.step], 'strategy_return': self.strat_retrns[self.step] }
                 self.memorize_transition(this_state, 
@@ -255,7 +255,7 @@ class DDQNAgent:
                 print(results.tail())
                 break
 
-        trading_environment.close()
+        trading_env.close()
 
         results = pd.DataFrame({
             'Episodes': list(range(1, episode+1)),

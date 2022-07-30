@@ -118,5 +118,7 @@ def test_sim_env():
     observation, done = quandl_env_src._step()
     y_return = observation[2] 
     print("Y_RETURN: ", y_return)
-    sim._step(action, y_return)     
+    reward, info = sim._step(action, y_return)     
+    print("REWARD: ", reward)
+    print("INFO: ", info)
     
