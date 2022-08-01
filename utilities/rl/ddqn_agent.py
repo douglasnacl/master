@@ -26,10 +26,10 @@ class DDQNAgent:
                  tau,                       # frequencia de atualização da rede neural
                  batch_size):               # tamanho do lote (4096)
 
-        epsilon_start = 1.0
-        epsilon_end = .01
-        epsilon_decay_steps = 250
-        epsilon_exponential_decay = .99
+        # epsilon_start = 1.0
+        # epsilon_end = .01
+        # epsilon_decay_steps = 250
+        # epsilon_exponential_decay = .99
 
         self.state_dim = state_dim # num de dimensões do estado, dada por trading_env.observation_space.shape[0]
         self.num_actions = num_actions # num ações, dada por trading_env.action_space.n
@@ -49,6 +49,7 @@ class DDQNAgent:
         self.epsilon_decay = (epsilon_start - epsilon_end) / epsilon_decay_steps # (1 - 0.01) / 250 = 0.00396
         self.epsilon_exponential_decay = epsilon_exponential_decay # 0.99
         self.epsilon_history = []
+        self.epsilon_end = epsilon_end
 
         # Para aprendizado são utilizadas duas redes, porém para comparação entre st e st+1 é preciso congelar os pesos
         self.save_weights = save_weights
@@ -121,9 +122,11 @@ class DDQNAgent:
         else:
             if self.train: # se estiver em treinamento, então:
                 if self.episodes < self.epsilon_decay_steps: # se o episódio for menor que o epsilon_decay_steps (250), então:
-                    self.epsilon -= self.epsilon_decay # reduz o valor de epsilon em epsilon_decay
+                    if (self.epsilon - self.epsilon_decay) > self.epsilon_end:
+                        self.epsilon -= self.epsilon_decay # reduz o valor de epsilon em epsilon_decay
                 else: # caso contrário, epsilon x epsilon_exponential_decay (0.99) 
-                    self.epsilon *= self.epsilon_exponential_decay
+                    if(self.epsilon * self.epsilon_exponential_decay) > self.epsilon_end:
+                        self.epsilon *= self.epsilon_exponential_decay
 
             self.episodes += 1
             # enquanto o treinamento não estiver terminado a recompensa é armazenada no histórico junto com os passos por episódio
@@ -194,7 +197,9 @@ class DDQNAgent:
                 # Seleciona a melhor ação baseado na politica epsilon greedy
                 action = self.epsilon_greedy_policy(this_state.to_numpy().reshape(-1, self.state_dim))
                 next_state, reward, done, info = trading_env.step(action)
-                # observation, reward, done, info 
+                # next_state =
+                # [0] Close          [1] Volume        [2]  Return [3] ClosePctl [4] VolumePctl
+                # [0] NominalPrice   [1] ShareVolume   [2]  Return [3] ClosePctl [4] VolumePctl
                 # info = { 'reward': reward, 'nav':self.navs[self.step],  'mkt_nav':self.mkt_nav[self.step], 'costs':self.costs[self.step], 'strategy_return': self.strat_retrns[self.step] }
                 self.memorize_transition(this_state, 
                                         action, 
@@ -229,7 +234,7 @@ class DDQNAgent:
             diff = nav - market_nav
             diffs.append(diff)
 
-            if episode % 5 == 0:
+            if episode % 10 == 0:
                 track_results(episode,  
                     # show mov. average results for 100 (10) periods
                     np.mean(navs[-100:]), # nav_mean_100
@@ -254,7 +259,7 @@ class DDQNAgent:
                 }).set_index('Episode')
                 print(results.tail())
                 break
-
+        
         trading_env.close()
 
         results = pd.DataFrame({

@@ -1,5 +1,4 @@
 from .trading_sim import TradingSim
-from importlib_metadata import metadata
 import logging
 import gym
 
@@ -12,9 +11,9 @@ class TradingEnv(gym.Env):
     Cada _intervalo_ é um 'passo' no gym e, em cada passo, o algoritmo realiza 
     uma escolha:
 
-    SHORT (0)
-    FLAT (1)
-    LONG (2)
+    2 - Compra: Invest all capital for a long position in the stock.
+    1 - Não faz nada: Hold cash only
+    0 - Venda: Take a short position equal to the amount of capital.
 
     Se você negociar, será cobrado, por padrão, 10 BPS do tamanho de sua 
     negociação. Assim, ir de curto para longo custa o dobro do que ir de curto 
@@ -41,9 +40,7 @@ class TradingEnv(gym.Env):
             time_cost_bps=1e-4)
         '''
         Ações possíveis
-        1 - Buy: Invest all capital for a long position in the stock.
-        2 - Flat: Hold cash only
-        3 - Sell short: Take a short position equal to the amount of capital.
+        
         '''
         self.action_space = gym.spaces.Discrete(3)
 

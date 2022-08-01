@@ -44,7 +44,7 @@ class TradingSim(object):
         # Pega a posição, nav e mkt nav para o começo do dia (BOD) | = fim do dia anterior (EOD)
         if self.step == 0:
             bod_pos = 0.0 # posição no beginning of day
-            bod_nav  = 1.0
+            bod_nav  = 1.0 # Agent VPL 
             mkt_nav  = 1.0 # MKT VPL = (Ativos - Passivos) / Total de ações em circulação -> NAV = (Assets – liabilities) / Total shares outstanding
         else: 
             bod_pos = self.eod_pos[self.step-1]
@@ -53,24 +53,25 @@ class TradingSim(object):
 
 
         self.mkt_returns[self.step] = return_ # retorno do quandl_env_src
-        self.actions[self.step] = action
-        
-        self.eod_pos[self.step] = action -1   
+        self.actions[self.step] = action # ação realizada pelo agente
+
+        self.eod_pos[self.step] = action - 1 # posição no fim do dia
 
         self.trades[self.step] = self.eod_pos[self.step] - bod_pos
         
         trade_costs_pct = abs(self.trades[self.step]) * self.trading_cost_bps 
+
         self.costs[self.step] = trade_costs_pct +  self.time_cost_bps
 
         reward = ( (bod_pos * return_) - self.costs[self.step] )
-
+        # print('Reward:', reward)
         
         self.strategy_returns[self.step] = reward
-        
+
         # Se não for o primeiro passo armazena o nav e mkt_nav do passo atual
         if self.step != 0 :
-            self.navs[self.step] =  bod_nav * (1 + self.strategy_returns[self.step-1])
-            self.mkt_nav[self.step] =  mkt_nav * (1 + self.mkt_returns[self.step-1])
+            self.navs[self.step] = bod_nav * (1 + self.strategy_returns[self.step-1])
+            self.mkt_nav[self.step] = mkt_nav * (1 + self.mkt_returns[self.step-1])
         
         info = { 'reward': reward, 'nav':self.navs[self.step],  'mkt_nav':self.mkt_nav[self.step], 'costs':self.costs[self.step], 'strategy_return': self.strategy_returns[self.step] }
 

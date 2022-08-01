@@ -103,22 +103,33 @@ NASDAQ_API = os.getenv("NASDAQ_API")
 #     print("MAX: ", max_values)
 
 def test_sim_env():
-    sim = TradingSim(
-            steps=252,
-            trading_cost_bps=1e-3,
-            time_cost_bps=1e-4)
-    quandl_env_src = QuandlEnvSrc(days=252)
-    trading_environment = TradingEnv(quandl_env_src)
-    num_actions = trading_environment.action_space.n
-    action = np.random.randint(num_actions)
-    action_space = gym.spaces.Discrete(3)
-    # print("GYM: ", action_space)
-    # print("ACTION: ", action, num_actions)
-    # assert action_space.contains(action), "%r (%s) invalid"%(action, type(action))
-    observation, done = quandl_env_src._step()
-    y_return = observation[2] 
-    print("Y_RETURN: ", y_return)
-    reward, info = sim._step(action, y_return)     
-    print("REWARD: ", reward)
-    print("INFO: ", info)
+        #     sim = TradingSim(
+        #             steps=252,
+        #             trading_cost_bps=1e-3,
+        #             time_cost_bps=1e-4)
+        quandl_env_src = QuandlEnvSrc(days=252)
+        #     trading_environment = TradingEnv(quandl_env_src)
+        #     num_actions = trading_environment.action_space.n
+        #     action = np.random.randint(num_actions)
+        print('')
+        action_space = gym.spaces.Discrete(3)
+        # print("GYM: ", action_space)
+        # print("ACTION: ", action, num_actions)
+        # assert action_space.contains(action), "%r (%s) invalid"%(action, type(action))
+        #     observation, done = quandl_env_src._step()
+        #     y_return = observation[2] 
+        #     print("Y_RETURN: ", y_return)
+        #     reward, info = sim._step(action, y_return)     
+        #     print("REWARD: ", reward)
+        #     print("INFO: ", info)
+        
+        observation_space =  gym.spaces.Box(
+                quandl_env_src.min_values.to_numpy(),
+                quandl_env_src.max_values.to_numpy()
+        )
+        state_dim = observation_space.shape[0]
+        print(action_space)
+        print(observation_space)
+        print(state_dim)
+
     
