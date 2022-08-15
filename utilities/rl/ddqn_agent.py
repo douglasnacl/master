@@ -46,7 +46,7 @@ class DDQNAgent:
         # A política $\epsilon$ começa com valor 'epsilon' e decai 'epsilon_decay' por 'epsilon_decay_steps'
         self.epsilon = epsilon_start
         self.epsilon_decay_steps = epsilon_decay_steps # *250
-        self.epsilon_decay = (epsilon_start - epsilon_end) / epsilon_decay_steps # (1 - 0.01) / 250 = 0.00396
+        self.epsilon_decay = (epsilon_start - epsilon_end) / epsilon_decay_steps # (0.1 - 0.01) / 250 = 0.000396
         self.epsilon_exponential_decay = epsilon_exponential_decay # 0.99
         self.epsilon_history = []
         self.epsilon_end = epsilon_end

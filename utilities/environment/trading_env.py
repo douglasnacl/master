@@ -2,7 +2,7 @@ from .trading_sim import TradingSim
 import logging
 import gym
 
-class TradingEnv(gym.Env):
+class   TradingEnv(gym.Env):
     """ Esta classe implementa um ambiente de trading para RL
 
     O gym disponibiliza observações baseadas nos mercados reais de dados obtidos

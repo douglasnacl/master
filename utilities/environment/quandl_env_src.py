@@ -36,7 +36,9 @@ class QuandlEnvSrc(object):
         df = df[['Nominal Price','Share Volume (000)']]
         # Para os dias com volume zero, vamos substituir 0 por 1 pois os dias não deveriam ter volume 0
         df['Share Volume (000)'].replace(0,1,inplace=True) 
-        # O retorno o será o percentual dado pelo preço nominal menos o preço nominal anterior dividido preço nominal
+        # O retorno diário 
+        # 
+        #  será o percentual dado pelo preço nominal menos o preço nominal anterior dividido preço nominal
         df['Return'] = (df['Nominal Price']-df['Nominal Price'].shift())/df['Nominal Price'].shift()
         pctrank = lambda x: pd.Series(x).rank(pct=True).iloc[-1]
 

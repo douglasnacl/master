@@ -41,7 +41,7 @@ def routine(save_weights=False):
     batch_size = 4096
 
     ### epsilon-greedy Policy
-    epsilon_start = 1.0
+    epsilon_start = 0.10
     epsilon_end = .01
     epsilon_decay_steps = 250
     epsilon_exponential_decay = .99
