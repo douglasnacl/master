@@ -63,6 +63,25 @@ class TradingSim(object):
 
         self.costs[self.step] = trade_costs_pct +  self.time_cost_bps
 
+        # sharpe_ratio = (return_)/np.std(self.mkt_returns[:self.step])
+        # if(sharpe_ratio >= 4.0):
+        #     reward = 10.0
+        # elif(sharpe_ratio > 1.0 and sharpe_ratio < 4.0):
+        #     reward = 4.0
+        # elif(sharpe_ratio > 0.0 and sharpe_ratio <= 1.0):
+        #     reward = 1.0    
+        # elif(sharpe_ratio == 0.0):
+        #     reward = 0.0
+        # elif(sharpe_ratio >= -1.0 and sharpe_ratio < 0.0):
+        #     reward = -1.0
+        # elif(sharpe_ratio > -4.0 and sharpe_ratio < -1.0):
+        #     reward = -4.0
+        # elif(sharpe_ratio <= -4.0):
+        #     reward = -10.0
+        # else:
+        #     reward = 0.0
+
+
         reward = ( (bod_pos * return_) - self.costs[self.step] )
         # print('Reward:', reward)
         

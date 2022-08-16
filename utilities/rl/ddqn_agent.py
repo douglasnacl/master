@@ -11,31 +11,27 @@ import numpy as np
 from utilities.utils.checks import generate_file_name_weights, newest_file_in_dir
 
 class DDQNAgent:
-    def __init__(self, state_dim,           # dimensões do estado
-                 num_actions,               # número de açoes possíveis
+    def __init__(self, state_dim,           # num de dimensões do estado (trading_env.observation_space.shape[0])
+                 num_actions,               # número de açoes possíveis (trading_env.action_space.n)
                  learning_rate,             # taxa de aprendizado
-                 gamma,                     # fator de desconto
-                 epsilon_start,             # valor inicial de epsilon
-                 epsilon_end,               # valor final de epsilon
-                 epsilon_decay_steps,       # quantidade de passos de decaimento
-                 epsilon_exponential_decay, # decaimento exponencial para epsilon
+                 gamma,                     # fator de desconto 
+                 epsilon_start,             # valor inicial de epsilon  (0.1)
+                 epsilon_end,               # valor final de epsilon (0.01)
+                 epsilon_decay_steps,       # quantidade de passos de decaimento (250)
+                 epsilon_exponential_decay, # decaimento exponencial para epsilon (0.99)
                  replay_capacity,           # capacidade de mecanismo de repetição (replay)
                  architecture,              # arquitetura de rede neural utilizada em target_network e, por consequencia, online_network
-                 save_weights,         # Salvar os pesos da rede
+                 save_weights,              # salvar os pesos da rede
                  l2_reg,                    # taxa de regularização l2
                  tau,                       # frequencia de atualização da rede neural
                  batch_size):               # tamanho do lote (4096)
 
-        # epsilon_start = 1.0
-        # epsilon_end = .01
-        # epsilon_decay_steps = 250
-        # epsilon_exponential_decay = .99
+        self.state_dim = state_dim 
+        self.num_actions = num_actions 
+        
+        # inicializa a experiencia de repetição usada durante o treinamento
+        self.experience = deque([], maxlen=replay_capacity) 
 
-        self.state_dim = state_dim # num de dimensões do estado, dada por trading_env.observation_space.shape[0]
-        self.num_actions = num_actions # num ações, dada por trading_env.action_space.n
-        
-        self.experience = deque([], maxlen=replay_capacity) # estabelece o tamanho do lote para a experiencia de replay do aprendizado
-        
         self.learning_rate = learning_rate 
         self.gamma = gamma
 
@@ -104,10 +100,11 @@ class DDQNAgent:
         Esta função escolhe entre uma ação aleatória ou aquela que maximia a recompensa (Qmax)
         '''
         self.total_steps += 1 # incrementa o contador de passos
-        if np.random.rand() <= self.epsilon: # se o numero aleatório for maior ou igual a epsilon, uma ação aleatório é executada
+        if np.random.rand() < self.epsilon: # se o numero aleatório for maior ou igual a epsilon, uma ação aleatório é executada
             return np.random.choice(self.num_actions)
-        # Prevê o que usando a rede neural, retorna um conjunto de probilidade por ação
-        q = self.online_network.predict(state, verbose=0) # caso contrário, a ação tomada será aquela onde Q obtem seu máximo valor
+        # Calcula o valor de Q para o estado atual
+        q = self.online_network.predict(state, verbose=0) 
+        # Escolhe a ação onde Q obtem seu máximo valor
         action = np.argmax(q, axis=1).squeeze()
         return action
 
@@ -129,19 +126,18 @@ class DDQNAgent:
                         self.epsilon *= self.epsilon_exponential_decay
 
             self.episodes += 1
-            # enquanto o treinamento não estiver terminado a recompensa é armazenada no histórico junto com os passos por episódio
+
             self.rewards_history.append(self.episode_reward)
             self.steps_per_episode.append(self.episode_length)
             self.episode_reward, self.episode_length = 0, 0
-
+        # Armazena st, at, Rt, st+1, done em uma experience replay
         self.experience.append((state, action, reward, state_prime, not_done))
 
     def experience_replay(self):
         '''
         O experience_replay ocorre tão logo quanto o lote te
         '''
-        # O replay da experiencia memorizada acontece tão logo tenhamos um lote para isto
-        # print(self.batch_size)
+        # A experiencia de repetição ocorre quando a memória de trasição é maior que o lote definido
         if self.batch_size > len(self.experience):
             return
         
