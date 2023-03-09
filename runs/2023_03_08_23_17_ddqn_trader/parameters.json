@@ -1,0 +1,14 @@
+{
+    "training_start": "2023-03-08 23:17",
+    "initial_balance": 1000,
+    "training_episodes": 100,
+    "depth": 13,
+    "lr": 1e-05,
+    "epochs": 5,
+    "batch_size": 4096,
+    "normalize_value": 40000,
+    "model": "",
+    "comment": "",
+    "saving_time": "",
+    "agent_name": "Double Deep Q Learning"
+}

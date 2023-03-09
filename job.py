@@ -1,4 +1,5 @@
-from utilities.io.stock_data_generator import StockDataGenerator
+# from utilities.io.stock_data_generator import StockDataGenerator
+from utilities.io.fetch_data import fetch_data
 from utilities.methods import routine
 import logging
 import os
@@ -44,8 +45,18 @@ if __name__ == "__main__":
     logging.info("Running the current task")
 
     if(args.download_data):
-        stock_data = StockDataGenerator()
-        stock_data.export_csv()
+        # stock_data = StockDataGenerator()
+        # stock_data.export_csv()
+
+        asset = 'BTCUSD'
+        # Ativo a ser avaliado
+        interval = '1h' # Também é possível usar '4h','1h','15m','1m'
+        # Define-se a data inicial e final
+        interval_start = datetime(2021, 11, 1, 0, 0)
+        interval_end = datetime(2022, 11, 1, 0, 0)
+        # Chama a função para obtenção dos dados
+        _ = fetch_data(interval_start, interval_end, asset, interval)
+   
     if(args.save_weights):
         routine(save_weights=True)
     else:
