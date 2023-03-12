@@ -11,7 +11,7 @@ def check_computer_device():
     gpu_devices = tf.config.experimental.list_physical_devices('GPU')
     if gpu_devices:
         logging.info('Using GPU')
-        for gpu in gpus:
+        for gpu in gpu_devices:
             print(f' - {gpu}')
             try:
                 tf.config.experimental.set_memory_growth(gpu, True)

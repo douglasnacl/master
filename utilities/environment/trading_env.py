@@ -1,5 +1,6 @@
 from utilities.environment.trading_graph import TradingGraph
 from collections import deque
+import numpy as np
 import logging
 import random
 
