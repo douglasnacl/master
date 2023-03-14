@@ -2,6 +2,7 @@ from mplfinance.original_flavor import candlestick_ohlc
 import matplotlib.pyplot as plt
 from collections import deque
 import matplotlib.dates as mpl_dates
+import pandas as pd
 import numpy as np
 import cv2
 

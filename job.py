@@ -33,6 +33,13 @@ parser.add_argument(
     action="store_true",
 )
 
+parser.add_argument(
+    "-v",
+    "--visualize",
+    help="optional: executa rotina com gráficos",
+    action="store_true",
+)
+
 args = parser.parse_args()
 
 if __name__ == "__main__":
@@ -45,6 +52,7 @@ if __name__ == "__main__":
     logging.info("Running the current task")
 
     if(args.download_data):
+        logging.info("INFO: Rotinha de Download de Dados")
         # stock_data = StockDataGenerator()
         # stock_data.export_csv()
 
@@ -57,7 +65,11 @@ if __name__ == "__main__":
         # Chama a função para obtenção dos dados
         _ = fetch_data(interval_start, interval_end, asset, interval)
    
+    if(args.save_weights & args.visualize):
+        logging.info("INFO: Salvando pesos")
+        routine(save_weights=True, visualize=True)
     if(args.save_weights):
+        logging.info("INFO: Salvando pesos e Visualização")
         routine(save_weights=True)
     else:
         routine()

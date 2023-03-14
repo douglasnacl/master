@@ -119,7 +119,7 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
 #         results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
 #         results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
 
-def routine(save_weights=False):
+def routine(save_weights=False, visualize=False):
     # use_cpu()
     logging.info("Running the routine")
     check_computer_device()
@@ -152,7 +152,7 @@ def routine(save_weights=False):
     # single processing training
     agent = DoubleDeepQLearningAgent(lr=0.00001, epochs=5, optimizer=SGD, depth=13, batch_size = 4096)
     train_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
-    train_agent(train_env, agent, visualize=False, train_episodes=100, max_train_episode_steps=720) # visualize=True para visualizar animação
+    train_agent(train_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=720) # visualize=True para visualizar animação
     
     # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
 

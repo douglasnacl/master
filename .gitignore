@@ -9,6 +9,7 @@ _documents
 .vscode
 weights/
 logs
+runs
 start.sh
 .env
 logs/
