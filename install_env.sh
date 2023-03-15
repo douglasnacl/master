@@ -1,23 +1,19 @@
-# run this to install all required packages to this code
-# to run:
-#   - go to the working directory path
-#   - then use "chmod +x install_env.sh" to make this file `secure`
-#   - finally run "./install_env.sh"
-# conda create -n stock_trading_bot_msc_douglas python --no-default-packages
-# conda activate stock_trading_bot_msc_douglas
-# conda install -c python
-# pip install yfinance
-# pip install multipledispatch
-# pip install numpy 
-# pip install pandas
-# pip install tensorflow-gpu
-# pip install quandl
-# pip install python-dotenv
-# pip install matplotlib
-# pip install importlib-metadata
-# pip install gym
-# pip install -U scikit-learn==1.7.3
-# pip install python-dotenv==0.19.2
+#!/bin/bash
+
+if [ -f /etc/arch-release ]; then
+    echo "Arch Linux"
+    echo "pacman -S cuda cudnn"
+elif [ -f /etc/debian_version ]; then
+    echo "Debian"
+    echo "apt-get install cuda cudnn"
+elif [ -f /etc/lsb-release ] && grep -q 'Ubuntu' /etc/lsb-release; then
+    echo "Ubuntu"
+    echo "apt-get install cuda cudnn"
+else
+    echo "Unknown distribution"
+fi
+
+echo 'Configure conda environment libraries' 
 pip install tensorflow-gpu==2.10.0
 pip install bitfinex-tencars==0.0.3
 pip install tensorflow-gpu==2.10.0
