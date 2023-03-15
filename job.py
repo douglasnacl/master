@@ -68,6 +68,9 @@ if __name__ == "__main__":
     if(args.save_weights & args.visualize):
         logging.info("INFO: Salvando pesos")
         routine(save_weights=True, visualize=True)
+    if(args.visualize):
+        logging.info("INFO: Salvando pesos e Visualização")
+        routine(save_weights=False, visualize=True)
     if(args.save_weights):
         logging.info("INFO: Salvando pesos e Visualização")
         routine(save_weights=True)
