@@ -58,7 +58,7 @@ class TradingEnv:
     self.columns = list(self.df_normalized.columns[2:])
     self.market_returns = self.market_return(self.df)
 
-    self._test_reward = 0
+    # self._test_reward = 0
 
   def reset(self, env_steps_size = 0):
     # Reinicia o estado do ambiente para o estado inicial
@@ -98,8 +98,8 @@ class TradingEnv:
     #     # one line for loop to fill market history withing reset call
     self.market_history.append([self.df_normalized.loc[self._step, column] for column in self.columns])
     
-    
-    self._test_reward = 0
+    self._last_type = None
+    # self._test_reward = 0
 
     state = np.concatenate((self.orders_history, self.market_history), axis=1)
     return state[-1]
@@ -125,11 +125,11 @@ class TradingEnv:
     else:
       done = False
 
-    if reward != 0:
-        self._test_reward += 1
+    # if reward != 0:
+    #     self._test_reward += 1
         
-        print('Date: ', self.df.loc[self._step, 'Date'],' - Step: ', self._step, ' - High: ', self.df.loc[self._step, 'High'], ' - Low: ', self.df.loc[self._step, 'Low'], ' - total: ', self.stock_held,' - balance: ', self.balance, ' - current_price: ', self.df.loc[self._step, 'Open'])
-        print('Reward: ', reward, ' - COUNT: ', self._test_reward, ' - Market Return', self.market_returns[self._step]*self.df.loc[self._step, 'Volume'] )
+    #     print('Date: ', self.df.loc[self._step, 'Date'],' - Step: ', self._step, ' - High: ', self.df.loc[self._step, 'High'], ' - Low: ', self.df.loc[self._step, 'Low'], ' - total: ', self.stock_held,' - balance: ', self.balance, ' - current_price: ', self.df.loc[self._step, 'Open'])
+    #     print('Reward: ', reward, ' - COUNT: ', self._test_reward, ' - Market Return', self.market_returns[self._step]*self.df.loc[self._step, 'Volume'] )
 
     
     obs = self.next_observation()
@@ -179,8 +179,20 @@ class TradingEnv:
       self.stock_held -= self.stock_sold
       _type = 'sell'
       self.episode_orders += 1
+    
+    if _type != '' or _type:
+      self._last_type = _type
+    # logging.info("INFO: type: %s - last type: %s", _type, self._last_type)
 
-    self.trades.append({'Date' : date, 'High' : high, 'Low' : low, 'total': self.stock_sold, 'type': _type, 'current_price': current_price})
+    self.trades.append({
+      'Date' : date, 
+      'High' : high, 
+      'Low' : low, 
+      'total': self.stock_sold if _type == 'sell' else (self.stock_bought if _type == 'buy' else self.stock_held), 
+      'type': _type, 
+      'current_price': current_price
+    })
+    
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
 
@@ -209,20 +221,24 @@ class TradingEnv:
       
 
       prev_amount = prev_volume * prev_price
-      if current_position == "buy" and prev_position == "sell":
-        current_amount = prev_volume * current_price
-        reward = prev_amount  - current_amount
+      if current_position == "buy" and (prev_position == "sell" or self._last_type == "hold"):
+        current_amount = current_volume * current_price # prev_volume * current_price
+        reward = (prev_amount  - current_amount)/current_amount
       
-      elif current_position == "sell" and prev_position == "buy": 
+      elif current_position == "sell" and (prev_position == "buy" or self._last_type == "hold"): 
         current_amount = current_volume * current_price
-        reward =  current_amount - prev_amount
+        reward =  (current_amount - prev_amount)/prev_amount 
 
       elif current_position == "hold": 
+        logging.info('SEGUROU')
         current_amount = current_volume * current_price
-        reward =  prev_amount - current_amount
+        reward =  0.5 * (current_amount - prev_amount)/prev_amount
       else:
         reward = 0
+      
+      reward = reward if (~np.isinf(reward) and reward != 0)  else 0
 
+      # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
       self.trades[-1]["Reward"] = reward
       
       return reward

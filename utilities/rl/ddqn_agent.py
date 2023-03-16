@@ -192,6 +192,11 @@ class DoubleDeepQLearningAgent:
     minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
     states, actions, rewards, next_states, not_done = minibatch # et = (st, at, rt, st+1)
 
+    # min_value = min(rewards)
+    # max_value = max(rewards)
+    # rewards = [(x - min_value) / (max_value - min_value) for x in rewards]
+
+
     # Realiza a previsão da rede online com base nos valores de q para o próximo estado
     next_q_values = self.online_network.predict_on_batch(next_states) # Q_online(st+1, at+1)
     # Escolhe a ação com maior valor q

@@ -13,6 +13,7 @@ if [ $# -gt 0 ] && [ "$1" == "cuda" ]; then
     if [ -f /etc/arch-release ]; then
         echo "Arch Linux"
         echo "pacman -S cuda cudnn"
+        pacman -S qt5-base qt5-x11extras libxcb xcb-util xcb-util-keysyms xcb-util-image xcb-util-wm xcb-util-cursor
     elif [ -f /etc/debian_version ]; then
         echo "Debian"
         echo "apt-get install cuda cudnn"
@@ -24,8 +25,8 @@ if [ $# -gt 0 ] && [ "$1" == "cuda" ]; then
     fi
 else
 echo """
-    Sem instalação de CUDA e CUDNN
-        > Para instalar CUDA e CUDNN, execute o script com o argumento 'cuda'
+    Quer realizar a instalação de CUDA e CUDNN?
+        > Se sim, para instalar CUDA e CUDNN, execute o script com o argumento 'cuda'
     """
 fi
 
