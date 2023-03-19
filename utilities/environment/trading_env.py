@@ -96,7 +96,9 @@ class TradingEnv:
         ])
     
     #     # one line for loop to fill market history withing reset call
-    self.market_history.append([self.df_normalized.loc[self._step, column] for column in self.columns])
+    self.market_history.append([
+      self.df_normalized.loc[self._step, column] for column in self.columns]
+    )
     
     self._last_type = None
     # self._test_reward = 0
@@ -124,13 +126,6 @@ class TradingEnv:
       done = True
     else:
       done = False
-
-    # if reward != 0:
-    #     self._test_reward += 1
-        
-    #     print('Date: ', self.df.loc[self._step, 'Date'],' - Step: ', self._step, ' - High: ', self.df.loc[self._step, 'High'], ' - Low: ', self.df.loc[self._step, 'Low'], ' - total: ', self.stock_held,' - balance: ', self.balance, ' - current_price: ', self.df.loc[self._step, 'Open'])
-    #     print('Reward: ', reward, ' - COUNT: ', self._test_reward, ' - Market Return', self.market_returns[self._step]*self.df.loc[self._step, 'Volume'] )
-
     
     obs = self.next_observation()
     return obs, reward, done

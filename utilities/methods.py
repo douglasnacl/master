@@ -119,10 +119,15 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
 #         results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
 #         results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
 
-def routine(save_weights=False, visualize=False):
+def routine(save_weights=False, processing_device="GPU", visualize=False):
     # use_cpu()
     logging.info("Running the routine")
-    check_computer_device()
+
+    if processing_device != 'GPU':
+        print("INFO: Dispositivo escolhido CPU")
+        use_cpu()
+    else:
+        check_computer_device()
 
     df = pd.read_csv('./BTCUSD_1h_.csv')
     df = df.dropna()

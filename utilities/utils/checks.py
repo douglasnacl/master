@@ -10,7 +10,7 @@ def check_computer_device():
 
     gpu_devices = tf.config.experimental.list_physical_devices('GPU')
     if gpu_devices:
-        logging.info('Using GPU')
+        logging.info('Processamento utilizando GPU')
         for gpu in gpu_devices:
             print(f' - {gpu}')
             try:
@@ -18,7 +18,7 @@ def check_computer_device():
             except RuntimeError: 
                 pass
     else:
-        logging.info('Using CPU')
+        logging.info('Uso de GPU não suportado/configurado, usando CPU')
 
 def use_cpu():
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'

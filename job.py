@@ -40,6 +40,13 @@ parser.add_argument(
     action="store_true",
 )
 
+parser.add_argument(
+    "--processing_device",
+    choices=["CPU", "GPU"],
+    default="GPU",
+    help="optional: Escolhe o dispositivo para processamento (default: GPU)",
+)
+
 args = parser.parse_args()
 
 if __name__ == "__main__":
@@ -50,6 +57,14 @@ if __name__ == "__main__":
     
     logging_basic_config()
     logging.info("Running the current task")
+
+    # if args.processing_device != 'CPU':
+    #     if args.processing_device != 'GPU':
+    #         raise ValueError("""
+    #             Apenas são permitidos valores CPU ou GPU
+    #                 > O valor padrão é GPU, caso não seja passado.
+    #         """)
+    #     processing_device = "GPU"
 
     if(args.download_data):
         logging.info("INFO: Rotinha de Download de Dados")
@@ -67,12 +82,12 @@ if __name__ == "__main__":
    
     if(args.save_weights & args.visualize):
         logging.info("INFO: Salvando pesos")
-        routine(save_weights=True, visualize=True)
+        routine(save_weights=True, processing_device=args.processing_device, visualize=True)
     if(args.visualize):
         logging.info("INFO: Salvando pesos e Visualização")
-        routine(save_weights=False, visualize=True)
+        routine(save_weights=False, processing_device=args.processing_device, visualize=True)
     if(args.save_weights):
         logging.info("INFO: Salvando pesos e Visualização")
-        routine(save_weights=True)
+        routine(save_weights=True, processing_device=args.processing_device)
     else:
-        routine()
+        routine(processing_device=args.processing_device)
