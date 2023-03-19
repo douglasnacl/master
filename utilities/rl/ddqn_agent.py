@@ -21,7 +21,7 @@ class DoubleDeepQLearningAgent:
     self, 
     lr=1e-4, # 0.00005, 
     epochs=1, 
-    optimizer=Adam, 
+    optimizer='SGD', 
     batch_size=4096, 
     model="", 
     depth=0, 
@@ -98,9 +98,9 @@ class DoubleDeepQLearningAgent:
     # Inicializa a função com valores nulos
     self.total_steps = self.train_steps = 0
     self.episodes = self.episode_length = self.train_episodes = 0
-    self.steps_per_episode = [] # deque(maxlen=self.env_steps_size)
+    self.steps_per_episode = deque(maxlen=self.env_steps_size)
     self.episode_reward = 0
-    self.rewards_history = [] # deque(maxlen=self.env_steps_size)
+    self.rewards_history = deque(maxlen=self.env_steps_size)
 
     self.tau = 100 # frequencia de atualização da rede neural
     self.losses = []
@@ -116,6 +116,7 @@ class DoubleDeepQLearningAgent:
         self.architecture, 
         self.learning_rate, 
         self.l2_reg,
+        optimizer=self.optimizer,
         trainable=trainable)
 
     model = neural_network.build()
