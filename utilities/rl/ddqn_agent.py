@@ -14,7 +14,7 @@ import numpy as np
 from utilities.utils.checks import generate_file_name_weights, newest_file_in_dir
 import json
 import os 
-
+import logging
 class DoubleDeepQLearningAgent:
 
   def __init__(
@@ -98,9 +98,9 @@ class DoubleDeepQLearningAgent:
     # Inicializa a função com valores nulos
     self.total_steps = self.train_steps = 0
     self.episodes = self.episode_length = self.train_episodes = 0
-    self.steps_per_episode = deque(maxlen=self.env_steps_size)
+    self.steps_per_episode = [] # deque(maxlen=self.env_steps_size)
     self.episode_reward = 0
-    self.rewards_history = deque(maxlen=self.env_steps_size)
+    self.rewards_history = [] # deque(maxlen=self.env_steps_size)
 
     self.tau = 100 # frequencia de atualização da rede neural
     self.losses = []
@@ -228,10 +228,9 @@ class DoubleDeepQLearningAgent:
     self.losses.append(loss)
     self.writer.add_scalar('data/ddql_loss_per_replay', np.sum(self.losses), self.replay_count)
     self.replay_count += 1
-
     if self.total_steps % self.tau == 0:
         self.update_target()
-
+    
     return np.sum(self.losses)
 
   # Cria tensorboard writer
@@ -295,4 +294,4 @@ class DoubleDeepQLearningAgent:
 
   def load(self, folder, name):
     # Carrega os pesos do modelo (keras model)
-    agent.online_network.load_weights( os.path.join(f"{folder}", f"{name}.h5"))
+    self.online_network.load_weights( os.path.join(f"{folder}", f"{name}.h5"))

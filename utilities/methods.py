@@ -56,6 +56,7 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
             predictions.append(prediction)
             state = next_state
             loss = agent.experience_replay() #states, actions, rewards, predictions, dones, next_states)
+            
 
         total_net_worth.append(trading_env.net_worth)
         average_net_worth = np.average(total_net_worth)

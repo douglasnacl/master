@@ -16,7 +16,21 @@ if [ $# -gt 0 ] && [ "$1" == "cuda" ]; then
         pacman -S qt5-base qt5-x11extras libxcb xcb-util xcb-util-keysyms xcb-util-image xcb-util-wm xcb-util-cursor
     elif [ -f /etc/debian_version ]; then
         echo "Debian"
-        echo "apt-get install cuda cudnn"
+        # wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+        # mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+        # wget https://developer.download.nvidia.com/compute/cuda/12.1.0/local_installers/cuda-repo-ubuntu2204-12-1-local_12.1.0-530.30.02-1_amd64.deb
+        # dpkg -i cuda-repo-ubuntu2204-12-1-local_12.1.0-530.30.02-1_amd64.deb
+        # cp /var/cuda-repo-ubuntu2204-12-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
+        # apt-get update
+        # apt-get -y install cuda
+        # wget https://developer.download.nvidia.com/compute/cudnn/secure/8.8.1/local_installers/12.0/cudnn-local-repo-ubuntu2204-8.8.1.3_1.0-1_amd64.deb
+        # dpkg -i cudnn-local-repo-ubuntu2204-8.8.1.3_1.0-1_amd64.deb
+        # sudo cp /var/cudnn-local-repo-ubuntu2204-8.8.1.3/cudnn-local-DB35EEEE-keyring.gpg /usr/share/keyrings/
+        # apt-get update
+        # apt-get install libcudnn8=8.8.1.3-1+cuda12.0 
+        # apt-get install libcudnn8-dev=8.8.1.3-1+cuda12.0 
+        # apt-get install libcudnn8-samples=8.8.1.3-1+cuda12.0 
+
     elif [ -f /etc/lsb-release ] && grep -q 'Ubuntu' /etc/lsb-release; then
         echo "Ubuntu"
         echo "apt-get install cuda cudnn"
