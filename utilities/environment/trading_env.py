@@ -109,7 +109,18 @@ class TradingEnv:
   def next_observation(self):
     # Função responsável or retornar a próxima observação
     self.market_history.append([self.df_normalized.loc[self._step, column] for column in self.columns])
+    
+    self.orders_history.append([
+      self.balance, # / self.normalize_value,
+      self.net_worth, # / self.normalize_value,
+      self.stock_bought, # / self.normalize_value,
+      self.stock_sold, # / self.normalize_value,
+      self.stock_held, # / self.normalize_value
+    ])
+
     obs = np.concatenate((self.orders_history, self.market_history), axis=1)
+    print(f"ORDERS HISTORY: {self.orders_history[-1]}\nMARKET HISTORY: {self.market_history[-1]}")
+  
     return obs[-1]
   
   def step(self, action):
@@ -190,14 +201,6 @@ class TradingEnv:
     
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
-
-    self.orders_history.append([
-      self.balance / self.normalize_value,
-      self.net_worth / self.normalize_value,
-      self.stock_bought / self.normalize_value,
-      self.stock_sold / self.normalize_value,
-      self.stock_held / self.normalize_value
-    ])
 
   # Calcula a recompensa
   def get_reward(self):
