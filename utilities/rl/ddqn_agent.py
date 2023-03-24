@@ -89,6 +89,12 @@ class DoubleDeepQLearningAgent:
 
     self.reset()
 
+    self.action_0 = 0
+    self.action_1 = 0
+    self.action_2 = 0
+    self.action_unknown = 0
+    self.action_count = 0
+
   def _newest_file_in_dir(path):
     files = os.listdir(path)
     paths = [os.path.join(path, basename) for basename in files]
@@ -106,6 +112,12 @@ class DoubleDeepQLearningAgent:
     self.losses = []
     self.idx = tf.range(self.batch_size) # <tf.Tensor: shape=(4000,), dtype=int32, numpy=array([ 0, 1, 2, ..., 3997, 3998, 3999], dtype=int32)>
     self.train = True
+
+    self.action_0 = 0
+    self.action_1 = 0
+    self.action_2 = 0
+    self.action_unknown = 0
+    self.action_count = 0
     
   def build_model(self, trainable=True):
 
@@ -149,6 +161,18 @@ class DoubleDeepQLearningAgent:
         return  np.random.choice(self.num_actions), q
     # Escolhe a ação onde Q obtem seu máximo valor
     action = np.argmax(q, axis=1).squeeze()
+
+    if action == 0:
+      self.action_0 += 1
+    elif action == 1:
+      self.action_1 += 1
+    elif action == 2:
+      self.action_2 += 1
+    else:
+      self.action_unknown += 1
+    self.action_count += 1
+    if ~self.action_count % 100 == 0:
+      print('ACTION 0:', self.action_0, 'ACTION 1:', self.action_1, 'ACTION 2:', self.action_2, 'ACTION UNKNOWN:', self.action_unknown,)
     return action, q
 
   def memorize_transition(self, state, action, reward, next_state, not_done):

@@ -119,7 +119,6 @@ class TradingEnv:
     ])
 
     obs = np.concatenate((self.orders_history, self.market_history), axis=1)
-    print(f"ORDERS HISTORY: {self.orders_history[-1]}\nMARKET HISTORY: {self.market_history[-1]}")
   
     return obs[-1]
   
