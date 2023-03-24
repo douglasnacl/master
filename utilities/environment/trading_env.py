@@ -97,8 +97,8 @@ class TradingEnv:
     
     #     # one line for loop to fill market history withing reset call
     self.market_history.append([
-      self.df_normalized.loc[self._step, column] for column in self.columns]
-    )
+      self.df_normalized.loc[self._step, column] for column in self.columns
+    ])
     
     self._last_type = None
     # self._test_reward = 0
