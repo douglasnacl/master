@@ -14,7 +14,7 @@ import logging
 import os
 
 NASDAQ_API = os.getenv("NASDAQ_API")
-trading_days = 252
+# trading_days = 252
 
 def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_train_episode_steps=720):
     # Cria o TensorBoard writer
@@ -155,7 +155,7 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
     print(f"Pontos totais: {len(df)} - Pontos de treinamento: {len(train_df)} - Pontos de teste: {len(test_df)}")
     
     # single processing training
-    agent = DoubleDeepQLearningAgent(lr=0.00001, epochs=5, optimizer='SGD', depth=13, batch_size = 4096)
+    agent = DoubleDeepQLearningAgent(lr=0.00001, optimizer='SGD', depth=13, batch_size = 4096)
     train_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
     train_agent(train_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=720) # visualize=True para visualizar animação
     

@@ -20,7 +20,6 @@ class DoubleDeepQLearningAgent:
   def __init__(
     self, 
     lr=1e-4, # 0.00005, 
-    epochs=1, 
     optimizer='SGD', 
     batch_size=4096, 
     model="", 
@@ -32,7 +31,6 @@ class DoubleDeepQLearningAgent:
     self.model = model
     self.comment = comment
     self.depth = depth
-    self.epochs = epochs
     self.optimizer = optimizer
     
     # O espaço de ações varia de 0 a 3
@@ -278,7 +276,6 @@ class DoubleDeepQLearningAgent:
         "training_episodes": train_episodes,
         "depth": self.depth,
         "lr": self.learning_rate,
-        "epochs": self.epochs,
         "batch_size": self.batch_size,
         "normalize_value": normalize_value,
         "model": self.model,

@@ -67,7 +67,7 @@ if __name__ == "__main__":
     #     processing_device = "GPU"
 
     if(args.download_data):
-        logging.info("INFO: Rotinha de Download de Dados")
+        logging.info("Rotinha de Download de Dados")
         # stock_data = StockDataGenerator()
         # stock_data.export_csv()
 
@@ -81,13 +81,13 @@ if __name__ == "__main__":
         _ = fetch_data(interval_start, interval_end, asset, interval)
    
     if(args.save_weights & args.visualize):
-        logging.info("INFO: Salvando pesos")
+        logging.info("Salvando pesos")
         routine(save_weights=True, processing_device=args.processing_device, visualize=True)
     if(args.visualize):
-        logging.info("INFO: Salvando pesos e Visualização")
+        logging.info("Salvando pesos e Visualização")
         routine(save_weights=False, processing_device=args.processing_device, visualize=True)
     if(args.save_weights):
-        logging.info("INFO: Salvando pesos e Visualização")
+        logging.info("Salvando pesos e Visualização")
         routine(save_weights=True, processing_device=args.processing_device)
     else:
         routine(processing_device=args.processing_device)
