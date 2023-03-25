@@ -61,8 +61,8 @@ class TradingEnv:
 
     # self._test_reward = 0
 
-    daily_returns = np.log(df['Close']/df['Close'].shift(1))
-    volatility = daily_returns.std()  
+    self.daily_returns = np.log(df['Close']/df['Close'].shift(1))
+    volatility = self.daily_returns.std()  
     self.current_volatility = volatility
 
 
@@ -120,24 +120,75 @@ class TradingEnv:
       done = False
     
     if self._step >= 30:
-      last_price = self.df_normalized.loc[self._step, 'Close']
-      daily_return = np.log(last_price/self.df_normalized.loc[self._step-1, 'Close'])
-      daily_return_series = pd.Series(data=[daily_return]*30)  # create a series with repeating values of daily_return
+      # last_price = self.df_normalized.loc[self._step, 'Close']
+      # daily_return = np.log(last_price/self.df_normalized.loc[self._step-1, 'Close'])
+      daily_return_series = pd.Series(data=self.daily_returns)  # create a series with repeating values of daily_return
       self.current_volatility = daily_return_series.rolling(window=30).std().iloc[-1] # 30-day rolling window
     else:
-      last_prices = self.df_normalized.loc[:self._step, 'Close']
-      daily_return = np.log(last_prices[1:]/last_prices[:-1])
-      self.current_volatility = daily_return.std()
+      # last_prices = self.df_normalized.loc[:self._step, 'Close']
+      # daily_return = np.log(last_prices[1:]/last_prices[:-1])
+      self.current_volatility = self.daily_returns.std()
 
     obs = self.next_observation()
     return obs, reward, done
     
+  # def negotiate_stocks(self, action, state=None):
+  #   current_price = state['Open']
+  #   date = state['Date'] 
+  #   high = state['High'] 
+  #   low = state['Low'] 
+  #   _type = ''
+  #   # Segurar (Hold)
+  #   if action == 0: 
+  #     self.stock_bought = 0
+  #     self.stock_sold = 0
+  #     _type = 'hold'
+  #     self.episode_orders += 0
+  #   # Comprar (buy)
+  #   # Antes de realizar a operação checa se o balanço atual é maior que 5% do balanço inicial
+  #   elif action == 1 and self.balance > self.initial_balance*0.05:
+  #     # Compra com 100% do saldo atual (balanço financeiro)
+  #     self.stock_bought = self.balance / current_price
+  #     self.stock_bought *= (1-self.fees) # substract fees
+  #     self.balance -= self.stock_bought * current_price
+  #     self.stock_held += self.stock_bought
+  #     _type = 'buy'
+  #     self.episode_orders += 1
+
+  #   # Vender (sell)
+  #   # Antes de realizar a operação checa se os ativos em mãos vezes o preço do ativo é maior que 5% do balanço inical
+  #   elif action == 2 and self.stock_held * current_price > self.initial_balance*0.05:
+  #     # Vende 100% das ações seguradas
+  #     self.stock_sold = self.stock_held
+  #     # Calcula o montante recebido pela venda do ativo dado as taxas
+  #     self.stock_sold *= (1-self.fees) 
+  #     self.balance += self.stock_sold * current_price
+  #     self.stock_held -= self.stock_sold
+  #     _type = 'sell'
+  #     self.episode_orders += 1
+    
+  #   if _type != '' or _type:
+  #     self._last_type = _type
+  #   # logging.info("INFO: type: %s - last type: %s", _type, self._last_type)
+
+  #   self.trades.append({
+  #     'Date' : date, 
+  #     'High' : high, 
+  #     'Low' : low, 
+  #     'total': self.stock_sold if _type == 'sell' else (self.stock_bought if _type == 'buy' else self.stock_held), 
+  #     'type': _type, 
+  #     'current_price': current_price
+  #   })
+    
+  #   self.prev_net_worth = self.net_worth
+  #   self.net_worth = self.balance + self.stock_held * current_price
   def negotiate_stocks(self, action, state=None):
     current_price = state['Open']
     date = state['Date'] 
     high = state['High'] 
     low = state['Low'] 
     _type = ''
+
     # Segurar (Hold)
     if action == 0: 
       self.stock_bought = 0
@@ -175,7 +226,7 @@ class TradingEnv:
       'Date' : date, 
       'High' : high, 
       'Low' : low, 
-      'total': self.stock_sold if _type == 'sell' else (self.stock_bought if _type == 'buy' else self.stock_held), 
+      'Volume': self.stock_sold if _type == 'sell' else (self.stock_bought if _type == 'buy' else self.stock_held), 
       'type': _type, 
       'current_price': current_price
     })
@@ -189,8 +240,8 @@ class TradingEnv:
         current_position = self.trades[-1]['type']
         prev_position = self.trades[-2]['type']
 
-        current_volume = self.trades[-1]['total']
-        prev_volume = self.trades[-2]['total']
+        current_volume = self.trades[-1]['Volume']
+        prev_volume = self.trades[-2]['Volume']
 
         current_price = self.trades[-1]['current_price']
         prev_price = self.trades[-2]['current_price']
@@ -202,14 +253,17 @@ class TradingEnv:
 
         # Calculate percentage gain/loss
         prev_amount = prev_volume * prev_price
-        if current_position == "buy" and (prev_position == "sell" or self.stock_sold > 0):
-            current_amount = current_volume * current_price
-            percent_change = (current_amount - prev_amount - transaction_cost) / prev_amount
-        elif current_position == "sell" and (prev_position == "buy" or self.stock_sold > 0):
-            current_amount = prev_volume * current_price
-            percent_change = (prev_amount - current_amount - transaction_cost) / prev_amount
+        if current_position == "buy" and self.stock_bought:# (prev_position == "sell" or self._last_type == 'hold'):# self.stock_held > 0: or 
+            # print("BUY")
+            current_amount = current_volume * current_price * (1 - transaction_cost)
+            percent_change = (current_amount - prev_amount) / prev_amount
+        elif current_position == "sell" and self.stock_sold: # and (prev_position == "buy" or self._last_type == 'hold'):
+            # print("SELL")
+            current_amount = prev_volume * current_price * (1 - transaction_cost)
+            percent_change = (current_amount - prev_amount) / prev_amount
         elif current_position == "hold":
-            current_amount = current_volume * current_price
+            # print("HOLD")
+            current_amount = current_volume * current_price 
             percent_change = 0
         else:
             percent_change = -1  # Negative reward for invalid actions
@@ -232,9 +286,10 @@ class TradingEnv:
         # Combine the rewards and penalties
         reward = risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
         reward = max(reward, -1)  # Cap the reward at -1 to prevent large negative rewards
-
+        # print("REWARD: ", reward)
         # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
         self.trades[-1]["Reward"] = reward
+        # print("TRADE: ", self.trades[-1])
 
         return reward
     else:

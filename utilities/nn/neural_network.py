@@ -31,7 +31,7 @@ class NeuralNetwork:
 
   def build(self):
     layers = []
-    optimizer = self.get_optimizer()
+    #optimizer = self.get_optimizer()
 
     layers = []
     n = len(self.architecture)
@@ -56,9 +56,9 @@ class NeuralNetwork:
     )
     model = Sequential(layers)
     model.compile(
-      loss='mean_squared_error',
-      optimizer=Adam(lr=self.learning_rate),
-      # loss=self.ddqn_loss
+      # loss='mean_squared_error',
+      optimizer= Adam(learning_rate=self.learning_rate), #self.get_optimizer(), #Adam(lr=self.learning_rate),
+      loss=self.ddqn_loss
     )
 
     return model

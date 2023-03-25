@@ -239,7 +239,6 @@ class DoubleDeepQLearningAgent:
     
     # Realiza a previsão da rede target com base nos valores de q para o próximo estado
     next_q_values_target = self.target_network.predict_on_batch(next_states) # Q_alvo(st+1, at+1)
-
     # Constroi a tabela de valores da rede target
     target_q_values = tf.gather_nd(
       next_q_values_target, # Q_alvo(st+1, at+1))
@@ -263,6 +262,7 @@ class DoubleDeepQLearningAgent:
 
     # Treina o modelo
     loss = self.online_network.train_on_batch(x=states, y=q_values) # Q_online(st, rt * gamma * Q_alvo(st+1, max_(a_(t+1)) Q_online(st+1, at+1))))
+    # print("Loss: ", loss)
     self.losses.append(loss)
     self.writer.add_scalar('data/ddql_loss_per_replay', np.sum(self.losses), self.replay_count)
     self.replay_count += 1

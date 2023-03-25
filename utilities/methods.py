@@ -61,7 +61,7 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
 
             # Calculate benchmark return for the current step
             if trading_env._step > 1:
-                benchmark_returns += (trading_env.df.iloc[trading_env._step]['Close'] - trading_env.df.iloc[trading_env._step-1]['Close'])/trading_env.df.iloc[trading_env._step-1]['Close']
+                benchmark_returns += trading_env.daily_returns.iloc[trading_env._step] # (trading_env.df.iloc[trading_env._step]['Close'] - trading_env.df.iloc[trading_env._step-1]['Close'])/trading_env.df.iloc[trading_env._step-1]['Close']
             else:
                 benchmark_returns = 0
 
@@ -168,7 +168,6 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
     depth = len(list(df.columns[1:])) # OHCL + indicators without Date
     df_nomalized = min_max_normalization(df[99:])[1:].dropna()
     df = df[100:].dropna()
-    print("Depth: ", depth, df.columns)
     test_window = 720*3 # 3 months
 
     # split training and testing datasets
