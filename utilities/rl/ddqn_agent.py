@@ -222,9 +222,6 @@ class DoubleDeepQLearningAgent:
     minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
     states, actions, rewards, next_states, not_done = minibatch # et = (st, at, rt, st+1)
 
-    # min_value = min(rewards)
-    # max_value = max(rewards)
-    # rewards = [(x - min_value) / (max_value - min_value) for x in rewards]
     next_states = np.array(next_states[:, 2:]).astype(np.float16)
     isnan = np.isnan(next_states).any()
     isinf = np.isinf(next_states).any()

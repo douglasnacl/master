@@ -21,14 +21,17 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
     agent.create_writer(trading_env.initial_balance, trading_env.normalize_value, train_episodes)
     # Define a janela recente para a quantidade de train_episodes de patrimônio líquido
     total_net_worth = deque(maxlen=train_episodes) 
+    total_benchmark_returns = deque(maxlen=train_episodes)
     # Usado para rastrear o melhor patrimônio líquido médio 
     best_average_net_worth = 0
+    win_count = 0  # Initialize win count
     start = time()
 
     for episode in range(train_episodes):
 
         states, actions, rewards, predictions, dones, next_states = [], [], [], [], [], []
         state = trading_env.reset(env_steps_size = max_train_episode_steps)
+        benchmark_returns = 0 
 
         for _ in range(max_train_episode_steps):
             trading_env.render(visualize)
@@ -55,17 +58,36 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
             dones.append(done)
             predictions.append(prediction)
             state = next_state
+
+            # Calculate benchmark return for the current step
+            if trading_env._step > 1:
+                benchmark_returns += (trading_env.df.iloc[trading_env._step]['Close'] - trading_env.df.iloc[trading_env._step-1]['Close'])/trading_env.df.iloc[trading_env._step-1]['Close']
+            else:
+                benchmark_returns = 0
+
             loss = agent.experience_replay() #states, actions, rewards, predictions, dones, next_states)
             
+        net_returns = trading_env.net_worth - trading_env.initial_balance
+        if benchmark_returns is not None:
+            info_ratio = information_ratio(net_returns, benchmark_returns)
+            agent.writer.add_scalar('data/information_ratio', info_ratio, episode)
+
 
         total_net_worth.append(trading_env.net_worth)
         average_net_worth = np.average(total_net_worth)
         average_reward = np.average(rewards)
+        episode_reward = sum(rewards)
+        # Check if agent made a profit and increment win count
+        if trading_env.net_worth >= trading_env.initial_balance:
+            win_count += 1
+        win_rate = win_count / (episode + 1)  # Calculate win rate
         
-        agent.writer.add_scalar('data/average net_worth', average_net_worth, episode)
+        agent.writer.add_scalar('data/episode_reward', episode_reward, episode)
+        agent.writer.add_scalar('data/average_net_worth', average_net_worth, episode)
         agent.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
         agent.writer.add_scalar('data/rewards', average_reward, episode)
-        
+        agent.writer.add_scalar('data/win_rate', win_rate, episode) 
+      
         print("episódio: {:<5} - patrimônio liquído {:<7.2f} - patrimônio liquído médio: {:<7.2f} - pedidos do episódio: {} - tempo de execução: {}  "\
               .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(time() - start)))
         
@@ -118,7 +140,14 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
 #         results.write(f'{current_date}, {name}, test episodes:{test_episodes}')
 #         results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
 #         results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
-
+def information_ratio(net_returns, benchmark_returns):
+    active_returns = net_returns - benchmark_returns
+    active_std = np.std(active_returns)
+    if active_std == 0:
+        return 0
+    else:
+        return np.mean(active_returns) / active_std
+    
 def routine(save_weights=False, processing_device="GPU", visualize=False):
     # use_cpu()
     logging.info("Running the routine")
@@ -209,3 +238,15 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
     # results = ddqn.training(trading_environment)
     # results.to_csv(generate_file_name(datetime.now()))
     # print(results)
+
+
+
+# Metrics that can be used to evaluate the performance of a reinforcement learning agent, depending on the specific task and objectives of the agent. Some common metrics include:
+
+# Average reward per episode
+# Average profit or net worth per episode
+# Sharpe ratio (a measure of risk-adjusted return)
+# Maximum drawdown (a measure of risk)
+# Win rate (percentage of profitable trades)
+# Average holding time (how long the agent holds a position)
+# Information ratio (a measure of the agent's ability to generate alpha relative to a benchmark)

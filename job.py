@@ -23,9 +23,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "-dd",
     "--download_data",
-    help="optional: executa rotina para obter novos dados",
-    action="store_true",
+    choices=["BTCUSD", "ETHUSD"],
+    default="BTCUSD",
+    help="optional: executa rotina para obter novos dados (default: BTCUSD)",
 )
+
 parser.add_argument(
     "-sw",
     "--save_weights",
@@ -65,20 +67,6 @@ if __name__ == "__main__":
     #                 > O valor padrão é GPU, caso não seja passado.
     #         """)
     #     processing_device = "GPU"
-
-    if(args.download_data):
-        logging.info("Rotinha de Download de Dados")
-        # stock_data = StockDataGenerator()
-        # stock_data.export_csv()
-
-        asset = 'BTCUSD'
-        # Ativo a ser avaliado
-        interval = '1h' # Também é possível usar '4h','1h','15m','1m'
-        # Define-se a data inicial e final
-        interval_start = datetime(2021, 11, 1, 0, 0)
-        interval_end = datetime(2022, 11, 1, 0, 0)
-        # Chama a função para obtenção dos dados
-        _ = fetch_data(interval_start, interval_end, asset, interval)
    
     if(args.save_weights & args.visualize):
         logging.info("Salvando pesos")
@@ -91,3 +79,17 @@ if __name__ == "__main__":
         routine(save_weights=True, processing_device=args.processing_device)
     else:
         routine(processing_device=args.processing_device)
+
+    if(args.download_data):
+        logging.info("Rotinha de Download de Dados")
+        # stock_data = StockDataGenerator()
+        # stock_data.export_csv()
+
+        asset = args.download_data
+        # Ativo a ser avaliado
+        interval = '1h' # Também é possível usar '4h','1h','15m','1m'
+        # Define-se a data inicial e final
+        interval_start = datetime(2021, 11, 1, 0, 0)
+        interval_end = datetime(2022, 11, 1, 0, 0)
+        # Chama a função para obtenção dos dados
+        _ = fetch_data(interval_start, interval_end, asset, interval)

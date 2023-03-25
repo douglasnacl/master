@@ -94,36 +94,12 @@ class TradingEnv:
       self._step = self.env_steps_size
       self._end_step = len(self.df_normalized) - 1
 
-    # self.orders_history.append([
-    #       self.balance / self.normalize_value,
-    #       self.net_worth / self.normalize_value,
-    #       self.stock_bought / self.normalize_value,
-    #       self.stock_sold / self.normalize_value,
-    #       self.stock_held / self.normalize_value
-    #     ])
-    
-    #     # one line for loop to fill market history withing reset call
-    # self.market_history.append([
-    #   self.df_normalized.loc[self._step, column] for column in self.columns
-    # ])
-    
     self._last_type = None
-    # self._test_reward = 0
 
-    # state = np.concatenate((self.orders_history, self.market_history), axis=1)
     return self.df.loc[self._step] # state[-1]
 
   def next_observation(self):
-    # Função responsável or retornar a próxima observação
-    # self.market_history.append([self.df_normalized.loc[self._step, column] for column in self.columns])
-    
-    # self.orders_history.append([
-    #   self.balance, # / self.normalize_value,
-    #   self.net_worth, # / self.normalize_value,
-    #   self.stock_bought, # / self.normalize_value,
-    #   self.stock_sold, # / self.normalize_value,
-    #   self.stock_held, # / self.normalize_value
-    # ])
+
     self._step += 1
     obs = self.df.loc[self._step]  # np.concatenate((self.orders_history, self.market_history), axis=1)
   
@@ -155,62 +131,6 @@ class TradingEnv:
 
     obs = self.next_observation()
     return obs, reward, done
-
-  # def market_return(self, df):
-  #    # calcular o retorno diário
-  #   df['daily_return'] = (df['Close'] - df['Open']) / df['Open']
-    
-  #   # calcular o retorno ponderado pelo volume
-  #   df['weighted_return'] = df['daily_return'] * df['Volume']
-    
-  #   # calcular o retorno do mercado para cada dia
-  #   return df['weighted_return'].cumsum() / df['Volume'].cumsum()
-  # def negotiate_stocks(self, action, state=None):
-  #   current_price = state['Open']
-  #   date = state['Date'] 
-  #   high = state['High'] 
-  #   low = state['Low'] 
-    
-  #   if action == 0:  # Buy
-  #       if self.balance > current_price and self.balance > 0.5 * self.initial_balance:
-  #           # Calculate the maximum number of stocks that can be bought with the current balance
-  #           max_stocks = int(self.balance / current_price)
-  #           # Update the stock and balance variables
-  #           self.stock_bought += max_stocks
-  #           self.stock_held += self.stock_bought
-  #           self.balance -= max_stocks * current_price
-  #           self.episode_orders += 1
-
-  #       else:
-  #           # Cannot buy, not enough balance or balance less than 50% of initial balance
-  #           pass
-  #   elif action == 1:  # Sell
-  #       if self.stock_held > 0 and self.balance > 0.5 * self.initial_balance:
-  #           # Update the stock and balance variables
-  #           self.stock_sold += self.stock_held
-  #           self.balance += self.stock_held * current_price
-  #           self.stock_held = 0
-  #           self.episode_orders += 1
-  #       else:
-  #           # Cannot sell, no stocks held or balance less than 50% of initial balance
-  #           pass
-      
-  #   elif action == 2:  # Hold
-  #       pass
-
-  #   # Add the trade to the trades list
-  #   self.trades.append({
-  #     'Date' : date, 
-  #     'High' : high, 
-  #     'Low' : low, 
-  #     'total': self.stock_sold if action == 1 else (self.stock_bought if action == 0 else self.stock_held), 
-  #     'type': 'sell' if action == 1 else ('buy' if action == 0 else 'hold'), 
-  #     'current_price': current_price
-  #   })
-    
-  #   # Update the net worth
-  #   self.prev_net_worth = self.net_worth
-  #   self.net_worth = self.balance + self.stock_held * current_price
     
   def negotiate_stocks(self, action, state=None):
     current_price = state['Open']
@@ -262,48 +182,7 @@ class TradingEnv:
     
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
-  
-  # # Calcula a recompensa
-  # def get_reward(self):
 
-  #   if self.episode_orders > 1 and self.episode_orders > self.prev_episode_orders:
-      
-  #     self.prev_episode_orders = self.episode_orders
-  #     current_position = self.trades[-1]['type']
-  #     prev_position = self.trades[-2]['type']
-
-  #     current_volume = self.trades[-1]['total']
-  #     prev_volume = self.trades[-2]['total']
-
-  #     current_price = self.trades[-1]['current_price']
-  #     prev_price = self.trades[-2]['current_price']
-      
-
-  #     prev_amount = prev_volume * prev_price
-  #     if current_position == "buy" and (prev_position == "sell" or self._last_type == "hold"):
-  #       current_amount = current_volume * current_price # prev_volume * current_price
-  #       reward = (prev_amount  - current_amount)/current_amount
-      
-  #     elif current_position == "sell" and (prev_position == "buy" or self._last_type == "hold"): 
-  #       current_amount = current_volume * current_price
-  #       reward =  (current_amount - prev_amount)/prev_amount 
-
-  #     elif current_position == "hold": 
-  #       logging.info('SEGUROU')
-  #       current_amount = current_volume * current_price
-  #       reward =  0.5 * (current_amount - prev_amount)/prev_amount
-  #     else:
-  #       reward = 0
-      
-  #     reward = reward if (~np.isinf(reward) and reward != 0)  else 0
-
-  #     # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
-  #     self.trades[-1]["Reward"] = reward
-      
-  #     return reward
-
-  #   else:
-  #     return 0
   def get_reward(self):
     if self.episode_orders > 1 and self.episode_orders > self.prev_episode_orders:
         self.prev_episode_orders = self.episode_orders
