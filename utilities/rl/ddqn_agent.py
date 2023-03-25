@@ -3,6 +3,7 @@ from tabnanny import verbose
 from utilities.nn.neural_network import NeuralNetwork
 from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import MinMaxScaler
+from tensorflow import keras
 from tensorboardX import SummaryWriter
 import tensorflow as tf
 from utilities.utils.checks import track_results
@@ -91,7 +92,7 @@ class DoubleDeepQLearningAgent:
     self.action_0 = 0
     self.action_1 = 0
     self.action_2 = 0
-    self.action_unknown = 0
+    self.action_random = 0
     self.action_count = 0
 
   def _newest_file_in_dir(path):
@@ -115,7 +116,7 @@ class DoubleDeepQLearningAgent:
     self.action_0 = 0
     self.action_1 = 0
     self.action_2 = 0
-    self.action_unknown = 0
+    self.action_random = 0
     self.action_count = 0
     
   def build_model(self, trainable=True):
@@ -160,7 +161,7 @@ class DoubleDeepQLearningAgent:
     
     # Escolhe aleatorimente um número entre 0 e 1 e caso seja menor ou igual a epsilon, uma ação aleatório é executada
     if np.random.rand() < self.epsilon: 
-      self.action_unknown += 1
+      self.action_random += 1
       action, q =  np.random.choice(self.num_actions), q
     # Escolhe a ação onde Q obtem seu máximo valor
     else:
@@ -172,10 +173,10 @@ class DoubleDeepQLearningAgent:
     elif action == 2:
       self.action_2 += 1
     else:
-      self.action_unknown += 1
+      self.action_random += 1
     self.action_count += 1
-    if ~self.action_count % 100 == 0:
-      print('ACTION 0:', self.action_0, 'ACTION 1:', self.action_1, 'ACTION 2:', self.action_2, 'ACTION RANDOM:', self.action_unknown,)
+    # if ~self.action_count % 100 == 0:
+    #   print('ACTION 0:', self.action_0, 'ACTION 1:', self.action_1, 'ACTION 2:', self.action_2, 'ACTION RANDOM:', self.action_random,)
     return action, q
 
   def memorize_transition(self, state, action, reward, next_state, not_done):
@@ -334,3 +335,4 @@ class DoubleDeepQLearningAgent:
   def load(self, folder, name):
     # Carrega os pesos do modelo (keras model)
     self.online_network.load_weights( os.path.join(f"{folder}", f"{name}.h5"))
+

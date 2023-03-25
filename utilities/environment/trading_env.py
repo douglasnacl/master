@@ -1,5 +1,6 @@
 from utilities.environment.trading_graph import TradingGraph
 from collections import deque
+import pandas as pd
 import numpy as np
 import logging
 import random
@@ -59,6 +60,12 @@ class TradingEnv:
     #self.market_returns = self.market_return(self.df)
 
     # self._test_reward = 0
+
+    daily_returns = np.log(df['Close']/df['Close'].shift(1))
+    volatility = daily_returns.std()  
+    self.current_volatility = volatility
+
+
 
   def reset(self, env_steps_size = 0):
     # Reinicia o estado do ambiente para o estado inicial
@@ -136,6 +143,16 @@ class TradingEnv:
     else:
       done = False
     
+    if self._step >= 30:
+      last_price = self.df_normalized.loc[self._step, 'Close']
+      daily_return = np.log(last_price/self.df_normalized.loc[self._step-1, 'Close'])
+      daily_return_series = pd.Series(data=[daily_return]*30)  # create a series with repeating values of daily_return
+      self.current_volatility = daily_return_series.rolling(window=30).std().iloc[-1] # 30-day rolling window
+    else:
+      last_prices = self.df_normalized.loc[:self._step, 'Close']
+      daily_return = np.log(last_prices[1:]/last_prices[:-1])
+      self.current_volatility = daily_return.std()
+
     obs = self.next_observation()
     return obs, reward, done
 
@@ -148,6 +165,52 @@ class TradingEnv:
     
   #   # calcular o retorno do mercado para cada dia
   #   return df['weighted_return'].cumsum() / df['Volume'].cumsum()
+  # def negotiate_stocks(self, action, state=None):
+  #   current_price = state['Open']
+  #   date = state['Date'] 
+  #   high = state['High'] 
+  #   low = state['Low'] 
+    
+  #   if action == 0:  # Buy
+  #       if self.balance > current_price and self.balance > 0.5 * self.initial_balance:
+  #           # Calculate the maximum number of stocks that can be bought with the current balance
+  #           max_stocks = int(self.balance / current_price)
+  #           # Update the stock and balance variables
+  #           self.stock_bought += max_stocks
+  #           self.stock_held += self.stock_bought
+  #           self.balance -= max_stocks * current_price
+  #           self.episode_orders += 1
+
+  #       else:
+  #           # Cannot buy, not enough balance or balance less than 50% of initial balance
+  #           pass
+  #   elif action == 1:  # Sell
+  #       if self.stock_held > 0 and self.balance > 0.5 * self.initial_balance:
+  #           # Update the stock and balance variables
+  #           self.stock_sold += self.stock_held
+  #           self.balance += self.stock_held * current_price
+  #           self.stock_held = 0
+  #           self.episode_orders += 1
+  #       else:
+  #           # Cannot sell, no stocks held or balance less than 50% of initial balance
+  #           pass
+      
+  #   elif action == 2:  # Hold
+  #       pass
+
+  #   # Add the trade to the trades list
+  #   self.trades.append({
+  #     'Date' : date, 
+  #     'High' : high, 
+  #     'Low' : low, 
+  #     'total': self.stock_sold if action == 1 else (self.stock_bought if action == 0 else self.stock_held), 
+  #     'type': 'sell' if action == 1 else ('buy' if action == 0 else 'hold'), 
+  #     'current_price': current_price
+  #   })
+    
+  #   # Update the net worth
+  #   self.prev_net_worth = self.net_worth
+  #   self.net_worth = self.balance + self.stock_held * current_price
     
   def negotiate_stocks(self, action, state=None):
     current_price = state['Open']
@@ -199,50 +262,121 @@ class TradingEnv:
     
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
+  
+  # # Calcula a recompensa
+  # def get_reward(self):
 
-  # Calcula a recompensa
+  #   if self.episode_orders > 1 and self.episode_orders > self.prev_episode_orders:
+      
+  #     self.prev_episode_orders = self.episode_orders
+  #     current_position = self.trades[-1]['type']
+  #     prev_position = self.trades[-2]['type']
+
+  #     current_volume = self.trades[-1]['total']
+  #     prev_volume = self.trades[-2]['total']
+
+  #     current_price = self.trades[-1]['current_price']
+  #     prev_price = self.trades[-2]['current_price']
+      
+
+  #     prev_amount = prev_volume * prev_price
+  #     if current_position == "buy" and (prev_position == "sell" or self._last_type == "hold"):
+  #       current_amount = current_volume * current_price # prev_volume * current_price
+  #       reward = (prev_amount  - current_amount)/current_amount
+      
+  #     elif current_position == "sell" and (prev_position == "buy" or self._last_type == "hold"): 
+  #       current_amount = current_volume * current_price
+  #       reward =  (current_amount - prev_amount)/prev_amount 
+
+  #     elif current_position == "hold": 
+  #       logging.info('SEGUROU')
+  #       current_amount = current_volume * current_price
+  #       reward =  0.5 * (current_amount - prev_amount)/prev_amount
+  #     else:
+  #       reward = 0
+      
+  #     reward = reward if (~np.isinf(reward) and reward != 0)  else 0
+
+  #     # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
+  #     self.trades[-1]["Reward"] = reward
+      
+  #     return reward
+
+  #   else:
+  #     return 0
   def get_reward(self):
-
     if self.episode_orders > 1 and self.episode_orders > self.prev_episode_orders:
-      
-      self.prev_episode_orders = self.episode_orders
-      current_position = self.trades[-1]['type']
-      prev_position = self.trades[-2]['type']
+        self.prev_episode_orders = self.episode_orders
+        current_position = self.trades[-1]['type']
+        prev_position = self.trades[-2]['type']
 
-      current_volume = self.trades[-1]['total']
-      prev_volume = self.trades[-2]['total']
+        current_volume = self.trades[-1]['total']
+        prev_volume = self.trades[-2]['total']
 
-      current_price = self.trades[-1]['current_price']
-      prev_price = self.trades[-2]['current_price']
-      
+        current_price = self.trades[-1]['current_price']
+        prev_price = self.trades[-2]['current_price']
 
-      prev_amount = prev_volume * prev_price
-      if current_position == "buy" and (prev_position == "sell" or self._last_type == "hold"):
-        current_amount = current_volume * current_price # prev_volume * current_price
-        reward = (prev_amount  - current_amount)/current_amount
-      
-      elif current_position == "sell" and (prev_position == "buy" or self._last_type == "hold"): 
-        current_amount = current_volume * current_price
-        reward =  (current_amount - prev_amount)/prev_amount 
+        # Calculate transaction costs
+        transaction_cost = 0.01  # 1% transaction cost
+        if current_position != prev_position:
+            transaction_cost *= (current_volume * current_price)  # Apply transaction cost only when the position is changed
 
-      elif current_position == "hold": 
-        logging.info('SEGUROU')
-        current_amount = current_volume * current_price
-        reward =  0.5 * (current_amount - prev_amount)/prev_amount
-      else:
-        reward = 0
-      
-      reward = reward if (~np.isinf(reward) and reward != 0)  else 0
+        # Calculate percentage gain/loss
+        prev_amount = prev_volume * prev_price
+        if current_position == "buy" and (prev_position == "sell" or self.stock_sold > 0):
+            current_amount = current_volume * current_price
+            percent_change = (current_amount - prev_amount - transaction_cost) / prev_amount
+        elif current_position == "sell" and (prev_position == "buy" or self.stock_sold > 0):
+            current_amount = prev_volume * current_price
+            percent_change = (prev_amount - current_amount - transaction_cost) / prev_amount
+        elif current_position == "hold":
+            current_amount = current_volume * current_price
+            percent_change = 0
+        else:
+            percent_change = -1  # Negative reward for invalid actions
 
-      # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
-      self.trades[-1]["Reward"] = reward
-      
-      return reward
+        # Incorporate risk-adjusted return
+        sharpe_ratio = 0.5  # Assume a Sharpe ratio of 0.5
+        risk_adjusted_return = percent_change / sharpe_ratio
 
+        # Apply a penalty for trades made during high volatility periods
+        volatility_threshold = 0.02  # Assume a volatility threshold of 2%
+        if self.current_volatility > volatility_threshold:
+            volatility_penalty = -0.1  # Penalize trades made during high volatility periods
+        else:
+            volatility_penalty = 0
+
+        # Apply opportunity cost
+        opportunity_cost = 0.02  # Assume a potential return of 2% in alternative investments
+        opportunity_cost_penalty = -opportunity_cost * self.episode_orders  # Apply the opportunity cost for each trade
+
+        # Combine the rewards and penalties
+        reward = risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
+        reward = max(reward, -1)  # Cap the reward at -1 to prevent large negative rewards
+
+        # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
+        self.trades[-1]["Reward"] = reward
+
+        return reward
     else:
-      return 0
-
+        return 0
+    
   def render(self, visualize = False):
     if visualize:
       img = self.trading_graph.render(self.df.loc[self._step], self.net_worth, self.trades)
       return img
+    
+
+# Let me explain what's going on in each step.
+
+# Transaction Costs: The first step is to calculate the transaction costs. Transaction costs are only applied when a position is changed and the cost is calculated as a percentage of the current position's value. A transaction cost of 1% is assumed in this implementation.
+# Percentage Gain/Loss: The percentage gain/loss is calculated based on the current and previous volumes and prices. If the current position is "buy" and the previous position is "sell" or "hold", the percent change is calculated as (current_amount - prev_amount - transaction_cost) / prev_amount. If the current position is "sell" and the previous position is "buy" or "hold", the percent change is calculated as (prev_amount - current_amount - transaction_cost) / prev_amount. If the current position is "hold", the percent change is set to 0. If an invalid action is taken, such as buying after a buy order, a negative reward is given.
+# Risk-Adjusted Return: The percentage gain/loss is then adjusted for risk. In this implementation, a Sharpe ratio of 0.5 is assumed, so the risk-adjusted return is calculated as percent_change / 0.5.
+# Volatility Penalty: A penalty is applied for trades made during high volatility periods. In this implementation, a volatility threshold of 2% is assumed. If the current volatility is above the threshold, a penalty of -0.1 is applied.
+# Opportunity Cost: An opportunity cost is applied for each trade made. In this implementation, a potential return of 2% is assumed for alternative investments. The opportunity cost penalty is calculated as -opportunity_cost * self.episode_orders.
+# Combine Rewards: The final reward is the sum of the risk-adjusted return, the volatility penalty, and the opportunity cost penalty. The reward is capped at -1 to prevent large negative rewards.
+# Overall, this implementation seems to take into account several factors that can affect profitability, such as transaction costs, risk, volatility, and opportunity cost.
+
+
+
+ 
