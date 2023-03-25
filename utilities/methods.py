@@ -128,20 +128,18 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         use_cpu()
     else:
         check_computer_device()
+        tf.keras.mixed_precision.set_global_policy('mixed_float16')
 
     df = pd.read_csv('./BTCUSD_1h_.csv')
     df = df.dropna()
     df = df.sort_values('Date')
 
     df = add_indicators(df) # insert indicators to df 2021_02_21_17_54_ddqn_trader
-    print(df.shape)
-
     # df = indicators_dataframe(df, threshold=0.5, plot=False) # insert indicators to df 2021_02_18_21_48_ddqn_trader
     depth = len(list(df.columns[1:])) # OHCL + indicators without Date
-
     df_nomalized = min_max_normalization(df[99:])[1:].dropna()
     df = df[100:].dropna()
-
+    print("Depth: ", depth, df.columns)
     test_window = 720*3 # 3 months
 
     # split training and testing datasets
@@ -155,9 +153,9 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
     print(f"Pontos totais: {len(df)} - Pontos de treinamento: {len(train_df)} - Pontos de teste: {len(test_df)}")
     
     # single processing training
-    agent = DoubleDeepQLearningAgent(lr=0.00001, optimizer='SGD', depth=13, batch_size = 4096)
+    agent = DoubleDeepQLearningAgent(lr=0.00001, optimizer='SGD', depth=13, batch_size = 4096) #4096)
     train_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
-    train_agent(train_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=720) # visualize=True para visualizar animação
+    train_agent(train_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=1440) # visualize=True para visualizar animação
     
     # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
 

@@ -26,7 +26,7 @@ class TradingEnv:
       normalize_value: int
         ??? Fator de normalização ???
   """
-  def __init__(self, df, df_normalized, initial_balance=1000, steps = 252, render_range=100, display_reward=False, display_indicators=False, normalize_value=40000): # lookback_window_size=50, render_range=100, display_reward=False, display_indicators=False, normalize_value=40000):
+  def __init__(self, df, df_normalized, initial_balance=1000, render_range=100, display_reward=False, display_indicators=False, normalize_value=40000): # lookback_window_size=50, render_range=100, display_reward=False, display_indicators=False, normalize_value=40000):
     # Define o espaço de ações e o tamanho do espaço, assim como outros parametros personalizados
     self.df = df.reset_index()
     self.df_normalized = df_normalized.reset_index()
@@ -46,9 +46,9 @@ class TradingEnv:
     # Uma ordem consiste em instruções a um corretor ou corretora para comprar ou vender um título em nome de um investidor. 
     # Uma ordem é a unidade de negociação fundamental de um mercado de valores mobiliários.
     # O histórico em questão contém o balanço, patrimonio liquido, cryptos compradas, cryptos vendidas, valores de crypto segurados  
-    self.orders_history = deque(maxlen=self.render_range) # np.zeros(self.steps)
+    # self.orders_history = deque(maxlen=self.render_range) # np.zeros(self.steps)
     # Define o janela observada no histórico do mercado OHCL
-    self.market_history = deque(maxlen=self.render_range)
+    # self.market_history = deque(maxlen=self.render_range)
     self.trades = deque(maxlen=self.render_range) 
     # Define o fator de normalização
     self.normalize_value = normalize_value
@@ -56,7 +56,7 @@ class TradingEnv:
     self.fees = 0.001 
     # Define as colunas, desconsiderando a 'index' e a 'Date'
     self.columns = list(self.df_normalized.columns[2:])
-    self.market_returns = self.market_return(self.df)
+    #self.market_returns = self.market_return(self.df)
 
     # self._test_reward = 0
 
@@ -87,52 +87,51 @@ class TradingEnv:
       self._step = self.env_steps_size
       self._end_step = len(self.df_normalized) - 1
 
-    self.orders_history.append([
-          self.balance / self.normalize_value,
-          self.net_worth / self.normalize_value,
-          self.stock_bought / self.normalize_value,
-          self.stock_sold / self.normalize_value,
-          self.stock_held / self.normalize_value
-        ])
+    # self.orders_history.append([
+    #       self.balance / self.normalize_value,
+    #       self.net_worth / self.normalize_value,
+    #       self.stock_bought / self.normalize_value,
+    #       self.stock_sold / self.normalize_value,
+    #       self.stock_held / self.normalize_value
+    #     ])
     
     #     # one line for loop to fill market history withing reset call
-    self.market_history.append([
-      self.df_normalized.loc[self._step, column] for column in self.columns
-    ])
+    # self.market_history.append([
+    #   self.df_normalized.loc[self._step, column] for column in self.columns
+    # ])
     
     self._last_type = None
     # self._test_reward = 0
 
-    state = np.concatenate((self.orders_history, self.market_history), axis=1)
-    return state[-1]
+    # state = np.concatenate((self.orders_history, self.market_history), axis=1)
+    return self.df.loc[self._step] # state[-1]
 
   def next_observation(self):
     # Função responsável or retornar a próxima observação
-    self.market_history.append([self.df_normalized.loc[self._step, column] for column in self.columns])
+    # self.market_history.append([self.df_normalized.loc[self._step, column] for column in self.columns])
     
-    self.orders_history.append([
-      self.balance, # / self.normalize_value,
-      self.net_worth, # / self.normalize_value,
-      self.stock_bought, # / self.normalize_value,
-      self.stock_sold, # / self.normalize_value,
-      self.stock_held, # / self.normalize_value
-    ])
-
-    obs = np.concatenate((self.orders_history, self.market_history), axis=1)
+    # self.orders_history.append([
+    #   self.balance, # / self.normalize_value,
+    #   self.net_worth, # / self.normalize_value,
+    #   self.stock_bought, # / self.normalize_value,
+    #   self.stock_sold, # / self.normalize_value,
+    #   self.stock_held, # / self.normalize_value
+    # ])
+    self._step += 1
+    obs = self.df.loc[self._step]  # np.concatenate((self.orders_history, self.market_history), axis=1)
   
-    return obs[-1]
+    return obs
   
   def step(self, action):
     
     self.stock_bought = 0
     self.stock_sold = 0
-    self._step += 1
 
-    self.negotiate_stocks(action)
+    self.negotiate_stocks(action, state=self.df.loc[self._step])
     
     reward = self.get_reward()
-    
-    if self.net_worth <= self.initial_balance/2:
+
+    if (self.net_worth <= self.initial_balance/2) & (self._step < self._end_step):
       done = True
     else:
       done = False
@@ -140,21 +139,21 @@ class TradingEnv:
     obs = self.next_observation()
     return obs, reward, done
 
-  def market_return(self, df):
-     # calcular o retorno diário
-    df['daily_return'] = (df['Close'] - df['Open']) / df['Open']
+  # def market_return(self, df):
+  #    # calcular o retorno diário
+  #   df['daily_return'] = (df['Close'] - df['Open']) / df['Open']
     
-    # calcular o retorno ponderado pelo volume
-    df['weighted_return'] = df['daily_return'] * df['Volume']
+  #   # calcular o retorno ponderado pelo volume
+  #   df['weighted_return'] = df['daily_return'] * df['Volume']
     
-    # calcular o retorno do mercado para cada dia
-    return df['weighted_return'].cumsum() / df['Volume'].cumsum()
+  #   # calcular o retorno do mercado para cada dia
+  #   return df['weighted_return'].cumsum() / df['Volume'].cumsum()
     
-  def negotiate_stocks(self, action):
-    current_price = self.df.loc[self._step, 'Open']
-    date = self.df.loc[self._step, 'Date'] 
-    high = self.df.loc[self._step, 'High'] 
-    low = self.df.loc[self._step, 'Low'] 
+  def negotiate_stocks(self, action, state=None):
+    current_price = state['Open']
+    date = state['Date'] 
+    high = state['High'] 
+    low = state['Low'] 
     _type = ''
     # Segurar (Hold)
     if action == 0: 

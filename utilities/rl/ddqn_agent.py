@@ -2,6 +2,7 @@ from datetime import datetime
 from tabnanny import verbose
 from utilities.nn.neural_network import NeuralNetwork
 from tensorflow.keras.optimizers import Adam
+from sklearn.preprocessing import MinMaxScaler
 from tensorboardX import SummaryWriter
 import tensorflow as tf
 from utilities.utils.checks import track_results
@@ -44,7 +45,7 @@ class DoubleDeepQLearningAgent:
 
     # Defina o tamanho do estado 
     # 5 indicadores padrão do mercado (OHCL) e indicadores calculados
-    self.state_size = 5 + self.depth
+    self.state_size = self.depth # 5 + self.depth
     
     # Define o repositório onde se salva os modelos
     self.log_name = datetime.now().strftime("%Y_%m_%d_%H_%M")+"_ddqn_trader"
@@ -120,6 +121,7 @@ class DoubleDeepQLearningAgent:
   def build_model(self, trainable=True):
 
     # Cria a rede neural utilizada no treinamento 
+    print("Neural Network Architecture: ", self.architecture, " Learning Rate: ", self.learning_rate, " L2 Regularization: ", self.l2_reg, " Optimizer: ", self.optimizer, " Trainable: ", trainable, " State size: ", self.state_size, " Action space: ", self.action_space)
     neural_network = NeuralNetwork(
         self.state_size,
         self.action_space, 
@@ -149,6 +151,8 @@ class DoubleDeepQLearningAgent:
     # A cada chamada incrementa o contador de passos
     self.total_steps += 1 
     # Realiza o reshape do estado atual para o formato de aceito
+    # print("STATE1: ", state[2:], state[2:].shape)
+    state = np.array(state[2:]).astype(np.float16)
     state = state.reshape(-1, self.state_size)
     
     # Realiza a previsão utilizando a rede online para os valores de Q no estado atual
@@ -203,6 +207,7 @@ class DoubleDeepQLearningAgent:
     self.experience.append((state, action, reward, next_state, not_done))
 
   def experience_replay(self): #, states, actions, rewards, predictions, dones, next_states):
+    
     '''
     O experience_replay ocorre tão logo quanto o lote te
     '''
@@ -218,15 +223,24 @@ class DoubleDeepQLearningAgent:
     # min_value = min(rewards)
     # max_value = max(rewards)
     # rewards = [(x - min_value) / (max_value - min_value) for x in rewards]
+    next_states = np.array(next_states[:, 2:]).astype(np.float16)
+    isnan = np.isnan(next_states).any()
+    isinf = np.isinf(next_states).any()
 
+    if isnan or isinf:
+        print('Input data contains NaN or Inf values')
 
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    next_states = scaler.fit_transform(next_states)
+    next_states = tf.convert_to_tensor(next_states, dtype=tf.float16)
     # Realiza a previsão da rede online com base nos valores de q para o próximo estado
     next_q_values = self.online_network.predict_on_batch(next_states) # Q_online(st+1, at+1)
-    # Escolhe a ação com maior valor q
+    # Escolhe a ação com maior valor qZ
     best_actions = tf.argmax(next_q_values, axis=1) #  a*t+1 = max_(a_(t+1)) Q_online(st+1, at+1)
     
     # Realiza a previsão da rede target com base nos valores de q para o próximo estado
     next_q_values_target = self.target_network.predict_on_batch(next_states) # Q_alvo(st+1, at+1)
+
     # Constroi a tabela de valores da rede target
     target_q_values = tf.gather_nd(
       next_q_values_target, # Q_alvo(st+1, at+1))
@@ -241,6 +255,9 @@ class DoubleDeepQLearningAgent:
     
     # = rt + 1 * gamma * Q_alvo(st+1, max_(a_(t+1)) Q_online(st+1, at+1)))
     targets = rewards + not_done * self.gamma * target_q_values
+    states = np.array(states[:, 2:]).astype(np.float16)
+    states = scaler.fit_transform(states)
+    states = tf.convert_to_tensor(states, dtype=tf.float16)
     # Valores de q previstos - Q_online (st, at) = targets
     q_values = self.online_network.predict_on_batch(states) # Q(st, at)
     q_values[tuple([self.idx, actions])] = targets # Q(st, at) =  rt + 1 * gamma * Q_alvo(st+1, max_(a_(t+1)) Q_online(st+1, at+1)))

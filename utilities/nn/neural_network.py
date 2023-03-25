@@ -28,33 +28,50 @@ class NeuralNetwork:
       """)
 
   def build(self):
-    layers = []
-    optimizer = self.get_optimizer()
-    for i, units in enumerate(self.architecture, 1):
-      layers.append(
-        Dense(
-          units=units,
-          input_dim=self.state_size if i == 1 else None,
-          activation='relu',
-          kernel_regularizer=l2(self.l2_reg),
-          name=f'Dense_{i}',
-          trainable=self.trainable
-        )
-      )
+    # layers = []
+    # optimizer = self.get_optimizer()
+    # for i, units in enumerate(self.architecture, 1):
+    #   layers.append(
+    #     Dense(
+    #       units=units,
+    #       input_dim=self.state_size if i == 1 else None,
+    #       activation='relu',
+    #       kernel_regularizer=l2(self.l2_reg),
+    #       name=f'Dense_{i}',
+    #       trainable=self.trainable
+    #     )
+    #   )
       
+    # layers.append(Dropout(.1))
+    # layers.append(
+    #   Dense(
+    #     units=self.num_actions,
+    #     trainable=self.trainable,
+    #     name='Output'
+    #   )
+    # )
+    # model = Sequential(layers)
+    # model.compile(
+    #   loss='mean_squared_error',
+    #   optimizer= optimizer
+    # )
+
+    layers = []
+    n = len(self.architecture)
+    for i, units in enumerate(self.architecture, 1):
+        layers.append(Dense(units=units,
+                            input_dim=self.state_size if i == 1 else None,
+                            activation='relu',
+                            kernel_regularizer=l2(self.l2_reg),
+                            name=f'Dense_{i}',
+                            trainable=self.trainable))
     layers.append(Dropout(.1))
-    layers.append(
-      Dense(
-        units=self.num_actions,
-        trainable=self.trainable,
-        name='Output'
-      )
-    )
+    layers.append(Dense(units=self.num_actions,
+                        trainable=self.trainable,
+                        name='Output'))
     model = Sequential(layers)
-    model.compile(
-      loss='mean_squared_error',
-      optimizer= optimizer
-    )
+    model.compile(loss='mean_squared_error',
+                  optimizer=Adam(lr=self.learning_rate))
 
     return model
         
