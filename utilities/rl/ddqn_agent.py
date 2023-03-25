@@ -160,10 +160,11 @@ class DoubleDeepQLearningAgent:
     
     # Escolhe aleatorimente um número entre 0 e 1 e caso seja menor ou igual a epsilon, uma ação aleatório é executada
     if np.random.rand() < self.epsilon: 
-        return  np.random.choice(self.num_actions), q
+      self.action_unknown += 1
+      action, q =  np.random.choice(self.num_actions), q
     # Escolhe a ação onde Q obtem seu máximo valor
-    action = np.argmax(q, axis=1).squeeze()
-
+    else:
+      action = np.argmax(q, axis=1).squeeze()
     if action == 0:
       self.action_0 += 1
     elif action == 1:
@@ -174,7 +175,7 @@ class DoubleDeepQLearningAgent:
       self.action_unknown += 1
     self.action_count += 1
     if ~self.action_count % 100 == 0:
-      print('ACTION 0:', self.action_0, 'ACTION 1:', self.action_1, 'ACTION 2:', self.action_2, 'ACTION UNKNOWN:', self.action_unknown,)
+      print('ACTION 0:', self.action_0, 'ACTION 1:', self.action_1, 'ACTION 2:', self.action_2, 'ACTION RANDOM:', self.action_unknown,)
     return action, q
 
   def memorize_transition(self, state, action, reward, next_state, not_done):
