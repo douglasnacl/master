@@ -120,19 +120,10 @@ class TradingEnv:
       done = False
     
     if self._step >= 30:
-      # last_price = self.df_normalized.loc[self._step, 'Close']
-      # self.daily_returns = np.log(last_price/self.df_normalized.loc[self._step-1, 'Close'])
-      # daily_return_series = pd.Series(data=self.daily_returns)  # create a series with repeating values of daily_return
-      # self.current_volatility = daily_return_series.rolling(window=30).std().iloc[-1] # 30-day rolling window
-
-      # last_price = self.df_normalized.loc[self._step, 'Close']
-      # daily_return = self.daily_returns # .loc[self._step] # np.log(last_price/self.df_normalized.loc[self._step-1, 'Close'])
       daily_return_series = pd.Series(data=self.daily_returns)  # create a series with repeating values of daily_return
       self.current_volatility = daily_return_series.rolling(window=30).std().iloc[-1] # 30-day rolling window
 
     else:
-      # last_prices = self.df_normalized.loc[:self._step, 'Close']
-      # daily_return = np.log(last_prices[1:]/last_prices[:-1])
       self.current_volatility = self.daily_returns.std()
 
     obs = self.next_observation()
