@@ -24,7 +24,7 @@ parser.add_argument(
     "-dd",
     "--download_data",
     choices=["BTCUSD", "ETHUSD"],
-    default="BTCUSD",
+    # default="BTCUSD",
     help="optional: executa rotina para obter novos dados (default: BTCUSD)",
 )
 
@@ -71,16 +71,13 @@ if __name__ == "__main__":
     if(args.save_weights & args.visualize):
         logging.info("Salvando pesos")
         routine(save_weights=True, processing_device=args.processing_device, visualize=True)
-    if(args.visualize):
+    elif(args.visualize):
         logging.info("Salvando pesos e Visualização")
         routine(save_weights=False, processing_device=args.processing_device, visualize=True)
-    if(args.save_weights):
+    elif(args.save_weights):
         logging.info("Salvando pesos e Visualização")
         routine(save_weights=True, processing_device=args.processing_device)
-    else:
-        routine(processing_device=args.processing_device)
-
-    if(args.download_data):
+    elif(args.download_data):
         logging.info("Rotinha de Download de Dados")
         # stock_data = StockDataGenerator()
         # stock_data.export_csv()
@@ -93,3 +90,7 @@ if __name__ == "__main__":
         interval_end = datetime(2022, 11, 1, 0, 0)
         # Chama a função para obtenção dos dados
         _ = fetch_data(interval_start, interval_end, asset, interval)
+    else:
+        routine(processing_device=args.processing_device)
+
+    

@@ -21,50 +21,51 @@ class DoubleDeepQLearningAgent:
 
   def __init__(
     self, 
-    lr=1e-4, # 0.00005, 
-    optimizer='SGD', 
+    action_space,
+    state_size=0, 
+    replay_capacity=int(1e6), 
+    gamma = .99,
     batch_size=4096, 
+    nn_architecture=(64,128,64),
+    nn_learning_rate=1e-4, # 0.00005, 
+    nn_l2_reg=1e-6,
+    nn_optimizer='Adam',
+    nn_tau=100,
     model="", 
-    depth=0, 
     comment="" #,
     # should_save_weights=False
   ):      
   
     self.model = model
     self.comment = comment
-    self.depth = depth
-    self.optimizer = optimizer
     
-    # O espaço de ações varia de 0 a 3
-    # 0 - Segurar: manter posição
-    # 1 - Comprar: adquirir o ativo
-    # 2 - Vender: vender o ativo
-    
-    self.action_space = np.array([0, 1, 2])
+    self.action_space = action_space 
     self.num_actions = len(self.action_space) 
     self.batch_size = batch_size 
 
     # Defina o tamanho do estado 
     # 5 indicadores padrão do mercado (OHCL) e indicadores calculados
-    self.state_size = self.depth # 5 + self.depth
+    self.state_size = state_size
     
     # Define o repositório onde se salva os modelos
     self.log_name = datetime.now().strftime("%Y_%m_%d_%H_%M")+"_ddqn_trader"
     
     # Define a capacidade da memória de repetição do treinamento
-    replay_capacity = int(1e6)
+    replay_capacity = replay_capacity
     self.experience = deque([], maxlen=replay_capacity) 
 
     # Define a taxa de aprendizado
-    self.learning_rate = lr
+    self.nn_learning_rate = nn_learning_rate
     # Define o fator de desconto
-    self.gamma = .99
+    self.gamma = gamma
 
     # Define a arquitetura padrão das camadas ocultas da rede target e, por consequencia, online
-    self.architecture = (64,128, 64)
+    self.nn_architecture = nn_architecture
     # Define a taxa de regulização l2
-    self.l2_reg = 1e-6
+    self.nn_l2_reg = nn_l2_reg
+    self.nn_optimizer = nn_optimizer
 
+    self.nn_tau = nn_tau
     # Define-se epsilon para exploração (exploration vs exploitation)
     self.epsilon = .1 # valor inicial de epsilon  (10%)
     self.epsilon_start = self.epsilon
@@ -108,7 +109,7 @@ class DoubleDeepQLearningAgent:
     self.episode_reward = 0
     self.rewards_history = [] # deque(maxlen=self.env_steps_size)
 
-    self.tau = 100 # frequencia de atualização da rede neural
+    self.nn_tau = self.nn_tau # frequencia de atualização da rede neural
     self.losses = []
     self.idx = tf.range(self.batch_size) # <tf.Tensor: shape=(4000,), dtype=int32, numpy=array([ 0, 1, 2, ..., 3997, 3998, 3999], dtype=int32)>
     self.train = True
@@ -122,14 +123,14 @@ class DoubleDeepQLearningAgent:
   def build_model(self, trainable=True):
 
     # Cria a rede neural utilizada no treinamento 
-    print("Neural Network Architecture: ", self.architecture, " Learning Rate: ", self.learning_rate, " L2 Regularization: ", self.l2_reg, " Optimizer: ", self.optimizer, " Trainable: ", trainable, " State size: ", self.state_size, " Action space: ", self.action_space)
+    print("Neural Network Architecture: ", self.nn_architecture, " Learning Rate: ", self.nn_learning_rate, " L2 Regularization: ", self.nn_l2_reg, " Optimizer: ", self.nn_optimizer, " Trainable: ", trainable, " State size: ", self.state_size, " Action space: ", self.action_space)
     neural_network = NeuralNetwork(
         self.state_size,
         self.action_space, 
-        self.architecture, 
-        self.learning_rate, 
-        self.l2_reg,
-        optimizer=self.optimizer,
+        self.nn_architecture, 
+        self.nn_learning_rate, 
+        self.nn_l2_reg,
+        optimizer=self.nn_optimizer,
         trainable=trainable)
 
     model = neural_network.build()
@@ -266,7 +267,7 @@ class DoubleDeepQLearningAgent:
     self.losses.append(loss)
     self.writer.add_scalar('data/ddql_loss_per_replay', np.sum(self.losses), self.replay_count)
     self.replay_count += 1
-    if self.total_steps % self.tau == 0:
+    if self.total_steps % self.nn_tau == 0:
         self.update_target()
     
     return np.sum(self.losses)
@@ -290,8 +291,8 @@ class DoubleDeepQLearningAgent:
         "training_start": current_date,
         "initial_balance": initial_balance,
         "training_episodes": train_episodes,
-        "depth": self.depth,
-        "lr": self.learning_rate,
+        "state_size": self.state_size,
+        "lr": self.nn_learning_rate,
         "batch_size": self.batch_size,
         "normalize_value": normalize_value,
         "model": self.model,

@@ -53,5 +53,5 @@ def fetch_data(start, end, symbol, interval):
     # ordena os dados conforme a data 
     data.sort_index(inplace=True)
     # salva os dados em um csv
-    data.to_csv(f"{symbol}_{interval}_.csv")
+    data.to_csv(f"assets/ts/{symbol}_{interval}.csv")
     return data

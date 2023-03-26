@@ -159,13 +159,13 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         check_computer_device()
         tf.keras.mixed_precision.set_global_policy('mixed_float16')
 
-    df = pd.read_csv('./BTCUSD_1h_.csv')
+    df = pd.read_csv('./assets/ts/BTCUSD_1h.csv')
     df = df.dropna()
     df = df.sort_values('Date')
 
     df = add_indicators(df) # insert indicators to df 2021_02_21_17_54_ddqn_trader
     # df = indicators_dataframe(df, threshold=0.5, plot=False) # insert indicators to df 2021_02_18_21_48_ddqn_trader
-    depth = len(list(df.columns[1:])) # OHCL + indicators without Date
+    
     df_nomalized = min_max_normalization(df[99:])[1:].dropna()
     df = df[100:].dropna()
     test_window = 720*3 # 3 months
@@ -176,67 +176,61 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
 
     # split training and testing normalized datasets
     train_df_nomalized = df_nomalized[:-test_window] # we leave 100 to have properly calculated indicators
-    # test_df_nomalized = df_nomalized[-test_window:]
+    test_df_nomalized = df_nomalized[-test_window:]
 
     print(f"Pontos totais: {len(df)} - Pontos de treinamento: {len(train_df)} - Pontos de teste: {len(test_df)}")
     
+    logging.info("Inicialização das variaveis")
+    ## Define parâmetros para o ambiente
+    logging.info(f"O treinamento será realizado com base em um conjunto de dados com {len(train_df)} dados")
+    trading_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
+
     # single processing training
-    agent = DoubleDeepQLearningAgent(lr=0.00001, optimizer='SGD', depth=13, batch_size = 512) #4096)
-    train_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
-    train_agent(train_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=1440) # visualize=True para visualizar animação
+    state_size = len(list(df.columns[1:])) # OHCL + indicators without Date
+    batch_size = 512 # 4096
+
+    ### Get Environment Params
+    action_space = np.array([0, 1, 2])
+    learning_rate=1e-4
+    ## Define hyperparameters
+    gamma = .99,  # discount factor
+    tau = 100  # target network update frequency
+    
+    # ### NN Architecture
+    architecture = (256, 256)  # units per layer
+    learning_rate = 0.0001  # learning rate
+    l2_reg = 1e-6  # L2 regularization
+    optimizer='Adam'
+    logging.info(f"""
+        A rede neural usada no treinamento possui:
+            > {state_size} neurônios na camada de entrada (OCHL + V + Indicators)
+            > {architecture} neurônios nas camadas ocultas
+            > {len(action_space)} neurônios na camada de saida
+            > Com taxa de aprendizagem {learning_rate}
+            > Regularização L2 {l2_reg}
+            > e Otimização {optimizer}
+    """)
+    
+    # ### Experience Replay
+    replay_capacity = int(1e6)    
+
+    agent = DoubleDeepQLearningAgent(
+        action_space=action_space,
+        state_size=state_size, 
+        replay_capacity=replay_capacity,
+        gamma = gamma,
+        batch_size = batch_size,
+        nn_architecture=architecture,
+        nn_learning_rate=learning_rate, 
+        nn_l2_reg=l2_reg,
+        nn_optimizer=optimizer, 
+        nn_tau=tau,
+        model="Double Deep Q-Learning Network",
+        comment="An agent to learn how to negotiate stocks",
+    )
+    train_agent(trading_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=1440) # visualize=True para visualizar animação
     
     # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
-
-    # quandl_env_src = QuandlEnvSrc(days=trading_days)
-    
-    # trading_environment = TradingEnv(quandl_env_src)
-    # trading_environment.timestep_limit=trading_days
-    # trading_environment.seed(42)
-
-    # ### Get Environment Params
-    # state_dim = trading_environment.observation_space.shape[0]
-    # num_actions = trading_environment.action_space.n
-    
-    # ## Define hyperparameters
-    # gamma = .99,  # discount factor
-    # tau = 100  # target network update frequency
-
-    # ### NN Architecture
-    # architecture = (256, 256)  # units per layer
-    # learning_rate = 0.0001  # learning rate
-    # l2_reg = 1e-6  # L2 regularization
-
-    # ### Experience Replay
-    # replay_capacity = int(1e6) # 6 * 4096# int(1e3) # int(1e6)
-    # batch_size = 4096
-
-    # ### epsilon-greedy Policy
-    # epsilon_start = 0.10
-    # epsilon_end = .01
-    # epsilon_decay_steps = 250
-    # epsilon_exponential_decay = .99
-
-    # ## Criando nossa DDQN
-    # ## Para tal, iremos usar tensorflow
-    # tf.keras.backend.clear_session()
-    # ddqn = DDQNAgent(state_dim=state_dim,
-    #              num_actions=num_actions,
-    #              learning_rate=learning_rate,
-    #              gamma=gamma,
-    #              epsilon_start=epsilon_start,
-    #              epsilon_end=epsilon_end,
-    #              epsilon_decay_steps=epsilon_decay_steps,
-    #              epsilon_exponential_decay=epsilon_exponential_decay,
-    #              replay_capacity=replay_capacity,
-    #              architecture=architecture,
-    #              save_weights=save_weights,
-    #              l2_reg=l2_reg,
-    #              tau=tau,
-    #              batch_size=batch_size)
-    
-    # results = ddqn.training(trading_environment)
-    # results.to_csv(generate_file_name(datetime.now()))
-    # print(results)
 
 
 
