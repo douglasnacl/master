@@ -13,7 +13,7 @@ if [ $# -gt 0 ] && [ "$1" == "cuda" ]; then
     if [ -f /etc/arch-release ]; then
         echo "Arch Linux"
         echo "pacman -S cuda cudnn"
-        pacman -S qt5-base qt5-x11extras libxcb xcb-util xcb-util-keysyms xcb-util-image xcb-util-wm xcb-util-cursor
+        echo "pacman -S qt5-base qt5-x11extras libxcb xcb-util xcb-util-keysyms xcb-util-image xcb-util-wm xcb-util-cursor"
     elif [ -f /etc/debian_version ]; then
         echo "Debian"
         # wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
