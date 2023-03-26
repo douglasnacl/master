@@ -31,6 +31,7 @@ class DoubleDeepQLearningAgent:
     nn_l2_reg=1e-6,
     nn_optimizer='Adam',
     nn_tau=100,
+    tensors_float=tf.float32,
     model="", 
     comment="" #,
     # should_save_weights=False
@@ -38,6 +39,8 @@ class DoubleDeepQLearningAgent:
   
     self.model = model
     self.comment = comment
+    self.tensors_float = tensors_float
+    self.np_float = np.float32 if self.tensors_float == tf.float32 else tf.float16s
     
     self.action_space = action_space 
     self.num_actions = len(self.action_space) 
@@ -154,7 +157,7 @@ class DoubleDeepQLearningAgent:
     self.total_steps += 1 
     # Realiza o reshape do estado atual para o formato de aceito
     # print("STATE1: ", state[2:], state[2:].shape)
-    state = np.array(state[2:]).astype(np.float16)
+    state = np.array(state[2:]).astype(self.np_float)
     state = state.reshape(-1, self.state_size)
     
     # Realiza a previsão utilizando a rede online para os valores de Q no estado atual
@@ -223,7 +226,7 @@ class DoubleDeepQLearningAgent:
     minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
     states, actions, rewards, next_states, not_done = minibatch # et = (st, at, rt, st+1)
 
-    next_states = np.array(next_states[:, 2:]).astype(np.float16)
+    next_states = np.array(next_states[:, 2:]).astype(self.np_float)
     isnan = np.isnan(next_states).any()
     isinf = np.isinf(next_states).any()
 
@@ -232,7 +235,7 @@ class DoubleDeepQLearningAgent:
 
     scaler = MinMaxScaler(feature_range=(0, 1))
     next_states = scaler.fit_transform(next_states)
-    next_states = tf.convert_to_tensor(next_states, dtype=tf.float16)
+    next_states = tf.convert_to_tensor(next_states, dtype=self.tensors_float)
     # Realiza a previsão da rede online com base nos valores de q para o próximo estado
     next_q_values = self.online_network.predict_on_batch(next_states) # Q_online(st+1, at+1)
     # Escolhe a ação com maior valor qZ
@@ -254,9 +257,9 @@ class DoubleDeepQLearningAgent:
     
     # = rt + 1 * gamma * Q_alvo(st+1, max_(a_(t+1)) Q_online(st+1, at+1)))
     targets = rewards + not_done * self.gamma * target_q_values
-    states = np.array(states[:, 2:]).astype(np.float16)
+    states = np.array(states[:, 2:]).astype(self.np_float)
     states = scaler.fit_transform(states)
-    states = tf.convert_to_tensor(states, dtype=tf.float16)
+    states = tf.convert_to_tensor(states, dtype=self.tensors_float)
     # Valores de q previstos - Q_online (st, at) = targets
     q_values = self.online_network.predict_on_batch(states) # Q(st, at)
     q_values[tuple([self.idx, actions])] = targets # Q(st, at) =  rt + 1 * gamma * Q_alvo(st+1, max_(a_(t+1)) Q_online(st+1, at+1)))

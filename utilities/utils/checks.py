@@ -15,10 +15,15 @@ def check_computer_device():
             print(f' - {gpu}')
             try:
                 tf.config.experimental.set_memory_growth(gpu, True)
+                tf.keras.mixed_precision.set_global_policy('mixed_float16')
+                tensors_float = tf.float16
+                return tensors_float
             except RuntimeError: 
                 pass
     else:
         logging.info('Uso de GPU não suportado/configurado, usando CPU')
+        tensors_float = tf.float32
+        return tensors_float
 
 def use_cpu():
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'

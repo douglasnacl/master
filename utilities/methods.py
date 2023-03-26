@@ -12,16 +12,31 @@ import pandas as pd
 import numpy as np
 import logging
 import os
+from dotenv import load_dotenv
 
-NASDAQ_API = os.getenv("NASDAQ_API")
-# trading_days = 252
+# Load environment variables from .env file
+load_dotenv() # pip install python-dotenv
+
+NASDAQ_API = os.environ.get("NASDAQ_API")
+replay_capacity = int(os.environ.get('REPLAY_CAPACITY', 1e6))
+gamma = float(os.environ.get('GAMMA', 0.99))
+batch_size = int(os.environ.get('BATCH_SIZE', 512 )) # 4096
+nn_architecture = os.environ.get('NN_ARCHITECTURE', (256, 256))
+nn_learning_rate = float(os.environ.get('NN_LEARNING_RATE', 1e-6))
+nn_l2_reg = float(os.environ.get('NN_L2_REG', 0.0001))
+nn_optimizer = os.environ.get('NN_OPTIMIZER', 'Adam')
+nn_tau = float(os.environ.get('NN_TAU', 100))
+model = os.environ.get('MODEL', 'Double Deep Q-Learning Network')
+comment = os.environ.get('COMMENT', 'An agent to learn how to negotiate stocks')
+
+
+
 
 def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_train_episode_steps=720):
     # Cria o TensorBoard writer
     agent.create_writer(trading_env.initial_balance, trading_env.normalize_value, train_episodes)
     # Define a janela recente para a quantidade de train_episodes de patrimônio líquido
     total_net_worth = deque(maxlen=train_episodes) 
-    total_benchmark_returns = deque(maxlen=train_episodes)
     # Usado para rastrear o melhor patrimônio líquido médio 
     best_average_net_worth = 0
     win_count = 0  # Initialize win count
@@ -140,6 +155,8 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
 #         results.write(f'{current_date}, {name}, test episodes:{test_episodes}')
 #         results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
 #         results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
+
+
 def information_ratio(net_returns, benchmark_returns):
     active_returns = net_returns - benchmark_returns
     active_std = np.std(active_returns)
@@ -156,9 +173,8 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         print("INFO: Dispositivo escolhido CPU")
         use_cpu()
     else:
-        check_computer_device()
-        tf.keras.mixed_precision.set_global_policy('mixed_float16')
-
+        tensors_float = check_computer_device()
+    
     df = pd.read_csv('./assets/ts/BTCUSD_1h.csv')
     df = df.dropna()
     df = df.sort_values('Date')
@@ -182,25 +198,27 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
     
     logging.info("Inicialização das variaveis")
     ## Define parâmetros para o ambiente
-    logging.info(f"O treinamento será realizado com base em um conjunto de dados com {len(train_df)} dados")
+    logging.info(f"""O treinamento será realizado com base em um conjunto de dados com:
+                    > {len(train_df)} dados treinamento
+                    > e {len(test_df)} dados de testes
+                """)
     trading_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
 
-    # single processing training
     state_size = len(list(df.columns[1:])) # OHCL + indicators without Date
     batch_size = 512 # 4096
 
-    ### Get Environment Params
-    action_space = np.array([0, 1, 2])
-    learning_rate=1e-4
+    ### Parâmetros para criação do agente
     ## Define hyperparameters
     gamma = .99,  # discount factor
     tau = 100  # target network update frequency
     
-    # ### NN Architecture
+    ## Parâmetros para a Criação da Rede Neural
+    action_space = np.array([0, 1, 2])
+    learning_rate=1e-4
     architecture = (256, 256)  # units per layer
-    learning_rate = 0.0001  # learning rate
     l2_reg = 1e-6  # L2 regularization
     optimizer='Adam'
+
     logging.info(f"""
         A rede neural usada no treinamento possui:
             > {state_size} neurônios na camada de entrada (OCHL + V + Indicators)
@@ -225,6 +243,7 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         nn_l2_reg=l2_reg,
         nn_optimizer=optimizer, 
         nn_tau=tau,
+        tensors_float=tensors_float, 
         model="Double Deep Q-Learning Network",
         comment="An agent to learn how to negotiate stocks",
     )
