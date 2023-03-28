@@ -56,9 +56,9 @@ class NeuralNetwork:
     )
     model = Sequential(layers)
     model.compile(
-      # loss='mean_squared_error',
+      loss='huber',
       optimizer= Adam(learning_rate=self.learning_rate), #self.get_optimizer(), #Adam(lr=self.learning_rate),
-      loss=self.ddqn_loss
+      # loss=self.ddqn_loss
     )
 
     return model

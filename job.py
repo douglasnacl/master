@@ -1,10 +1,12 @@
-# from utilities.io.stock_data_generator import StockDataGenerator
+from utilities.io.stock_data_generator import StockDataGenerator
 from utilities.io.fetch_data import fetch_data
 from utilities.methods import routine
+from datetime import datetime
+import tensorflow as tf
+import numpy as np
+import argparse
 import logging
 import os
-from datetime import datetime
-import argparse
 
 logs_path = "logs/"
 
@@ -52,7 +54,9 @@ parser.add_argument(
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    
+    np.random.seed(42)
+    tf.random.set_seed(42)
+
     if not os.path.exists(logs_path):
         os.mkdir(logs_path)
         logging.info("O diretório de logs foi criado!")
@@ -79,17 +83,17 @@ if __name__ == "__main__":
         routine(save_weights=True, processing_device=args.processing_device)
     elif(args.download_data):
         logging.info("Rotinha de Download de Dados")
-        # stock_data = StockDataGenerator()
-        # stock_data.export_csv()
+        stock_data = StockDataGenerator()
+        stock_data.export_csv()
 
-        asset = args.download_data
-        # Ativo a ser avaliado
-        interval = '1h' # Também é possível usar '4h','1h','15m','1m'
-        # Define-se a data inicial e final
-        interval_start = datetime(2021, 11, 1, 0, 0)
-        interval_end = datetime(2022, 11, 1, 0, 0)
-        # Chama a função para obtenção dos dados
-        _ = fetch_data(interval_start, interval_end, asset, interval)
+        # asset = args.download_data
+        # # Ativo a ser avaliado
+        # interval = '1h' # Também é possível usar '4h','1h','15m','1m'
+        # # Define-se a data inicial e final
+        # interval_start = datetime(2021, 11, 1, 0, 0)
+        # interval_end = datetime(2022, 11, 1, 0, 0)
+        # # Chama a função para obtenção dos dados
+        # _ = fetch_data(interval_start, interval_end, asset, interval)
     else:
         routine(processing_device=args.processing_device)
 

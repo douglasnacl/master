@@ -33,14 +33,15 @@ class DoubleDeepQLearningAgent:
     nn_tau=100,
     tensors_float=tf.float32,
     model="", 
-    comment="" #,
-    # should_save_weights=False
+    comment="",
+    should_save_weights=False
   ):      
   
     self.model = model
     self.comment = comment
     self.tensors_float = tensors_float
-    self.np_float = np.float32 if self.tensors_float == tf.float32 else tf.float16s
+    self.tf_float = tf.float32 if self.tensors_float == tf.float32 else tf.float16
+    self.np_float = np.float32 if self.tensors_float == tf.float32 else np.float16
     
     self.action_space = action_space 
     self.num_actions = len(self.action_space) 
@@ -79,9 +80,10 @@ class DoubleDeepQLearningAgent:
     self.epsilon_history = []
 
     # Para aprendizado são utilizadas duas redes, porém para comparação entre st e st+1 é preciso congelar os pesos
-    # self.should_save_weights=should_save_weights
+    self.should_save_weights= should_save_weights
     self.online_network = self.build_model()
     self.target_network = self.build_model(trainable=False)
+
     # if self.should_save_weights:
     #     try:
     #         self.online_network.load_weights(self._newest_file_in_dir('./weights/'))
@@ -89,6 +91,7 @@ class DoubleDeepQLearningAgent:
     #         self.epsilon = float(path[len('weights/weight_'):len('weights/weight_')+8])
     #     except:
     #         pass
+
     self.update_target()
 
     self.reset()
@@ -97,7 +100,6 @@ class DoubleDeepQLearningAgent:
     self.action_1 = 0
     self.action_2 = 0
     self.action_random = 0
-    self.action_count = 0
 
   def _newest_file_in_dir(path):
     files = os.listdir(path)
@@ -116,12 +118,6 @@ class DoubleDeepQLearningAgent:
     self.losses = []
     self.idx = tf.range(self.batch_size) # <tf.Tensor: shape=(4000,), dtype=int32, numpy=array([ 0, 1, 2, ..., 3997, 3998, 3999], dtype=int32)>
     self.train = True
-
-    self.action_0 = 0
-    self.action_1 = 0
-    self.action_2 = 0
-    self.action_random = 0
-    self.action_count = 0
     
   def build_model(self, trainable=True):
 
@@ -170,17 +166,7 @@ class DoubleDeepQLearningAgent:
     # Escolhe a ação onde Q obtem seu máximo valor
     else:
       action = np.argmax(q, axis=1).squeeze()
-    if action == 0:
-      self.action_0 += 1
-    elif action == 1:
-      self.action_1 += 1
-    elif action == 2:
-      self.action_2 += 1
-    else:
-      self.action_random += 1
-    self.action_count += 1
-    # if ~self.action_count % 100 == 0:
-    #   print('ACTION 0:', self.action_0, 'ACTION 1:', self.action_1, 'ACTION 2:', self.action_2, 'ACTION RANDOM:', self.action_random,)
+
     return action, q
 
   def memorize_transition(self, state, action, reward, next_state, not_done):
@@ -243,6 +229,7 @@ class DoubleDeepQLearningAgent:
     
     # Realiza a previsão da rede target com base nos valores de q para o próximo estado
     next_q_values_target = self.target_network.predict_on_batch(next_states) # Q_alvo(st+1, at+1)
+    
     # Constroi a tabela de valores da rede target
     target_q_values = tf.gather_nd(
       next_q_values_target, # Q_alvo(st+1, at+1))
@@ -266,7 +253,7 @@ class DoubleDeepQLearningAgent:
 
     # Treina o modelo
     loss = self.online_network.train_on_batch(x=states, y=q_values) # Q_online(st, rt * gamma * Q_alvo(st+1, max_(a_(t+1)) Q_online(st+1, at+1))))
-    # print("Loss: ", loss)
+    
     self.losses.append(loss)
     self.writer.add_scalar('data/ddql_loss_per_replay', np.sum(self.losses), self.replay_count)
     self.replay_count += 1

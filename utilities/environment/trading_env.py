@@ -88,6 +88,11 @@ class TradingEnv:
     self.punish_value = 0
     
     if self.env_steps_size > 0:
+      print(f"""
+        VEREMOS ESSE ERRO
+          > {self.env_steps_size} 
+          > {len(self.df_normalized) - 1 - self.env_steps_size} 
+      """)
       self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
       self._end_step = self._step + self.env_steps_size
     else:
@@ -226,7 +231,7 @@ class TradingEnv:
             percent_change = -1  # Negative reward for invalid actions
 
         # Incorporate risk-adjusted return
-        sharpe_ratio = 0.5  # Assume a Sharpe ratio of 0.5
+        sharpe_ratio = 1 # 0.5  # Assume a Sharpe ratio of 0.5
         risk_adjusted_return = percent_change / sharpe_ratio
 
         # Apply a penalty for trades made during high volatility periods

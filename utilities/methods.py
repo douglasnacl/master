@@ -11,6 +11,7 @@ from time import time
 import pandas as pd
 import numpy as np
 import logging
+import json
 import os
 from dotenv import load_dotenv
 
@@ -29,8 +30,8 @@ nn_tau = float(os.environ.get('NN_TAU', 100))
 model = os.environ.get('MODEL', 'Double Deep Q-Learning Network')
 comment = os.environ.get('COMMENT', 'An agent to learn how to negotiate stocks')
 
-
-
+np.random.seed(42)
+tf.random.set_seed(42) 
 
 def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_train_episode_steps=720):
     # Cria o TensorBoard writer
@@ -120,41 +121,38 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
     agent.end_training_log()
 
 
-# def test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="", name="ddqn_trader", comment="", display_reward=False, display_indicators=False):
-#     # with open(folder+"/parameters.json", "r") as json_file:
-#     #     params = json.load(json_file)
-#     # if name == "":
-#     #     params["agent_name"] = f"{name}.h5"
-#     # name = params["agent_name"][:-9]
+def test_agent(trading_env, agent, test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="", name="ddqn_trader", comment="", display_reward=False, display_indicators=False):
+    with open(folder+"/parameters.json", "r") as json_file:
+        params = json.load(json_file)
+    if name == "":
+        params["agent_name"] = f"{name}.h5"
+    name = params["agent_name"][:-9]
 
-#     agent = DoubleDeepQLearningAgent(lr=0.00001, epochs=5, optimizer=SGD, depth=13, batch_size = 4096)
-#     train_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
-
-#     agent.load(folder, name)
-#     average_net_worth = 0
-#     average_orders = 0
-#     no_profit_episodes = 0
-#     for episode in range(test_episodes):
-#         state = train_env.reset(env_steps_size = 720)
-#         while True:
-#             train_env.render(visualize)
-#             action, prediction = agent.act(state)
-#             state, reward, done = train_env.step(action)
-#             if train_env._step == train_env._end_step:
-#                 average_net_worth += train_env.net_worth
-#                 average_orders += train_env.episode_orders
-#                 if train_env.net_worth < train_env.initial_balance: no_profit_episodes += 1 # calculate episode count where we had negative profit through episode
-#                 print("episode: {:<5}, net_worth: {:<7.2f}, average_net_worth: {:<7.2f}, orders: {}".format(episode, train_env.net_worth, average_net_worth/(episode+1), train_env.episode_orders))
-#                 break
+    agent.load(folder, name)
+    average_net_worth = 0
+    average_orders = 0
+    no_profit_episodes = 0
+    for episode in range(test_episodes):
+        state = trading_env.reset(env_steps_size = 720)
+        while True:
+            trading_env.render(visualize)
+            action, prediction = agent.act(state)
+            state, reward, done = trading_env.step(action)
+            if trading_env._step == trading_env._end_step:
+                average_net_worth += trading_env.net_worth
+                average_orders += trading_env.episode_orders
+                if trading_env.net_worth < trading_env.initial_balance: no_profit_episodes += 1 # calculate episode count where we had negative profit through episode
+                print("episode: {:<5}, net_worth: {:<7.2f}, average_net_worth: {:<7.2f}, orders: {}".format(episode, trading_env.net_worth, average_net_worth/(episode+1), trading_env.episode_orders))
+                trading_env
             
-#     print("average {} episodes agent net_worth: {}, orders: {}".format(test_episodes, average_net_worth/test_episodes, average_orders/test_episodes))
-#     print("No profit episodes: {}".format(no_profit_episodes))
-#     # save test results to test_results.txt file
-#     with open("test_results.txt", "a+") as results:
-#         current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
-#         results.write(f'{current_date}, {name}, test episodes:{test_episodes}')
-#         results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
-#         results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
+    print("average {} episodes agent net_worth: {}, orders: {}".format(test_episodes, average_net_worth/test_episodes, average_orders/test_episodes))
+    print("No profit episodes: {}".format(no_profit_episodes))
+    # save test results to test_results.txt file
+    with open("test_results.txt", "a+") as results:
+        current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+        results.write(f'{current_date}, {name}, test episodes:{test_episodes}')
+        results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
+        results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
 
 
 def information_ratio(net_returns, benchmark_returns):
@@ -166,7 +164,6 @@ def information_ratio(net_returns, benchmark_returns):
         return np.mean(active_returns) / active_std
     
 def routine(save_weights=False, processing_device="GPU", visualize=False):
-    # use_cpu()
     logging.info("Running the routine")
 
     if processing_device != 'GPU':
@@ -175,42 +172,46 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
     else:
         tensors_float = check_computer_device()
     
-    df = pd.read_csv('./assets/ts/BTCUSD_1h.csv')
+    df = pd.read_csv('./assets/ts/PETR4.csv').iloc[:, :-2]#['Date', 'Open','Close','High','Low','Volume']
+    df = df.astype({'Open': 'float16','Close': 'float16', 'High': 'float16', 'Low': 'float16', 'Volume': 'float16'})
+    print("DF CLOSE PRICE: ", df['Volume'])
     df = df.dropna()
     df = df.sort_values('Date')
 
     df = add_indicators(df) # insert indicators to df 2021_02_21_17_54_ddqn_trader
     # df = indicators_dataframe(df, threshold=0.5, plot=False) # insert indicators to df 2021_02_18_21_48_ddqn_trader
     
-    df_nomalized = min_max_normalization(df[99:])[1:].dropna()
+    df_nomalized = min_max_normalization(df[99:])[1:]#.dropna()
     df = df[100:].dropna()
-    test_window = 720*3 # 3 months
+    
+    test_window = 180*3 # 720*3 # 3 months
 
-    # split training and testing datasets
+    # Separando os dados em dados de treinamento e teste
     train_df = df[:-test_window] # we leave 100 to have properly calculated indicators
     test_df = df[-test_window:]
 
-    # split training and testing normalized datasets
+    # Separando os dados em dados normalizados de treinamento e teste 
     train_df_nomalized = df_nomalized[:-test_window] # we leave 100 to have properly calculated indicators
     test_df_nomalized = df_nomalized[-test_window:]
 
-    print(f"Pontos totais: {len(df)} - Pontos de treinamento: {len(train_df)} - Pontos de teste: {len(test_df)}")
+    logging.info(f"Pontos totais: {len(df)} - Pontos de treinamento: {len(train_df)} - Pontos de teste: {len(test_df)}")
     
     logging.info("Inicialização das variaveis")
-    ## Define parâmetros para o ambiente
+
+    ## Define parâmetros para o ambiente de treinamento
     logging.info(f"""O treinamento será realizado com base em um conjunto de dados com:
                     > {len(train_df)} dados treinamento
                     > e {len(test_df)} dados de testes
                 """)
     trading_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
 
-    state_size = len(list(df.columns[1:])) # OHCL + indicators without Date
+    state_size = len(list(df.columns[1:])) # OHCL + Volume + Indicadores
     batch_size = 512 # 4096
 
     ### Parâmetros para criação do agente
     ## Define hyperparameters
-    gamma = .99,  # discount factor
-    tau = 100  # target network update frequency
+    gamma = .99,  # Fator de desconto
+    tau = 100  # Frequência de atualização da rede alvo (target network)
     
     ## Parâmetros para a Criação da Rede Neural
     action_space = np.array([0, 1, 2])
@@ -247,7 +248,7 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         model="Double Deep Q-Learning Network",
         comment="An agent to learn how to negotiate stocks",
     )
-    train_agent(trading_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=1440) # visualize=True para visualizar animação
+    train_agent(trading_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=360) # visualize=True para visualizar animação
     
     # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
 
