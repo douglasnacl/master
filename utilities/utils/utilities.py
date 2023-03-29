@@ -54,9 +54,9 @@ def add_indicators(df):
   # Adiciona indicador SAR Parabólico (Parabolic SAR - Parabolic Stop and Reverse )
   indicator_psar = PSARIndicator(high=df["High"], low=df["Low"], close=df["Close"], step=0.02, max_step=2, fillna=True)
   print("DF: \n", df)
-  print("\nPSAR: \n", df['Volume'])
+  
   df['psar'] = indicator_psar.psar()
-
+  print("\nPSAR: \n", df['psar'])
   # Índice de Força Relativa (RSI - Relative Strength Index)
   df["RSI"] = rsi(close=df["Close"], window=14, fillna=True)
   

@@ -173,8 +173,9 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         tensors_float = check_computer_device()
     
     df = pd.read_csv('./assets/ts/PETR4.csv').iloc[:, :-2]#['Date', 'Open','Close','High','Low','Volume']
-    df = df.astype({'Open': 'float16','Close': 'float16', 'High': 'float16', 'Low': 'float16', 'Volume': 'float16'})
-    print("DF CLOSE PRICE: ", df['Volume'])
+    df['Volume'] = df['Volume']/1000
+    # df = df.astype({'Open': 'float16','Close': 'float16', 'High': 'float16', 'Low': 'float16', 'Volume': 'float32'})
+    
     df = df.dropna()
     df = df.sort_values('Date')
 

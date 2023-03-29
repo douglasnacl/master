@@ -88,11 +88,6 @@ class TradingEnv:
     self.punish_value = 0
     
     if self.env_steps_size > 0:
-      print(f"""
-        VEREMOS ESSE ERRO
-          > {self.env_steps_size} 
-          > {len(self.df_normalized) - 1 - self.env_steps_size} 
-      """)
       self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
       self._end_step = self._step + self.env_steps_size
     else:
