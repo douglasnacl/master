@@ -211,15 +211,12 @@ class TradingEnv:
         # Calculate percentage gain/loss
         prev_amount = prev_volume * prev_price
         if current_position == "buy" and self.stock_bought:# (prev_position == "sell" or self._last_type == 'hold'):# self.stock_held > 0: or 
-            # print("BUY")
             current_amount = current_volume * current_price * (1 - transaction_cost)
             percent_change = (current_amount - prev_amount) / prev_amount
         elif current_position == "sell" and self.stock_sold: # and (prev_position == "buy" or self._last_type == 'hold'):
-            # print("SELL")
             current_amount = prev_volume * current_price * (1 - transaction_cost)
             percent_change = (current_amount - prev_amount) / prev_amount
         elif current_position == "hold":
-            # print("HOLD")
             current_amount = current_volume * current_price 
             percent_change = 0
         else:
@@ -243,10 +240,8 @@ class TradingEnv:
         # Combine the rewards and penalties
         reward = risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
         reward = max(reward, -1)  # Cap the reward at -1 to prevent large negative rewards
-        # print("REWARD: ", reward)
         # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
         self.trades[-1]["Reward"] = reward
-        # print("TRADE: ", self.trades[-1])
 
         return reward
     else:

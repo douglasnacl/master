@@ -14,21 +14,23 @@ import logging
 import json
 import os
 from dotenv import load_dotenv
+import ast
 
 # Load environment variables from .env file
 load_dotenv() # pip install python-dotenv
 
 NASDAQ_API = os.environ.get("NASDAQ_API")
+stock_name = os.environ.get("STOCK_NAME", "B3SA")
 replay_capacity = int(os.environ.get('REPLAY_CAPACITY', 1e6))
 gamma = float(os.environ.get('GAMMA', 0.99))
 batch_size = int(os.environ.get('BATCH_SIZE', 512 )) # 4096
-nn_architecture = os.environ.get('NN_ARCHITECTURE', (256, 256))
+nn_architecture = os.environ.get('NN_ARCHITECTURE', '(64, 128, 64)')
 nn_learning_rate = float(os.environ.get('NN_LEARNING_RATE', 1e-6))
 nn_l2_reg = float(os.environ.get('NN_L2_REG', 0.0001))
 nn_optimizer = os.environ.get('NN_OPTIMIZER', 'Adam')
 nn_tau = float(os.environ.get('NN_TAU', 100))
-model = os.environ.get('MODEL', 'Double Deep Q-Learning Network')
-comment = os.environ.get('COMMENT', 'An agent to learn how to negotiate stocks')
+model = os.environ.get('MODEL', "Double Deep Q-Learning Network")
+comment = os.environ.get('COMMENT', "An agent to learn how to negotiate stocks")
 
 np.random.seed(42)
 tf.random.set_seed(42) 
@@ -93,6 +95,7 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
         average_net_worth = np.average(total_net_worth)
         average_reward = np.average(rewards)
         episode_reward = sum(rewards)
+        
         # Check if agent made a profit and increment win count
         if trading_env.net_worth >= trading_env.initial_balance:
             win_count += 1
@@ -105,7 +108,7 @@ def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_tr
         agent.writer.add_scalar('data/win_rate', win_rate, episode) 
       
         print("episódio: {:<5} - patrimônio liquído {:<7.2f} - patrimônio liquído médio: {:<7.2f} - pedidos do episódio: {} - tempo de execução: {}  "\
-              .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(time() - start)))
+            .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(time() - start)))
         
         if episode % 5 == 0:
           tf.keras.backend.clear_session()
@@ -171,8 +174,8 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         use_cpu()
     else:
         tensors_float = check_computer_device()
-    
-    df = pd.read_csv('./assets/ts/PETR4.csv').iloc[:, :-2]#['Date', 'Open','Close','High','Low','Volume']
+    logging.info(f"Realizando a leitura do arquivo de dados {stock_name}")
+    df = pd.read_csv(f'./assets/ts/{stock_name}.csv').loc[:, ['Date', 'Open','Close','High','Low','Volume']]#.iloc[:, :-2]#['Date', 'Open','Close','High','Low','Volume']
     df['Volume'] = df['Volume']/1000
     # df = df.astype({'Open': 'float16','Close': 'float16', 'High': 'float16', 'Low': 'float16', 'Volume': 'float32'})
     
@@ -211,28 +214,28 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
 
     ### Parâmetros para criação do agente
     ## Define hyperparameters
-    gamma = .99,  # Fator de desconto
-    tau = 100  # Frequência de atualização da rede alvo (target network)
-    
+    # gamma = .99,  # Fator de desconto
+    tau = nn_tau # 100  # Frequência de atualização da rede alvo (target network)
+    nn_architecture = ast.literal_eval('(64,128,64)')
     ## Parâmetros para a Criação da Rede Neural
     action_space = np.array([0, 1, 2])
-    learning_rate=1e-4
-    architecture = (256, 256)  # units per layer
-    l2_reg = 1e-6  # L2 regularization
-    optimizer='Adam'
+    # learning_rate=1e-4
+    # architecture = (64, 128, 64)  # units per layer
+    # l2_reg = 1e-6  # L2 regularization
+    # optimizer='Adam'
 
     logging.info(f"""
         A rede neural usada no treinamento possui:
             > {state_size} neurônios na camada de entrada (OCHL + V + Indicators)
-            > {architecture} neurônios nas camadas ocultas
+            > {nn_architecture} neurônios nas camadas ocultas
             > {len(action_space)} neurônios na camada de saida
-            > Com taxa de aprendizagem {learning_rate}
-            > Regularização L2 {l2_reg}
-            > e Otimização {optimizer}
+            > Com taxa de aprendizagem {nn_learning_rate}
+            > Regularização L2 {nn_l2_reg}
+            > e Otimização {nn_optimizer}
     """)
     
     # ### Experience Replay
-    replay_capacity = int(1e6)    
+    # replay_capacity = int(1e6)    
 
     agent = DoubleDeepQLearningAgent(
         action_space=action_space,
@@ -240,14 +243,14 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         replay_capacity=replay_capacity,
         gamma = gamma,
         batch_size = batch_size,
-        nn_architecture=architecture,
-        nn_learning_rate=learning_rate, 
-        nn_l2_reg=l2_reg,
-        nn_optimizer=optimizer, 
-        nn_tau=tau,
+        nn_architecture=nn_architecture,
+        nn_learning_rate=nn_learning_rate, 
+        nn_l2_reg=nn_l2_reg,
+        nn_optimizer=nn_optimizer, 
+        nn_tau=nn_tau,
         tensors_float=tensors_float, 
-        model="Double Deep Q-Learning Network",
-        comment="An agent to learn how to negotiate stocks",
+        model=model,
+        comment=comment,
     )
     train_agent(trading_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=360) # visualize=True para visualizar animação
     

@@ -152,7 +152,6 @@ class DoubleDeepQLearningAgent:
     # A cada chamada incrementa o contador de passos
     self.total_steps += 1 
     # Realiza o reshape do estado atual para o formato de aceito
-    # print("STATE1: ", state[2:], state[2:].shape)
     state = np.array(state[2:]).astype(self.np_float)
     state = state.reshape(-1, self.state_size)
     
@@ -217,7 +216,7 @@ class DoubleDeepQLearningAgent:
     isinf = np.isinf(next_states).any()
 
     if isnan or isinf:
-        print('Input data contains NaN or Inf values')
+      ('Input data contains NaN or Inf values')
 
     scaler = MinMaxScaler(feature_range=(0, 1))
     next_states = scaler.fit_transform(next_states)
@@ -258,7 +257,7 @@ class DoubleDeepQLearningAgent:
     self.writer.add_scalar('data/ddql_loss_per_replay', np.sum(self.losses), self.replay_count)
     self.replay_count += 1
     if self.total_steps % self.nn_tau == 0:
-        self.update_target()
+      self.update_target()
     
     return np.sum(self.losses)
 
@@ -270,7 +269,7 @@ class DoubleDeepQLearningAgent:
 
     # Create folder to save models
     if not os.path.exists(self.log_dir):
-        os.makedirs(self.log_dir)
+      os.makedirs(self.log_dir)
 
     self.start_training_log(initial_balance, normalize_value, train_episodes)
         
@@ -278,47 +277,47 @@ class DoubleDeepQLearningAgent:
     # Salva os parâmetros de treinamento no arquivo parameters.json par uso futuro
     current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
     params = {
-        "training_start": current_date,
-        "initial_balance": initial_balance,
-        "training_episodes": train_episodes,
-        "state_size": self.state_size,
-        "lr": self.nn_learning_rate,
-        "batch_size": self.batch_size,
-        "normalize_value": normalize_value,
-        "model": self.model,
-        "comment": self.comment,
-        "saving_time": "",
-        "agent_name": "Double Deep Q Learning",
+      "training_start": current_date,
+      "initial_balance": initial_balance,
+      "training_episodes": train_episodes,
+      "state_size": self.state_size,
+      "lr": self.nn_learning_rate,
+      "batch_size": self.batch_size,
+      "normalize_value": normalize_value,
+      "model": self.model,
+      "comment": self.comment,
+      "saving_time": "",
+      "agent_name": "Double Deep Q Learning",
     }
     with open(self.log_dir+"/parameters.json", "w") as write_file:
-        json.dump(params, write_file, indent=4)
+      json.dump(params, write_file, indent=4)
 
   def end_training_log(self):
     with open(self.log_dir+"/parameters.json", "a+") as params:
-        current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
-        params.write(f"training end: {current_date}\n")
-        # params['training end'] = f"{current_date}"
+      current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+      params.write(f"training end: {current_date}\n")
+      # params['training end'] = f"{current_date}"
 
   def save(self, name="ddqn_trader", score="", args=[]):
     # Salva os pesos dos modelos (keras model)
     self.online_network.save_weights(f"{self.log_dir}/{score}_{name}.h5")
     # Atualizar as configurações do arquivo json
     if score != "":
-        with open(self.log_dir+"/parameters.json", "r") as json_file:
-            params = json.load(json_file)
-        params["saving_time"] = datetime.now().strftime('%Y-%m-%d %H:%M')
-        params["agent_name"] = f"{score}_{name}.h5"
-        with open(self.log_dir+"/parameters.json", "w") as write_file:
-            json.dump(params, write_file, indent=4)
+      with open(self.log_dir+"/parameters.json", "r") as json_file:
+        params = json.load(json_file)
+      params["saving_time"] = datetime.now().strftime('%Y-%m-%d %H:%M')
+      params["agent_name"] = f"{score}_{name}.h5"
+      with open(self.log_dir+"/parameters.json", "w") as write_file:
+        json.dump(params, write_file, indent=4)
 
     # Cria log dos argumentos salvos do modelo em um arquivo 
     if len(args) > 0:
-        with open(f"{self.log_dir}/log.json", "a+") as log:
-            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            arguments = ""
-            for arg in args:
-                arguments += f", {arg}"
-            log.write(f"{current_time}{arguments}\n")
+      with open(f"{self.log_dir}/log.json", "a+") as log:
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        arguments = ""
+        for arg in args:
+          arguments += f", {arg}"
+        log.write(f"{current_time}{arguments}\n")
 
   def load(self, folder, name):
     # Carrega os pesos do modelo (keras model)

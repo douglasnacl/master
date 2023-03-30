@@ -64,13 +64,13 @@ if __name__ == "__main__":
     logging_basic_config()
     logging.info("Running the current task")
 
-    # if args.processing_device != 'CPU':
-    #     if args.processing_device != 'GPU':
-    #         raise ValueError("""
-    #             Apenas são permitidos valores CPU ou GPU
-    #                 > O valor padrão é GPU, caso não seja passado.
-    #         """)
-    #     processing_device = "GPU"
+    if args.processing_device != 'CPU':
+        if args.processing_device != 'GPU':
+            raise ValueError("""
+                Apenas são permitidos valores CPU ou GPU
+                    > O valor padrão é GPU, caso não seja passado.
+            """)
+        processing_device = "GPU"
    
     if(args.save_weights & args.visualize):
         logging.info("Salvando pesos")

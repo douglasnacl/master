@@ -5,8 +5,8 @@ import logging
 import os
 import pandas as pd
 
-STOCK_NAME = 'BBAS3.SA' # 'B3SA3.SA' # 'PETR4.SA' # os.getenv("STOCK_NAME")
-OUTPUT_FILE_NAME = 'BBAS3' # 'B3SA3SA' # 'PETR4SA' #os.getenv("OUTPUT_FILE_NAME")
+STOCK_NAME = 'PETR4.SA' # 'BBAS3.SA' # 'B3SA3.SA' # 'PETR4.SA' # os.getenv("STOCK_NAME")
+OUTPUT_FILE_NAME = 'PETR4SA' #'BBAS3' # 'B3SA3SA' # 'PETR4SA' #os.getenv("OUTPUT_FILE_NAME")
 PERIOD = '2y' # os.getenv("PERIOD")
 INTERVAL = '1h' #os.getenv("INTERVAL")
 ASSETS_URL = 'assets/ts/'
@@ -31,6 +31,7 @@ class StockDataGenerator(yf.Ticker):
     @property
     def period(self, period: str):
         return self.PERIOD
+    
     @property
     def interval(self, interval: str):
         return self.INTERVAL

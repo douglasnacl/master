@@ -40,7 +40,6 @@ def add_indicators(df):
   # Função responsável pela criação e adição de indicadores ao dataframe
 
   # Adiciona média móvel simples (SMA - Simple Moving Average)
-  # df["sma7"] = SMAIndicator(close=df["Close"], window=7, fillna=True).sma_indicator()
   df["sma7"] = df["Close"].rolling(window=7, min_periods=1).mean()
   df["sma25"] = df["Close"].rolling(window=25, min_periods=1).mean()
   df["sma99"] = df["Close"].rolling(window=99, min_periods=1).mean()
@@ -52,11 +51,9 @@ def add_indicators(df):
   df['bb_lb'] = df["Close"].rolling(window=20, min_periods=1).mean() - bb_std*2
 
   # Adiciona indicador SAR Parabólico (Parabolic SAR - Parabolic Stop and Reverse )
-  indicator_psar = PSARIndicator(high=df["High"], low=df["Low"], close=df["Close"], step=0.02, max_step=2, fillna=True)
-  print("DF: \n", df)
-  
+  indicator_psar = PSARIndicator(high=df["High"], low=df["Low"], close=df["Close"], step=0.02, max_step=2, fillna=True)  
   df['psar'] = indicator_psar.psar()
-  print("\nPSAR: \n", df['psar'])
+
   # Índice de Força Relativa (RSI - Relative Strength Index)
   df["RSI"] = rsi(close=df["Close"], window=14, fillna=True)
   
