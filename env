@@ -12,3 +12,4 @@ MODEL=Double Deep Q-Learning Network
 COMMENT=An agent to learn how to negotiate stocks
 TRAIN_EPISODES=100
 EPISODE_STEPS=360
+INITIAL_BALANCE=1000

@@ -34,6 +34,7 @@ model = os.environ.get('MODEL', "Double Deep Q-Learning Network")
 comment = os.environ.get('COMMENT', "An agent to learn how to negotiate stocks")
 train_episodes = int(os.environ.get("TRAIN_EPISODES", 100))
 episode_steps = int(os.environ.get("EPISODE_STEPS", 360))
+initial_balance = int(os.environ.get("INITIAL_BALANCE", 1000))
 
 np.random.seed(42)
 tf.random.set_seed(42) 
@@ -209,7 +210,7 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
                     > {len(train_df)} dados treinamento
                     > e {len(test_df)} dados de testes
                 """)
-    trading_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
+    trading_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, initial_balance=initial_balance, display_reward=True, display_indicators=True)
 
     state_size = len(list(df.columns[1:])) # OHCL + Volume + Indicadores
 

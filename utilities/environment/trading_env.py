@@ -42,19 +42,15 @@ class TradingEnv:
     self.display_reward = display_reward
     # Define se os indicadores serão visualizados no gráfico
     self.display_indicators = display_indicators
-    # Define o janela observada no histórico de ordens
     # Uma ordem consiste em instruções a um corretor ou corretora para comprar ou vender um título em nome de um investidor. 
     # Uma ordem é a unidade de negociação fundamental de um mercado de valores mobiliários.
-    # O histórico em questão contém o balanço, patrimonio liquido, cryptos compradas, cryptos vendidas, valores de crypto segurados  
-    # self.orders_history = deque(maxlen=self.render_range) # np.zeros(self.steps)
-    # Define o janela observada no histórico do mercado OHCL
-    # self.market_history = deque(maxlen=self.render_range)
+    # Define o janela observada no histórico do mercado OHCL=
     self.trades = deque(maxlen=self.render_range) 
 
     # Taxa padrão cobrada pela Binance (0.1% )
     self.fees = 0.001 
     # Define as colunas, desconsiderando a 'index' e a 'Date'
-    
+
     self.daily_returns = np.log(df['Close']/df['Close'].shift(1))
     volatility = self.daily_returns.std()  
     self.current_volatility = volatility
@@ -95,7 +91,7 @@ class TradingEnv:
   def next_observation(self):
 
     self._step += 1
-    obs = self.df.loc[self._step]  # np.concatenate((self.orders_history, self.market_history), axis=1)
+    obs = self.df.loc[self._step]
   
     return obs
   
@@ -204,10 +200,10 @@ class TradingEnv:
 
         # Calculate percentage gain/loss
         prev_amount = prev_volume * prev_price
-        if current_position == "buy" and self.stock_bought:# (prev_position == "sell" or self._last_type == 'hold'):# self.stock_held > 0: or 
+        if current_position == "buy" and self.stock_bought:
             current_amount = current_volume * current_price * (1 - transaction_cost)
             percent_change = (current_amount - prev_amount) / prev_amount
-        elif current_position == "sell" and self.stock_sold: # and (prev_position == "buy" or self._last_type == 'hold'):
+        elif current_position == "sell" and self.stock_sold:
             current_amount = prev_volume * current_price * (1 - transaction_cost)
             percent_change = (current_amount - prev_amount) / prev_amount
         elif current_position == "hold":
@@ -217,7 +213,7 @@ class TradingEnv:
             percent_change = -1  # Negative reward for invalid actions
 
         # Incorporate risk-adjusted return
-        sharpe_ratio = 1 # 0.5  # Assume a Sharpe ratio of 0.5
+        sharpe_ratio =  0.5  # Assume a Sharpe ratio of 0.5
         risk_adjusted_return = percent_change / sharpe_ratio
 
         # Apply a penalty for trades made during high volatility periods
