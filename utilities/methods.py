@@ -162,13 +162,7 @@ def test_agent(trading_env, agent, test_df, test_df_nomalized, visualize=True, t
         results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
 
 
-def information_ratio(net_returns, benchmark_returns):
-    active_returns = net_returns - benchmark_returns
-    active_std = np.std(active_returns)
-    if active_std == 0:
-        return 0
-    else:
-        return np.mean(active_returns) / active_std
+
     
 def routine(save_weights=False, processing_device="GPU", visualize=False):
     logging.info("Running the routine")
@@ -244,8 +238,8 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         model=model,
         comment=comment,
     )
-    train_agent(trading_env, agent, visualize=visualize, train_episodes=train_episodes, max_train_episode_steps=episode_steps) # visualize=True para visualizar animação
-    
+    # train_agent(trading_env, agent, visualize=visualize, train_episodes=train_episodes, max_train_episode_steps=episode_steps) # visualize=True para visualizar animação
+    agent.train(trading_env=trading_env, visualize=visualize, train_episodes=train_episodes, max_train_episode_steps=episode_steps)
     # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
 
 

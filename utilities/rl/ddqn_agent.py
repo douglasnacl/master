@@ -14,6 +14,7 @@ from time import time
 import pandas as pd
 import numpy as np
 from utilities.utils.checks import generate_file_name_weights, newest_file_in_dir
+from utilities.utils.utilities import add_indicators, format_time, min_max_normalization
 import json
 import os 
 import logging
@@ -109,7 +110,7 @@ class DoubleDeepQLearningAgent:
     self.nn_tau = self.nn_tau # frequencia de atualização da rede neural
     self.losses = []
     self.idx = tf.range(self.batch_size) # <tf.Tensor: shape=(4000,), dtype=int32, numpy=array([ 0, 1, 2, ..., 3997, 3998, 3999], dtype=int32)>
-    self.train = True
+    self.is_training = True
     
   def build_model(self, trainable=True):
 
@@ -171,7 +172,7 @@ class DoubleDeepQLearningAgent:
       self.episode_length += 1
     else:
       # Caso em treinamento, então
-      if self.train:
+      if self.is_training:
         # se o episódio for menor que o epsilon_decay_steps (250), então:
         if self.episodes < self.epsilon_decay_steps: 
           if (self.epsilon - self.epsilon_decay) > self.epsilon_end:
@@ -254,6 +255,102 @@ class DoubleDeepQLearningAgent:
     
     return np.sum(self.losses)
 
+  def information_ratio(self, net_returns, benchmark_returns):
+    active_returns = net_returns - benchmark_returns
+    active_std = np.std(active_returns)
+    if active_std == 0:
+        return 0
+    else:
+        return np.mean(active_returns) / active_std
+    
+  def train(self, trading_env, visualize=False, train_episodes=100, max_train_episode_steps=360):
+    # Cria o TensorBoard writer
+    
+    self.create_writer(trading_env.initial_balance, train_episodes)
+    # Define a janela recente para a quantidade de train_episodes de patrimônio líquido
+    total_net_worth = deque(maxlen=train_episodes) 
+    # Usado para rastrear o melhor patrimônio líquido médio 
+    best_average_net_worth = 0
+    win_count = 0  # Initialize win count
+    start = time()
+
+    for episode in range(train_episodes):
+
+        states, actions, rewards, predictions, dones, next_states = [], [], [], [], [], []
+        state = trading_env.reset(env_steps_size = max_train_episode_steps)
+        benchmark_returns = 0 
+
+        for _ in range(max_train_episode_steps):
+            trading_env.render(visualize)
+
+            # Seleciona a melhor ação baseado na politica epsilon greedy
+            action, prediction = self.act(state)
+            
+            next_state, reward, done = trading_env.step(action)
+
+            self.memorize_transition(
+                state, 
+                action, 
+                reward, 
+                next_state, 
+                0.0 if done else 1.0
+            )
+            
+            states.append(np.expand_dims(state, axis=0))
+            next_states.append(np.expand_dims(next_state, axis=0))
+            action_onehot = np.zeros(3)
+            action_onehot[action] = 1
+            actions.append(action_onehot)
+            rewards.append(reward)
+            dones.append(done)
+            predictions.append(prediction)
+            state = next_state
+
+            # Calculate benchmark return for the current step
+            if trading_env._step > 1:
+                benchmark_returns += trading_env.daily_returns.iloc[trading_env._step] # (trading_env.df.iloc[trading_env._step]['Close'] - trading_env.df.iloc[trading_env._step-1]['Close'])/trading_env.df.iloc[trading_env._step-1]['Close']
+            else:
+                benchmark_returns = 0
+
+            loss = self.experience_replay() #states, actions, rewards, predictions, dones, next_states)
+            
+        net_returns = trading_env.net_worth - trading_env.initial_balance
+        if benchmark_returns is not None:
+            info_ratio = self.information_ratio(net_returns, benchmark_returns)
+            self.writer.add_scalar('data/information_ratio', info_ratio, episode)
+
+
+        total_net_worth.append(trading_env.net_worth)
+        average_net_worth = np.average(total_net_worth)
+        average_reward = np.average(rewards)
+        episode_reward = sum(rewards)
+        
+        # Check if agent made a profit and increment win count
+        if trading_env.net_worth >= trading_env.initial_balance:
+            win_count += 1
+        win_rate = win_count / (episode + 1)  # Calculate win rate
+        
+        self.writer.add_scalar('data/episode_reward', episode_reward, episode)
+        self.writer.add_scalar('data/average_net_worth', average_net_worth, episode)
+        self.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
+        self.writer.add_scalar('data/rewards', average_reward, episode)
+        self.writer.add_scalar('data/win_rate', win_rate, episode) 
+      
+        print("episódio: {:<5} - patrimônio liquído {:<7.2f} - patrimônio liquído médio: {:<7.2f} - pedidos do episódio: {} - tempo de execução: {}  "\
+            .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(time() - start)))
+        
+        if episode % 5 == 0:
+          tf.keras.backend.clear_session()
+
+       
+        if episode >= train_episodes - 1:
+            if best_average_net_worth < average_net_worth:
+                best_average_net_worth = average_net_worth
+                print("Saving model")
+                self.save(score="{:.2f}".format(best_average_net_worth), args=[episode, average_net_worth, trading_env.episode_orders, loss]) 
+            self.save()
+ 
+    self.end_training_log()
   # Cria tensorboard writer
   def create_writer(self, initial_balance, train_episodes):
     self.replay_count = 0
@@ -268,44 +365,48 @@ class DoubleDeepQLearningAgent:
         
   def start_training_log(self, initial_balance, train_episodes): 
     # Salva os parâmetros de treinamento no arquivo parameters.json par uso futuro
-    current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
     params = {
-      "training_start": current_date,
+      "training_start": datetime.now().strftime('%Y-%m-%d %H:%M'),
+      'action_space': str(tuple(self.action_space)),
       "initial_balance": initial_balance,
       "training_episodes": train_episodes,
       "state_size": self.state_size,
-      "lr": self.nn_learning_rate,
+      "network_architecture": f"input: {self.state_size} - internals: {self.nn_architecture} - output: {self.action_space}",
+      "learning_rate": self.nn_learning_rate,
+      "activation": self.nn_activation,
+      "optimizer": self.nn_optimizer,
       "batch_size": self.batch_size,
       "model": self.model,
       "comment": self.comment,
-      "saving_time": "",
-      "agent_name": "Double Deep Q Learning",
       "training_end": ""
     }
     with open(self.log_dir+"/parameters.json", "w") as write_file:
       json.dump(params, write_file, indent=4)
 
+  
+  def write_log(self, properties):
+    with open(self.log_dir+"/parameters.json", "r") as json_file:
+      params = json.load(json_file)
+    for property in properties:
+      params[property] = properties.get(property)
+    with open(self.log_dir+"/parameters.json", "w") as write_file:
+      json.dump(params, write_file, indent=4)
+
+  # self.generate_log(properties={'training_end': datetime.now().strftime('%Y-%m-%d %H:%M')})
   def end_training_log(self):
+    properties={'training_end': datetime.now().strftime('%Y-%m-%d %H:%M')}
     with open(self.log_dir+"/parameters.json", "a+") as params:
-      current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
-      # params.write(f"training end: {current_date}\n")
-      with open(self.log_dir+"/parameters.json", "r") as json_file:
-        params = json.load(json_file)
-      params['training_end'] = current_date
-      with open(self.log_dir+"/parameters.json", "w") as write_file:
-        json.dump(params, write_file, indent=4)
+      self.write_log(properties)
 
   def save(self, name="ddqn_trader", score="", args=[]):
     # Salva os pesos dos modelos (keras model)
     self.online_network.save_weights(f"{self.log_dir}/{score}_{name}.h5")
     # Atualizar as configurações do arquivo json
     if score != "":
-      with open(self.log_dir+"/parameters.json", "r") as json_file:
-        params = json.load(json_file)
-      params["saving_time"] = datetime.now().strftime('%Y-%m-%d %H:%M')
-      params["agent_name"] = f"{score}_{name}.h5"
-      with open(self.log_dir+"/parameters.json", "w") as write_file:
-        json.dump(params, write_file, indent=4)
+      properties={
+        'agent_name': f"{score}_{name}.h5"
+      }
+      self.write_log(properties)
 
     # Cria log dos argumentos salvos do modelo em um arquivo 
     if len(args) > 0:
