@@ -29,12 +29,12 @@ class DoubleDeepQLearningAgent:
     nn_architecture=(64,128,64),
     nn_learning_rate=1e-4, # 0.00005, 
     nn_l2_reg=1e-6,
+    nn_activation='relu',
     nn_optimizer='Adam',
     nn_tau=100,
     tensors_float=tf.float32,
     model="", 
     comment="",
-    should_save_weights=False
   ):      
   
     self.model = model
@@ -46,7 +46,7 @@ class DoubleDeepQLearningAgent:
     self.action_space = action_space 
     self.num_actions = len(self.action_space) 
     self.batch_size = batch_size 
-
+  
     # Defina o tamanho do estado 
     # 5 indicadores padrão do mercado (OHCL) e indicadores calculados
     self.state_size = state_size
@@ -60,6 +60,7 @@ class DoubleDeepQLearningAgent:
 
     # Define a taxa de aprendizado
     self.nn_learning_rate = nn_learning_rate
+    self.nn_activation = nn_activation
     # Define o fator de desconto
     self.gamma = gamma
 
@@ -80,17 +81,8 @@ class DoubleDeepQLearningAgent:
     self.epsilon_history = []
 
     # Para aprendizado são utilizadas duas redes, porém para comparação entre st e st+1 é preciso congelar os pesos
-    self.should_save_weights= should_save_weights
     self.online_network = self.build_model()
     self.target_network = self.build_model(trainable=False)
-
-    # if self.should_save_weights:
-    #     try:
-    #         self.online_network.load_weights(self._newest_file_in_dir('./weights/'))
-    #         path = self._newest_file_in_dir('weights/')
-    #         self.epsilon = float(path[len('weights/weight_'):len('weights/weight_')+8])
-    #     except:
-    #         pass
 
     self.update_target()
 
@@ -129,6 +121,7 @@ class DoubleDeepQLearningAgent:
         self.nn_architecture, 
         self.nn_learning_rate, 
         self.nn_l2_reg,
+        activation=self.nn_activation,
         optimizer=self.nn_optimizer,
         trainable=trainable)
 
@@ -262,7 +255,7 @@ class DoubleDeepQLearningAgent:
     return np.sum(self.losses)
 
   # Cria tensorboard writer
-  def create_writer(self, initial_balance, normalize_value, train_episodes):
+  def create_writer(self, initial_balance, train_episodes):
     self.replay_count = 0
     self.log_dir = 'runs/'+self.log_name
     self.writer = SummaryWriter(self.log_dir)
@@ -271,9 +264,9 @@ class DoubleDeepQLearningAgent:
     if not os.path.exists(self.log_dir):
       os.makedirs(self.log_dir)
 
-    self.start_training_log(initial_balance, normalize_value, train_episodes)
+    self.start_training_log(initial_balance, train_episodes)
         
-  def start_training_log(self, initial_balance, normalize_value, train_episodes): 
+  def start_training_log(self, initial_balance, train_episodes): 
     # Salva os parâmetros de treinamento no arquivo parameters.json par uso futuro
     current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
     params = {
@@ -283,11 +276,11 @@ class DoubleDeepQLearningAgent:
       "state_size": self.state_size,
       "lr": self.nn_learning_rate,
       "batch_size": self.batch_size,
-      "normalize_value": normalize_value,
       "model": self.model,
       "comment": self.comment,
       "saving_time": "",
       "agent_name": "Double Deep Q Learning",
+      "training_end": ""
     }
     with open(self.log_dir+"/parameters.json", "w") as write_file:
       json.dump(params, write_file, indent=4)
@@ -295,8 +288,12 @@ class DoubleDeepQLearningAgent:
   def end_training_log(self):
     with open(self.log_dir+"/parameters.json", "a+") as params:
       current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
-      params.write(f"training end: {current_date}\n")
-      # params['training end'] = f"{current_date}"
+      # params.write(f"training end: {current_date}\n")
+      with open(self.log_dir+"/parameters.json", "r") as json_file:
+        params = json.load(json_file)
+      params['training_end'] = current_date
+      with open(self.log_dir+"/parameters.json", "w") as write_file:
+        json.dump(params, write_file, indent=4)
 
   def save(self, name="ddqn_trader", score="", args=[]):
     # Salva os pesos dos modelos (keras model)

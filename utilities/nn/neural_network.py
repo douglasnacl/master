@@ -8,11 +8,12 @@ import tensorflow as tf
 from tensorflow import keras
 class NeuralNetwork:
 
-  def __init__(self, state_size, action_space, architecture, learning_rate, l2_reg, optimizer='SGD', trainable=True) -> None:
+  def __init__(self, state_size, action_space, architecture, learning_rate, l2_reg, activation='relu', optimizer='Adam', trainable=True) -> None:
     self.state_size = state_size # (4096, 18)
     self.action_space = action_space # (0, 1, 2)
     self.num_actions = len(self.action_space) # (3) hold, buy e sell
     self.architecture = architecture # (256, 256)
+    self.activation = activation
     self.optimizer = optimizer 
     self.learning_rate = learning_rate
     self.trainable = trainable
@@ -31,7 +32,7 @@ class NeuralNetwork:
 
   def build(self):
     layers = []
-    #optimizer = self.get_optimizer()
+    optimizer = self.get_optimizer()
 
     layers = []
     n = len(self.architecture)
@@ -39,7 +40,7 @@ class NeuralNetwork:
         layers.append(
           Dense(units=units,
               input_dim=self.state_size if i == 1 else None,
-              activation='relu',
+              activation=self.activation,
               kernel_regularizer=l2(self.l2_reg),
               name=f'Dense_{i}',
               trainable=self.trainable
@@ -57,7 +58,7 @@ class NeuralNetwork:
     model = Sequential(layers)
     model.compile(
       loss='huber',
-      optimizer= Adam(learning_rate=self.learning_rate), #self.get_optimizer(), #Adam(lr=self.learning_rate),
+      optimizer=optimizer
       # loss=self.ddqn_loss
     )
 

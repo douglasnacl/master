@@ -21,23 +21,26 @@ load_dotenv() # pip install python-dotenv
 
 NASDAQ_API = os.environ.get("NASDAQ_API")
 stock_name = os.environ.get("STOCK_NAME", "B3SA")
-replay_capacity = int(os.environ.get('REPLAY_CAPACITY', 1e6))
+replay_capacity = int(float(os.environ.get('REPLAY_CAPACITY', '1e6')))
 gamma = float(os.environ.get('GAMMA', 0.99))
-batch_size = int(os.environ.get('BATCH_SIZE', 512 )) # 4096
+batch_size = int(os.environ.get('BATCH_SIZE', 360 )) # 4096
 nn_architecture = os.environ.get('NN_ARCHITECTURE', '(64, 128, 64)')
 nn_learning_rate = float(os.environ.get('NN_LEARNING_RATE', 1e-6))
 nn_l2_reg = float(os.environ.get('NN_L2_REG', 0.0001))
+nn_activation = os.environ.get('NN_ACTIVATION', 'relu')
 nn_optimizer = os.environ.get('NN_OPTIMIZER', 'Adam')
 nn_tau = float(os.environ.get('NN_TAU', 100))
 model = os.environ.get('MODEL', "Double Deep Q-Learning Network")
 comment = os.environ.get('COMMENT', "An agent to learn how to negotiate stocks")
+train_episodes = int(os.environ.get("TRAIN_EPISODES", 100))
+episode_steps = int(os.environ.get("EPISODE_STEPS", 360))
 
 np.random.seed(42)
 tf.random.set_seed(42) 
 
-def train_agent(trading_env, agent, visualize=False, train_episodes = 20, max_train_episode_steps=720):
+def train_agent(trading_env, agent, visualize=False, train_episodes=100, max_train_episode_steps=360):
     # Cria o TensorBoard writer
-    agent.create_writer(trading_env.initial_balance, trading_env.normalize_value, train_episodes)
+    agent.create_writer(trading_env.initial_balance, train_episodes)
     # Define a janela recente para a quantidade de train_episodes de patrimônio líquido
     total_net_worth = deque(maxlen=train_episodes) 
     # Usado para rastrear o melhor patrimônio líquido médio 
@@ -174,18 +177,17 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         use_cpu()
     else:
         tensors_float = check_computer_device()
+
     logging.info(f"Realizando a leitura do arquivo de dados {stock_name}")
     df = pd.read_csv(f'./assets/ts/{stock_name}.csv').loc[:, ['Date', 'Open','Close','High','Low','Volume']]#.iloc[:, :-2]#['Date', 'Open','Close','High','Low','Volume']
     df['Volume'] = df['Volume']/1000
-    # df = df.astype({'Open': 'float16','Close': 'float16', 'High': 'float16', 'Low': 'float16', 'Volume': 'float32'})
     
     df = df.dropna()
     df = df.sort_values('Date')
 
     df = add_indicators(df) # insert indicators to df 2021_02_21_17_54_ddqn_trader
-    # df = indicators_dataframe(df, threshold=0.5, plot=False) # insert indicators to df 2021_02_18_21_48_ddqn_trader
     
-    df_nomalized = min_max_normalization(df[99:])[1:]#.dropna()
+    df_nomalized = min_max_normalization(df[99:])[1:]
     df = df[100:].dropna()
     
     test_window = 180*3 # 720*3 # 3 months
@@ -210,49 +212,38 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
     trading_env = TradingEnv(df=train_df, df_normalized=train_df_nomalized, display_reward=True, display_indicators=True)
 
     state_size = len(list(df.columns[1:])) # OHCL + Volume + Indicadores
-    batch_size = 512 # 4096
 
-    ### Parâmetros para criação do agente
-    ## Define hyperparameters
-    # gamma = .99,  # Fator de desconto
-    tau = nn_tau # 100  # Frequência de atualização da rede alvo (target network)
-    nn_architecture = ast.literal_eval('(64,128,64)')
-    ## Parâmetros para a Criação da Rede Neural
+    nn_architecture_ = ast.literal_eval(nn_architecture)
+
     action_space = np.array([0, 1, 2])
-    # learning_rate=1e-4
-    # architecture = (64, 128, 64)  # units per layer
-    # l2_reg = 1e-6  # L2 regularization
-    # optimizer='Adam'
 
     logging.info(f"""
         A rede neural usada no treinamento possui:
             > {state_size} neurônios na camada de entrada (OCHL + V + Indicators)
-            > {nn_architecture} neurônios nas camadas ocultas
+            > {nn_architecture_} neurônios nas camadas ocultas
             > {len(action_space)} neurônios na camada de saida
             > Com taxa de aprendizagem {nn_learning_rate}
             > Regularização L2 {nn_l2_reg}
             > e Otimização {nn_optimizer}
     """)
     
-    # ### Experience Replay
-    # replay_capacity = int(1e6)    
-
     agent = DoubleDeepQLearningAgent(
         action_space=action_space,
         state_size=state_size, 
         replay_capacity=replay_capacity,
-        gamma = gamma,
-        batch_size = batch_size,
-        nn_architecture=nn_architecture,
-        nn_learning_rate=nn_learning_rate, 
-        nn_l2_reg=nn_l2_reg,
-        nn_optimizer=nn_optimizer, 
-        nn_tau=nn_tau,
-        tensors_float=tensors_float, 
+        gamma = gamma, # Fator de Desconto
+        batch_size = batch_size, 
+        nn_architecture=nn_architecture_, # Arquitetura da Rede Neural
+        nn_learning_rate=nn_learning_rate, # Taxa de Aprendizagem
+        nn_l2_reg=nn_l2_reg, # Regularização L2
+        nn_activation=nn_activation, # Função de Ativação
+        nn_optimizer=nn_optimizer, # Otimizador da Rede
+        nn_tau=nn_tau, # Frequencia de Atualização da Rede Alvo (Target Network)
+        tensors_float=tensors_float, # Define se será 32bit ou 16bit dependendo do hardware do treinamento
         model=model,
         comment=comment,
     )
-    train_agent(trading_env, agent, visualize=visualize, train_episodes=100, max_train_episode_steps=360) # visualize=True para visualizar animação
+    train_agent(trading_env, agent, visualize=visualize, train_episodes=train_episodes, max_train_episode_steps=episode_steps) # visualize=True para visualizar animação
     
     # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
 

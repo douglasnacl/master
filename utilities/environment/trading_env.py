@@ -24,10 +24,9 @@ class TradingEnv:
         Mostrar recompensa
       display_indicators: boolean
         Mostrar indicadores
-      normalize_value: int
         ??? Fator de normalização ???
   """
-  def __init__(self, df, df_normalized, initial_balance=1000, render_range=100, display_reward=False, display_indicators=False, normalize_value=40000): # lookback_window_size=50, render_range=100, display_reward=False, display_indicators=False, normalize_value=40000):
+  def __init__(self, df, df_normalized, initial_balance=1000, render_range=100, display_reward=False, display_indicators=False):
     # Define o espaço de ações e o tamanho do espaço, assim como outros parametros personalizados
     self.df = df.reset_index()
     self.df_normalized = df_normalized.reset_index()
@@ -51,16 +50,11 @@ class TradingEnv:
     # Define o janela observada no histórico do mercado OHCL
     # self.market_history = deque(maxlen=self.render_range)
     self.trades = deque(maxlen=self.render_range) 
-    # Define o fator de normalização
-    self.normalize_value = normalize_value
+
     # Taxa padrão cobrada pela Binance (0.1% )
     self.fees = 0.001 
     # Define as colunas, desconsiderando a 'index' e a 'Date'
-    self.columns = list(self.df_normalized.columns[2:])
-    #self.market_returns = self.market_return(self.df)
-
-    # self._test_reward = 0
-
+    
     self.daily_returns = np.log(df['Close']/df['Close'].shift(1))
     volatility = self.daily_returns.std()  
     self.current_volatility = volatility
