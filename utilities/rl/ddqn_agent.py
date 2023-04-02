@@ -18,6 +18,7 @@ from utilities.utils.utilities import add_indicators, format_time, min_max_norma
 import json
 import os 
 import logging
+
 class DoubleDeepQLearningAgent:
 
   def __init__(

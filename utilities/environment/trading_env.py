@@ -27,7 +27,7 @@ class TradingEnv:
         ??? Fator de normalização ???
   """
   def __init__(self, df, df_normalized, initial_balance=1000, render_range=100, display_reward=False, display_indicators=False):
-    # Define o espaço de ações e o tamanho do espaço, assim como outros parametros personalizados
+    # Define o espaço de ações e o tamanho do espaço, assim como arametros personalizados
     self.df = df.reset_index()
     self.df_normalized = df_normalized.reset_index()
     self.df_total_steps = len(self.df)-1
@@ -170,8 +170,9 @@ class TradingEnv:
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
   
-  
-# Custos de Transação: O primeiro passo é calcular os custos de transação. Os custos de transação só são aplicados quando uma posição é alterada e o custo é calculado como uma porcentagem do valor da posição atual. Um custo de transação de 1% é assumido nesta implementação.
+# Função Get Reward: calcula a recompensa de acordo com o tipo de ação realizada - Compra, Venda ou Manter Posição
+# considerando:
+# Custos de /usr/share/code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.htmlTransação: O primeiro passo é calcular os custos de transação. Os custos de transação só são aplicados quando uma posição é alterada e o custo é calculado como uma porcentagem do valor da posição atual. Um custo de transação de 1% é assumido nesta implementação.
 # Ganho/Perda Percentual: O ganho/perda percentual é calculado com base nos volumes e preços atuais e anteriores. Se a posição atual for "compra" e a posição anterior for "venda" ou "manter", a variação percentual é calculada como (valor_atual - valor_anterior - custo_transação) / valor_anterior. Se a posição atual for "venda" e a posição anterior for "compra" ou "manter", a variação percentual é calculada como (valor_anterior - valor_atual - custo_transação) / valor_anterior. Se a posição atual for "manter", a variação percentual é definida como 0. Se uma ação inválida for tomada, como comprar após uma ordem de compra, uma recompensa negativa é dada.
 # Retorno Ajustado ao Risco: O ganho/perda percentual é então ajustado para o risco. Nesta implementação, um índice de Sharpe de 0,5 é assumido, portanto, o retorno ajustado ao risco é calculado como variação_percentual / 0,5.
 # Penalidade de Volatilidade: Uma penalidade é aplicada para negociações realizadas durante períodos de alta volatilidade. Nesta implementação, um limite de volatilidade de 2% é assumido. Se a volatilidade atual estiver acima do limite, uma penalidade de -0,1 é aplicada.
