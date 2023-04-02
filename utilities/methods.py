@@ -39,95 +39,6 @@ initial_balance = int(os.environ.get("INITIAL_BALANCE", 1000))
 np.random.seed(42)
 tf.random.set_seed(42) 
 
-def train_agent(trading_env, agent, visualize=False, train_episodes=100, max_train_episode_steps=360):
-    # Cria o TensorBoard writer
-    agent.create_writer(trading_env.initial_balance, train_episodes)
-    # Define a janela recente para a quantidade de train_episodes de patrimônio líquido
-    total_net_worth = deque(maxlen=train_episodes) 
-    # Usado para rastrear o melhor patrimônio líquido médio 
-    best_average_net_worth = 0
-    win_count = 0  # Initialize win count
-    start = time()
-
-    for episode in range(train_episodes):
-
-        states, actions, rewards, predictions, dones, next_states = [], [], [], [], [], []
-        state = trading_env.reset(env_steps_size = max_train_episode_steps)
-        benchmark_returns = 0 
-
-        for _ in range(max_train_episode_steps):
-            trading_env.render(visualize)
-
-            # Seleciona a melhor ação baseado na politica epsilon greedy
-            action, prediction = agent.act(state)
-            
-            next_state, reward, done = trading_env.step(action)
-
-            agent.memorize_transition(
-                state, 
-                action, 
-                reward, 
-                next_state, 
-                0.0 if done else 1.0
-            )
-            
-            states.append(np.expand_dims(state, axis=0))
-            next_states.append(np.expand_dims(next_state, axis=0))
-            action_onehot = np.zeros(3)
-            action_onehot[action] = 1
-            actions.append(action_onehot)
-            rewards.append(reward)
-            dones.append(done)
-            predictions.append(prediction)
-            state = next_state
-
-            # Calculate benchmark return for the current step
-            if trading_env._step > 1:
-                benchmark_returns += trading_env.daily_returns.iloc[trading_env._step] # (trading_env.df.iloc[trading_env._step]['Close'] - trading_env.df.iloc[trading_env._step-1]['Close'])/trading_env.df.iloc[trading_env._step-1]['Close']
-            else:
-                benchmark_returns = 0
-
-            loss = agent.experience_replay() #states, actions, rewards, predictions, dones, next_states)
-            
-        net_returns = trading_env.net_worth - trading_env.initial_balance
-        if benchmark_returns is not None:
-            info_ratio = information_ratio(net_returns, benchmark_returns)
-            agent.writer.add_scalar('data/information_ratio', info_ratio, episode)
-
-
-        total_net_worth.append(trading_env.net_worth)
-        average_net_worth = np.average(total_net_worth)
-        average_reward = np.average(rewards)
-        episode_reward = sum(rewards)
-        
-        # Check if agent made a profit and increment win count
-        if trading_env.net_worth >= trading_env.initial_balance:
-            win_count += 1
-        win_rate = win_count / (episode + 1)  # Calculate win rate
-        
-        agent.writer.add_scalar('data/episode_reward', episode_reward, episode)
-        agent.writer.add_scalar('data/average_net_worth', average_net_worth, episode)
-        agent.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
-        agent.writer.add_scalar('data/rewards', average_reward, episode)
-        agent.writer.add_scalar('data/win_rate', win_rate, episode) 
-      
-        print("episódio: {:<5} - patrimônio liquído {:<7.2f} - patrimônio liquído médio: {:<7.2f} - pedidos do episódio: {} - tempo de execução: {}  "\
-            .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(time() - start)))
-        
-        if episode % 5 == 0:
-          tf.keras.backend.clear_session()
-
-       
-        if episode >= train_episodes - 1:
-            if best_average_net_worth < average_net_worth:
-                best_average_net_worth = average_net_worth
-                print("Saving model")
-                agent.save(score="{:.2f}".format(best_average_net_worth), args=[episode, average_net_worth, trading_env.episode_orders, loss]) 
-            agent.save()
- 
-    agent.end_training_log()
-
-
 def test_agent(trading_env, agent, test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="", name="ddqn_trader", comment="", display_reward=False, display_indicators=False):
     with open(folder+"/parameters.json", "r") as json_file:
         params = json.load(json_file)
@@ -160,9 +71,6 @@ def test_agent(trading_env, agent, test_df, test_df_nomalized, visualize=True, t
         results.write(f'{current_date}, {name}, test episodes:{test_episodes}')
         results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
         results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
-
-
-
     
 def routine(save_weights=False, processing_device="GPU", visualize=False):
     logging.info("Running the routine")
@@ -238,7 +146,7 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         model=model,
         comment=comment,
     )
-    # train_agent(trading_env, agent, visualize=visualize, train_episodes=train_episodes, max_train_episode_steps=episode_steps) # visualize=True para visualizar animação
+
     agent.train(trading_env=trading_env, visualize=visualize, train_episodes=train_episodes, max_train_episode_steps=episode_steps)
     # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
 

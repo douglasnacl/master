@@ -126,14 +126,14 @@ class TradingEnv:
     low = state['Low'] 
     _type = ''
 
-    # Segurar (Hold)
+    # Ação Manter Posição - Não realiza nenhuma operação
     if action == 0: 
       self.stock_bought = 0
       self.stock_sold = 0
       _type = 'hold'
       self.episode_orders += 0
-    # Comprar (buy)
-    # Antes de realizar a operação checa se o balanço atual é maior que 5% do balanço inicial
+
+    # Ação Comprar - Antes de realizar a operação checa se o balanço atual é maior que 5% do balanço inicial
     elif action == 1 and self.balance > self.initial_balance*0.05:
       # Compra com 100% do saldo atual (balanço financeiro)
       self.stock_bought = self.balance / current_price
@@ -143,10 +143,9 @@ class TradingEnv:
       _type = 'buy'
       self.episode_orders += 1
 
-    # Vender (sell)
-    # Antes de realizar a operação checa se os ativos em mãos vezes o preço do ativo é maior que 5% do balanço inical
+    # Ação Vender - Antes de realizar a operação checa se os ativos em mãos vezes o preço do ativo é maior que 5% do balanço inical
     elif action == 2 and self.stock_held * current_price > self.initial_balance*0.05:
-      # Vende 100% das ações seguradas
+      # Vende todas as ações em mãos
       self.stock_sold = self.stock_held
       # Calcula o montante recebido pela venda do ativo dado as taxas
       self.stock_sold *= (1-self.fees) 
@@ -171,15 +170,14 @@ class TradingEnv:
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
   
-  # Let me explain what's going on in each step.
-
-  # Transaction Costs: The first step is to calculate the transaction costs. Transaction costs are only applied when a position is changed and the cost is calculated as a percentage of the current position's value. A transaction cost of 1% is assumed in this implementation.
-  # Percentage Gain/Loss: The percentage gain/loss is calculated based on the current and previous volumes and prices. If the current position is "buy" and the previous position is "sell" or "hold", the percent change is calculated as (current_amount - prev_amount - transaction_cost) / prev_amount. If the current position is "sell" and the previous position is "buy" or "hold", the percent change is calculated as (prev_amount - current_amount - transaction_cost) / prev_amount. If the current position is "hold", the percent change is set to 0. If an invalid action is taken, such as buying after a buy order, a negative reward is given.
-  # Risk-Adjusted Return: The percentage gain/loss is then adjusted for risk. In this implementation, a Sharpe ratio of 0.5 is assumed, so the risk-adjusted return is calculated as percent_change / 0.5.
-  # Volatility Penalty: A penalty is applied for trades made during high volatility periods. In this implementation, a volatility threshold of 2% is assumed. If the current volatility is above the threshold, a penalty of -0.1 is applied.
-  # Opportunity Cost: An opportunity cost is applied for each trade made. In this implementation, a potential return of 2% is assumed for alternative investments. The opportunity cost penalty is calculated as -opportunity_cost * self.episode_orders.
-  # Combine Rewards: The final reward is the sum of the risk-adjusted return, the volatility penalty, and the opportunity cost penalty. The reward is capped at -1 to prevent large negative rewards.
-  # Overall, this implementation seems to take into account several factors that can affect profitability, such as transaction costs, risk, volatility, and opportunity cost.
+  
+# Custos de Transação: O primeiro passo é calcular os custos de transação. Os custos de transação só são aplicados quando uma posição é alterada e o custo é calculado como uma porcentagem do valor da posição atual. Um custo de transação de 1% é assumido nesta implementação.
+# Ganho/Perda Percentual: O ganho/perda percentual é calculado com base nos volumes e preços atuais e anteriores. Se a posição atual for "compra" e a posição anterior for "venda" ou "manter", a variação percentual é calculada como (valor_atual - valor_anterior - custo_transação) / valor_anterior. Se a posição atual for "venda" e a posição anterior for "compra" ou "manter", a variação percentual é calculada como (valor_anterior - valor_atual - custo_transação) / valor_anterior. Se a posição atual for "manter", a variação percentual é definida como 0. Se uma ação inválida for tomada, como comprar após uma ordem de compra, uma recompensa negativa é dada.
+# Retorno Ajustado ao Risco: O ganho/perda percentual é então ajustado para o risco. Nesta implementação, um índice de Sharpe de 0,5 é assumido, portanto, o retorno ajustado ao risco é calculado como variação_percentual / 0,5.
+# Penalidade de Volatilidade: Uma penalidade é aplicada para negociações realizadas durante períodos de alta volatilidade. Nesta implementação, um limite de volatilidade de 2% é assumido. Se a volatilidade atual estiver acima do limite, uma penalidade de -0,1 é aplicada.
+# Custo de Oportunidade: Um custo de oportunidade é aplicado para cada negociação realizada. Nesta implementação, um retorno potencial de 2% é assumido para investimentos alternativos. A penalidade de custo de oportunidade é calculada como -custo_oportunidade * ordens_do_episódio.
+# Combinando as Recompensas: A recompensa final é a soma do retorno ajustado ao risco, da penalidade de volatilidade e da penalidade de custo de oportunidade. A recompensa é limitada a -1 para evitar grandes recompensas negativas.
+# No geral, esta implementação parece levar em consideração vários fatores que podem afetar a lucratividade, como custos de transação, risco, volatilidade e custo de oportunidade.
   
   def get_reward(self):
     if self.episode_orders > 1 and self.episode_orders > self.prev_episode_orders:
@@ -193,12 +191,13 @@ class TradingEnv:
         current_price = self.trades[-1]['current_price']
         prev_price = self.trades[-2]['current_price']
 
-        # Calculate transaction costs
-        transaction_cost = 0.01  # 1% transaction cost
+        # Calcula os custos de transação 
+        transaction_cost = 0.01  # Define o custo de transação como 1%
         if current_position != prev_position:
-            transaction_cost *= (current_volume * current_price)  # Apply transaction cost only when the position is changed
+            # Aplica o custo de transação apenas quando a posição é alterada
+            transaction_cost *= (current_volume * current_price) 
 
-        # Calculate percentage gain/loss
+        # Calcula o percentual de ganho/perda baseado no volume e preço atual e anterior
         prev_amount = prev_volume * prev_price
         if current_position == "buy" and self.stock_bought:
             current_amount = current_volume * current_price * (1 - transaction_cost)
@@ -210,26 +209,28 @@ class TradingEnv:
             current_amount = current_volume * current_price 
             percent_change = 0
         else:
-            percent_change = -1  # Negative reward for invalid actions
+            # Recompença negativa para ações inválidas
+            percent_change = -1 
 
-        # Incorporate risk-adjusted return
-        sharpe_ratio =  0.5  # Assume a Sharpe ratio of 0.5
+        # Incorpora o retorno ajustado ao risco
+        sharpe_ratio =  0.5  # Assume um Sharpe ratio de 0.5
         risk_adjusted_return = percent_change / sharpe_ratio
 
-        # Apply a penalty for trades made during high volatility periods
+        # Aplica a penalidade para negociações feitas durante períodos de alta volatilidade
         volatility_threshold = 0.02  # Assume a volatility threshold of 2%
         if self.current_volatility > volatility_threshold:
             volatility_penalty = -0.1  # Penalize trades made during high volatility periods
         else:
             volatility_penalty = 0
 
-        # Apply opportunity cost
-        opportunity_cost = 0.02  # Assume a potential return of 2% in alternative investments
-        opportunity_cost_penalty = -opportunity_cost * self.episode_orders  # Apply the opportunity cost for each trade
+        # Aplica a penalidade de custo de oportunidade para cada negociação
+        opportunity_cost = 0.02  # Assume um retorno potencial de 2% em investimentos alternativos
+        opportunity_cost_penalty = -opportunity_cost * self.episode_orders # Aplique o custo de oportunidade para cada negociação
 
-        # Combine the rewards and penalties
+        # Combina as recompenças e penalidades
         reward = risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
-        reward = max(reward, -1)  # Cap the reward at -1 to prevent large negative rewards
+        reward = max(reward, -1)  # Limita a recompença negativa a -1 para evitar recompenças muito negativas 
+        
         # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
         self.trades[-1]["Reward"] = reward
 
