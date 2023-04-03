@@ -263,7 +263,65 @@ class DoubleDeepQLearningAgent:
         return 0
     else:
         return np.mean(active_returns) / active_std
-    
+  def get_capm():
+    from scipy.stats import linregress
+
+    ibovespa = pd.read_csv("BVSP.csv")
+    ibovespa['Date'] = ibovespa['Datetime']
+    ibovespa = ibovespa[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
+
+    # ativo = pd.read_csv("PETR4.csv")
+    # ativo['Date'] = ativo['Datetime']
+    # ativo = ativo[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
+
+    # returns = returns[:-2]
+
+    # beta, _, rvalue, _, _ = linregress(returns['ibovespa'].dropna(), returns['ativo'].dropna())
+
+    # # Definir a taxa livre de risco como a taxa de retorno do Tesouro Nacional de 10 anos
+    # rf = 0.095 # Fonte: https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-publicos
+
+    # # Calcular o retorno esperado do mercado como a média dos retornos diários do Ibovespa
+    # rm = returns['ibovespa'].mean() * 252
+    # capm = rf + beta * (rm - rf)
+    # return capm
+
+    # import pandas_datareader as pdr
+    # import pandas as pd
+    # import matplotlib.pyplot as plt
+    # import seaborn as sns
+
+    # # Import historical prices of Petrobras
+    # petrobras = pdr.get_data_yahoo('PETR4.SA')
+
+    # # Calculate daily returns of Petrobras
+    # daily_returns = petrobras['Adj Close'].pct_change()
+
+    # # Day trading strategy: Buy low, sell high
+    # buy_price = petrobras['Adj Close'].shift(1)
+    # sell_price = petrobras['Adj Close'].shift(-1)
+    # day_trading_returns = (sell_price - buy_price) / buy_price
+
+    # # Buy-and-hold strategy: Hold the stock for the entire period
+    # buy_and_hold_returns = (petrobras['Adj Close'] - petrobras['Adj Close'][0]) / petrobras['Adj Close'][0]
+
+    # # Combine the returns into a single dataframe
+    # returns = pd.DataFrame({
+    #     'Day Trading': day_trading_returns,
+    #     'Buy-and-Hold': buy_and_hold_returns
+    # })
+
+    # # Calculate the cumulative returns for each strategy
+    # cumulative_returns = (1 + returns).cumprod() - 1
+
+    # # Plot the cumulative returns of each strategy
+    # plt.figure(figsize=(10, 5))
+    # sns.lineplot(data=cumulative_returns)
+    # plt.title('Cumulative Returns of Day Trading vs Buy-and-Hold')
+    # plt.xlabel('Date')
+    # plt.ylabel('Cumulative Returns')
+    # plt.show()
+
   def train(self, trading_env, visualize=False, train_episodes=100, max_train_episode_steps=360):
     # Cria o TensorBoard writer
     
@@ -320,6 +378,7 @@ class DoubleDeepQLearningAgent:
             info_ratio = self.information_ratio(net_returns, benchmark_returns)
             self.writer.add_scalar('data/information_ratio', info_ratio, episode)
 
+        agent_daily_return = trading_env.agent_daily_return
 
         total_net_worth.append(trading_env.net_worth)
         average_net_worth = np.average(total_net_worth)

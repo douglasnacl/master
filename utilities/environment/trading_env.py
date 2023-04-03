@@ -54,7 +54,7 @@ class TradingEnv:
     self.daily_returns = np.log(df['Close']/df['Close'].shift(1))
     volatility = self.daily_returns.std()  
     self.current_volatility = volatility
-
+    self.agent_daily_return = 0
 
 
   def reset(self, env_steps_size = 0):
@@ -76,6 +76,7 @@ class TradingEnv:
     self.rewards = deque(maxlen=self.render_range)
     self.env_steps_size = env_steps_size
     self.punish_value = 0
+    self.agent_daily_return = 0
     
     if self.env_steps_size > 0:
       self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
@@ -83,8 +84,6 @@ class TradingEnv:
     else:
       self._step = self.env_steps_size
       self._end_step = len(self.df_normalized) - 1
-
-    self._last_type = None
 
     return self.df.loc[self._step] # state[-1]
 
@@ -153,10 +152,6 @@ class TradingEnv:
       self.stock_held -= self.stock_sold
       _type = 'sell'
       self.episode_orders += 1
-    
-    if _type != '' or _type:
-      self._last_type = _type
-    # logging.info("INFO: type: %s - last type: %s", _type, self._last_type)
 
     self.trades.append({
       'Date' : date, 
@@ -169,7 +164,12 @@ class TradingEnv:
     
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
-  
+
+    # Calculate daily return
+    if self.trades and date == self.trades[-1]['Date']:
+        agent_daily_return = (self.net_worth - self.prev_net_worth) / self.prev_net_worth
+        self.agent_daily_return.append(agent_daily_return)
+
 # Função Get Reward: calcula a recompensa de acordo com o tipo de ação realizada - Compra, Venda ou Manter Posição
 # considerando:
 # Custos de /usr/share/code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.htmlTransação: O primeiro passo é calcular os custos de transação. Os custos de transação só são aplicados quando uma posição é alterada e o custo é calculado como uma porcentagem do valor da posição atual. Um custo de transação de 1% é assumido nesta implementação.
