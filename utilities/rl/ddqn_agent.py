@@ -263,64 +263,38 @@ class DoubleDeepQLearningAgent:
         return 0
     else:
         return np.mean(active_returns) / active_std
-  def get_capm():
+    
+  def get_capm(self, _init, _end, agent_daily_return):
     from scipy.stats import linregress
 
-    ibovespa = pd.read_csv("BVSP.csv")
-    ibovespa['Date'] = ibovespa['Datetime']
-    ibovespa = ibovespa[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
+    print("_init: ", _init, " - _end: ", _end, " - diff: ", _end - _init, " - len: ", len(agent_daily_return))
 
-    # ativo = pd.read_csv("PETR4.csv")
-    # ativo['Date'] = ativo['Datetime']
-    # ativo = ativo[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
+    index = pd.read_csv("./assets/ts/BVSP.csv")
+    # index['Date'] = index['Datetime']
+    index = index[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
+    index = index.iloc[_init:_end].reset_index(drop=True)
+    
+    active = pd.read_csv("./assets/ts/PETR4.csv")
+    # active['Date'] = active['Datetime']
+    active = active[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
+    active = active.iloc[_init:_end].reset_index(drop=True)
+    
+    # Combine the returns into a single dataframe
+    returns = pd.DataFrame({
+      'index': index['Close'].pct_change().fillna(0),
+      'buy_and_hold': active['Close'].pct_change().fillna(0),
+      'day_trading': agent_daily_return
+    })
+    # print("index: ", returns['index'], " - active: ", returns['buy_and_hold'], " - returns: ", returns['day_trading'])
+    beta, _, rvalue, _, _ = linregress(returns['index'].dropna(), returns['day_trading'].dropna())
 
-    # returns = returns[:-2]
+    # Definir a taxa livre de risco como a taxa de retorno do Tesouro Nacional de 10 anos
+    rf = 0.095 # Fonte: https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-publicos
 
-    # beta, _, rvalue, _, _ = linregress(returns['ibovespa'].dropna(), returns['ativo'].dropna())
-
-    # # Definir a taxa livre de risco como a taxa de retorno do Tesouro Nacional de 10 anos
-    # rf = 0.095 # Fonte: https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-publicos
-
-    # # Calcular o retorno esperado do mercado como a média dos retornos diários do Ibovespa
-    # rm = returns['ibovespa'].mean() * 252
-    # capm = rf + beta * (rm - rf)
-    # return capm
-
-    # import pandas_datareader as pdr
-    # import pandas as pd
-    # import matplotlib.pyplot as plt
-    # import seaborn as sns
-
-    # # Import historical prices of Petrobras
-    # petrobras = pdr.get_data_yahoo('PETR4.SA')
-
-    # # Calculate daily returns of Petrobras
-    # daily_returns = petrobras['Adj Close'].pct_change()
-
-    # # Day trading strategy: Buy low, sell high
-    # buy_price = petrobras['Adj Close'].shift(1)
-    # sell_price = petrobras['Adj Close'].shift(-1)
-    # day_trading_returns = (sell_price - buy_price) / buy_price
-
-    # # Buy-and-hold strategy: Hold the stock for the entire period
-    # buy_and_hold_returns = (petrobras['Adj Close'] - petrobras['Adj Close'][0]) / petrobras['Adj Close'][0]
-
-    # # Combine the returns into a single dataframe
-    # returns = pd.DataFrame({
-    #     'Day Trading': day_trading_returns,
-    #     'Buy-and-Hold': buy_and_hold_returns
-    # })
-
-    # # Calculate the cumulative returns for each strategy
-    # cumulative_returns = (1 + returns).cumprod() - 1
-
-    # # Plot the cumulative returns of each strategy
-    # plt.figure(figsize=(10, 5))
-    # sns.lineplot(data=cumulative_returns)
-    # plt.title('Cumulative Returns of Day Trading vs Buy-and-Hold')
-    # plt.xlabel('Date')
-    # plt.ylabel('Cumulative Returns')
-    # plt.show()
+    # Calcular o retorno esperado do mercado como a média dos retornos diários do Ibovespa
+    rm = returns['index'].mean() * len(returns['index']) # Fonte: https://www.investing.com/indices/brazil-35-historical-data
+    capm = rf + beta * (rm - rf)
+    return capm
 
   def train(self, trading_env, visualize=False, train_episodes=100, max_train_episode_steps=360):
     # Cria o TensorBoard writer
@@ -379,7 +353,9 @@ class DoubleDeepQLearningAgent:
             self.writer.add_scalar('data/information_ratio', info_ratio, episode)
 
         agent_daily_return = trading_env.agent_daily_return
-
+        capm = self.get_capm(trading_env._init_step, trading_env._step, agent_daily_return)
+        print(f'CAPM-{trading_env._step}: ', capm)
+    
         total_net_worth.append(trading_env.net_worth)
         average_net_worth = np.average(total_net_worth)
         average_reward = np.average(rewards)
@@ -395,6 +371,7 @@ class DoubleDeepQLearningAgent:
         self.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
         self.writer.add_scalar('data/rewards', average_reward, episode)
         self.writer.add_scalar('data/win_rate', win_rate, episode) 
+        self.writer.add_scalar('data/capm', capm, episode) 
       
         print("episódio: {:<5} - patrimônio liquído {:<7.2f} - patrimônio liquído médio: {:<7.2f} - pedidos do episódio: {} - tempo de execução: {}  "\
             .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(time() - start)))
@@ -442,7 +419,6 @@ class DoubleDeepQLearningAgent:
     }
     with open(self.log_dir+"/parameters.json", "w") as write_file:
       json.dump(params, write_file, indent=4)
-
   
   def write_log(self, properties):
     with open(self.log_dir+"/parameters.json", "r") as json_file:

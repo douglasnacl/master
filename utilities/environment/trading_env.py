@@ -35,7 +35,7 @@ class TradingEnv:
     
     # self.lookback_window_size = lookback_window_size
     self._step = 0
-
+    self._init_step = 0
     # Faixa de renderização da visualização
     self.render_range = render_range 
     # Define se a recompensa será visualizada no gráfico
@@ -54,7 +54,7 @@ class TradingEnv:
     self.daily_returns = np.log(df['Close']/df['Close'].shift(1))
     volatility = self.daily_returns.std()  
     self.current_volatility = volatility
-    self.agent_daily_return = 0
+    self.agent_daily_return = []
 
 
   def reset(self, env_steps_size = 0):
@@ -76,10 +76,11 @@ class TradingEnv:
     self.rewards = deque(maxlen=self.render_range)
     self.env_steps_size = env_steps_size
     self.punish_value = 0
-    self.agent_daily_return = 0
+    self.agent_daily_return = []
     
     if self.env_steps_size > 0:
       self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
+      self._init_step = self._step
       self._end_step = self._step + self.env_steps_size
     else:
       self._step = self.env_steps_size
