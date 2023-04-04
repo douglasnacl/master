@@ -379,7 +379,6 @@ class DoubleDeepQLearningAgent:
         if episode % 5 == 0:
           tf.keras.backend.clear_session()
 
-       
         if episode >= train_episodes - 1:
             if best_average_net_worth < average_net_worth:
                 best_average_net_worth = average_net_worth
