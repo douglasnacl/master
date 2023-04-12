@@ -294,7 +294,7 @@ class DoubleDeepQLearningAgent:
     # Calcular o retorno esperado do mercado como a média dos retornos diários do Ibovespa
     rm = returns['index'].mean() * len(returns['index']) # Fonte: https://www.investing.com/indices/brazil-35-historical-data
     capm = rf + beta * (rm - rf)
-    return capm
+    return capm, beta
 
   def train(self, trading_env, visualize=False, train_episodes=100, max_train_episode_steps=360):
     # Cria o TensorBoard writer
@@ -347,20 +347,23 @@ class DoubleDeepQLearningAgent:
 
             loss = self.experience_replay() #states, actions, rewards, predictions, dones, next_states)
             
-        net_returns = trading_env.net_worth - trading_env.initial_balance
-        if benchmark_returns is not None:
-            info_ratio = self.information_ratio(net_returns, benchmark_returns)
-            self.writer.add_scalar('data/information_ratio', info_ratio, episode)
+
 
         agent_daily_return = trading_env.agent_daily_return
-        capm = self.get_capm(trading_env._init_step, trading_env._step, agent_daily_return)
+        capm, beta = self.get_capm(trading_env._init_step, trading_env._step, agent_daily_return)
         print(f'CAPM-{trading_env._step}: ', capm)
-    
+        print(f'BETA-{trading_env._step}: ', beta)
+
         total_net_worth.append(trading_env.net_worth)
         average_net_worth = np.average(total_net_worth)
         average_reward = np.average(rewards)
         episode_reward = sum(rewards)
-        
+
+        net_returns = average_net_worth - trading_env.initial_balance
+        if benchmark_returns is not None:
+            info_ratio = self.information_ratio(net_returns, benchmark_returns)
+            self.writer.add_scalar('data/information_ratio', info_ratio, episode)
+
         # Check if agent made a profit and increment win count
         if trading_env.net_worth >= trading_env.initial_balance:
             win_count += 1
@@ -368,10 +371,12 @@ class DoubleDeepQLearningAgent:
         
         self.writer.add_scalar('data/episode_reward', episode_reward, episode)
         self.writer.add_scalar('data/average_net_worth', average_net_worth, episode)
+        self.writer.add_scalar('data/perc_average_net_worth', 1 - average_net_worth/trading_env.initial_balance, episode)
         self.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
         self.writer.add_scalar('data/rewards', average_reward, episode)
         self.writer.add_scalar('data/win_rate', win_rate, episode) 
         self.writer.add_scalar('data/capm', capm, episode) 
+        self.writer.add_scalar('data/beta', beta, episode) 
       
         print("episódio: {:<5} - patrimônio liquído {:<7.2f} - patrimônio liquído médio: {:<7.2f} - pedidos do episódio: {} - tempo de execução: {}  "\
             .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(time() - start)))
