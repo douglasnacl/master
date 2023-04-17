@@ -58,13 +58,12 @@ class NeuralNetwork:
     model = Sequential(layers)
     model.compile(
       loss='huber',
-      optimizer=optimizer
+      optimizer=optimizer,
       # loss=self.ddqn_loss
     )
 
     return model
         
-
   def ddqn_loss(self, y_true, y_pred):
     # If y_true has shape (batch_size,), reshape it to (batch_size, 1)
     if len(y_true.shape) == 1:

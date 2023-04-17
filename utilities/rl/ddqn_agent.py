@@ -267,7 +267,7 @@ class DoubleDeepQLearningAgent:
   def get_capm(self, _init, _end, agent_daily_return):
     from scipy.stats import linregress
 
-    print("_init: ", _init, " - _end: ", _end, " - diff: ", _end - _init, " - len: ", len(agent_daily_return))
+    # print("_init: ", _init, " - _end: ", _end, " - diff: ", _end - _init, " - len: ", len(agent_daily_return))
 
     index = pd.read_csv("./assets/ts/BVSP.csv")
     # index['Date'] = index['Datetime']
@@ -351,8 +351,6 @@ class DoubleDeepQLearningAgent:
 
         agent_daily_return = trading_env.agent_daily_return
         capm, beta = self.get_capm(trading_env._init_step, trading_env._step, agent_daily_return)
-        print(f'CAPM-{trading_env._step}: ', capm)
-        print(f'BETA-{trading_env._step}: ', beta)
 
         total_net_worth.append(trading_env.net_worth)
         average_net_worth = np.average(total_net_worth)
@@ -371,15 +369,17 @@ class DoubleDeepQLearningAgent:
         
         self.writer.add_scalar('data/episode_reward', episode_reward, episode)
         self.writer.add_scalar('data/average_net_worth', average_net_worth, episode)
-        self.writer.add_scalar('data/perc_average_net_worth', 1 - average_net_worth/trading_env.initial_balance, episode)
+        self.writer.add_scalar('data/perc_average_net_worth', average_net_worth/trading_env.initial_balance - 1, episode)
         self.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
         self.writer.add_scalar('data/rewards', average_reward, episode)
         self.writer.add_scalar('data/win_rate', win_rate, episode) 
         self.writer.add_scalar('data/capm', capm, episode) 
         self.writer.add_scalar('data/beta', beta, episode) 
+        processing_time = time() - start
+        self.writer.add_scalar('data/time_to_process', processing_time, episode) 
       
         print("episódio: {:<5} - patrimônio liquído {:<7.2f} - patrimônio liquído médio: {:<7.2f} - pedidos do episódio: {} - tempo de execução: {}  "\
-            .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(time() - start)))
+            .format(episode, trading_env.net_worth, average_net_worth, trading_env.episode_orders, format_time(processing_time)))
         
         if episode % 5 == 0:
           tf.keras.backend.clear_session()
