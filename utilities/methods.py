@@ -38,6 +38,7 @@ initial_balance = int(os.environ.get("INITIAL_BALANCE", 1000))
 
 np.random.seed(42)
 tf.random.set_seed(42) 
+logging.getLogger('matplotlib').setLevel(logging.ERROR)
 
 def test_agent(trading_env, agent, test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="", name="ddqn_trader", comment="", display_reward=False, display_indicators=False):
     with open(folder+"/parameters.json", "r") as json_file:

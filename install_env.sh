@@ -45,15 +45,21 @@ echo """
 fi
 
 echo 'Configure conda environment libraries' 
-# pip install tensorflow-gpu==2.10.0
-# pip install bitfinex-tencars==0.0.3
-# pip install tensorflow-gpu==2.10.0
-# pip install opencv-python==4.7.0.72
-# pip install tensorboardx==2.5.1
-# pip install mplfinance==0.12.9b5
-# pip install matplotlib==3.2.2
-# pip install seaborn==0.11.2
-# pip install pandas==1.3.5
-# pip install numpy==1.24.2
-# # !pip install numba==0.56.4
-# pip install ta==0.10.2
+pip install multipledispatch==0.6.0
+pip install bitfinex-tencars==0.0.3
+pip install tensorflow-gpu==2.10.0
+pip install opencv-python==4.7.0.72
+pip install tensorboardx==2.5.1
+pip install mplfinance==0.12.9b5
+pip install matplotlib==3.2.2
+pip install seaborn==0.11.2
+pip install pandas==1.3.5
+pip install numpy==1.24.2
+# !pip install numba==0.56.4
+pip install ta==0.10.2
+pip install yfinance==0.2.18
+pip install scikit-learn==1.2.2
+pip install python-dotenv==1.0.0
+conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 # https://geekflare.com/install-tensorflow-on-windows-and-linux/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
+pip install tensorflow-gpu==2.10.0

@@ -57,9 +57,9 @@ class NeuralNetwork:
     )
     model = Sequential(layers)
     model.compile(
-      loss='huber',
+      # loss='huber',
       optimizer=optimizer,
-      # loss=self.ddqn_loss
+      loss=self.ddqn_loss
     )
 
     return model
