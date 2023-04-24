@@ -35,6 +35,7 @@ comment = os.environ.get('COMMENT', "An agent to learn how to negotiate stocks")
 train_episodes = int(os.environ.get("TRAIN_EPISODES", 100))
 episode_steps = int(os.environ.get("EPISODE_STEPS", 360))
 initial_balance = int(os.environ.get("INITIAL_BALANCE", 1000))
+index_name = os.environ.get("INDEX_NAME", "NASDAQ")
 
 np.random.seed(42)
 tf.random.set_seed(42) 
@@ -94,7 +95,7 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
     df_nomalized = min_max_normalization(df[99:])[1:]
     df = df[100:].dropna()
     
-    test_window = 180*3 # 720*3 # 3 months
+    test_window = int(len(df)*0.3) # 720*3 # 3 months
 
     # Separando os dados em dados de treinamento e teste
     train_df = df[:-test_window] # we leave 100 to have properly calculated indicators
@@ -144,6 +145,7 @@ def routine(save_weights=False, processing_device="GPU", visualize=False):
         nn_optimizer=nn_optimizer, # Otimizador da Rede
         nn_tau=nn_tau, # Frequencia de Atualização da Rede Alvo (Target Network)
         tensors_float=tensors_float, # Define se será 32bit ou 16bit dependendo do hardware do treinamento
+        index_name=index_name, # Nome do Indice
         model=model,
         comment=comment,
     )

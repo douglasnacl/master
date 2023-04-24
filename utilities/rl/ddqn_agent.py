@@ -35,6 +35,7 @@ class DoubleDeepQLearningAgent:
     nn_optimizer='Adam',
     nn_tau=100,
     tensors_float=tf.float32,
+    index_name="",
     model="", 
     comment="",
   ):      
@@ -86,6 +87,7 @@ class DoubleDeepQLearningAgent:
     self.online_network = self.build_model()
     self.target_network = self.build_model(trainable=False)
 
+    self.index_name = index_name
     self.update_target()
 
     self.reset()
@@ -269,7 +271,7 @@ class DoubleDeepQLearningAgent:
 
     # print("_init: ", _init, " - _end: ", _end, " - diff: ", _end - _init, " - len: ", len(agent_daily_return))
 
-    index = pd.read_csv("./assets/ts/BVSP.csv")
+    index = pd.read_csv(f"./assets/ts/{self.index_name}.csv")
     # index['Date'] = index['Datetime']
     index = index[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
     index = index.iloc[_init:_end].reset_index(drop=True)
