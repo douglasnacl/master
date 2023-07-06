@@ -62,4 +62,10 @@ pip install scikit-learn==1.2.2
 pip install python-dotenv==1.0.0
 conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 # https://geekflare.com/install-tensorflow-on-windows-and-linux/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
-pip install tensorflow-gpu==2.10.0
+export QT_PLUGIN_PATH=/home/douglasnacl/anaconda3/lib/python3.10/site-packages/cv2/qt/plugins/
+conda install -c anaconda tensorflow-gpu
+
+conda install -c anaconda qt
+conda install pyqt
+pip uninstall opencv-python
+pip install opencv-python-headless
