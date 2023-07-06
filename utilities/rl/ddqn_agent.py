@@ -266,37 +266,37 @@ class DoubleDeepQLearningAgent:
     else:
         return np.mean(active_returns) / active_std
     
-  def get_capm(self, _init, _end, agent_daily_return):
-    from scipy.stats import linregress
+  # def get_capm(self, _init, _end, agent_daily_return):
+  #   from scipy.stats import linregress
 
-    # print("_init: ", _init, " - _end: ", _end, " - diff: ", _end - _init, " - len: ", len(agent_daily_return))
+  #   # print("_init: ", _init, " - _end: ", _end, " - diff: ", _end - _init, " - len: ", len(agent_daily_return))
 
-    index = pd.read_csv(f"./assets/ts/{self.index_name}.csv")
-    # index['Date'] = index['Datetime']
-    index = index[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
-    index = index.iloc[_init:_end].reset_index(drop=True)
+  #   index = pd.read_csv(f"./assets/ts/{self.index_name}.csv")
+  #   # index['Date'] = index['Datetime']
+  #   index = index[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
+  #   index = index.iloc[_init:_end].reset_index(drop=True)
     
-    active = pd.read_csv("./assets/ts/PETR4.csv")
-    # active['Date'] = active['Datetime']
-    active = active[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
-    active = active.iloc[_init:_end].reset_index(drop=True)
+  #   active = pd.read_csv("./assets/ts/PETR4.csv")
+  #   # active['Date'] = active['Datetime']
+  #   active = active[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
+  #   active = active.iloc[_init:_end].reset_index(drop=True)
     
-    # Combine the returns into a single dataframe
-    returns = pd.DataFrame({
-      'index': index['Close'].pct_change().fillna(0),
-      'buy_and_hold': active['Close'].pct_change().fillna(0),
-      'day_trading': agent_daily_return
-    })
-    # print("index: ", returns['index'], " - active: ", returns['buy_and_hold'], " - returns: ", returns['day_trading'])
-    beta, _, rvalue, _, _ = linregress(returns['index'].dropna(), returns['day_trading'].dropna())
+  #   # Combine the returns into a single dataframe
+  #   returns = pd.DataFrame({
+  #     'index': index['Close'].pct_change().fillna(0),
+  #     'buy_and_hold': active['Close'].pct_change().fillna(0),
+  #     'day_trading': agent_daily_return
+  #   })
+  #   # print("index: ", returns['index'], " - active: ", returns['buy_and_hold'], " - returns: ", returns['day_trading'])
+  #   beta, _, rvalue, _, _ = linregress(returns['index'].dropna(), returns['day_trading'].dropna())
 
-    # Definir a taxa livre de risco como a taxa de retorno do Tesouro Nacional de 10 anos
-    rf = 0.095 # Fonte: https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-publicos
+  #   # Definir a taxa livre de risco como a taxa de retorno do Tesouro Nacional de 10 anos
+  #   rf = 0.095 # Fonte: https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-publicos
 
-    # Calcular o retorno esperado do mercado como a média dos retornos diários do Ibovespa
-    rm = returns['index'].mean() * len(returns['index']) # Fonte: https://www.investing.com/indices/brazil-35-historical-data
-    capm = rf + beta * (rm - rf)
-    return capm, beta
+  #   # Calcular o retorno esperado do mercado como a média dos retornos diários do Ibovespa
+  #   rm = returns['index'].mean() * len(returns['index']) # Fonte: https://www.investing.com/indices/brazil-35-historical-data
+  #   capm = rf + beta * (rm - rf)
+  #   return capm, beta
 
   def train(self, trading_env, visualize=False, train_episodes=100, max_train_episode_steps=360):
     # Cria o TensorBoard writer
@@ -352,7 +352,7 @@ class DoubleDeepQLearningAgent:
 
 
         agent_daily_return = trading_env.agent_daily_return
-        capm, beta = self.get_capm(trading_env._init_step, trading_env._step, agent_daily_return)
+        # capm, beta = self.get_capm(trading_env._init_step, trading_env._step, agent_daily_return)
 
         total_net_worth.append(trading_env.net_worth)
         average_net_worth = np.average(total_net_worth)
@@ -375,8 +375,8 @@ class DoubleDeepQLearningAgent:
         self.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
         self.writer.add_scalar('data/rewards', average_reward, episode)
         self.writer.add_scalar('data/win_rate', win_rate, episode) 
-        self.writer.add_scalar('data/capm', capm, episode) 
-        self.writer.add_scalar('data/beta', beta, episode) 
+        # self.writer.add_scalar('data/capm', capm, episode) 
+        # self.writer.add_scalar('data/beta', beta, episode) 
         processing_time = time() - start
         self.writer.add_scalar('data/time_to_process', processing_time, episode) 
       
@@ -462,4 +462,3 @@ class DoubleDeepQLearningAgent:
   def load(self, folder, name):
     # Carrega os pesos do modelo (keras model)
     self.online_network.load_weights( os.path.join(f"{folder}", f"{name}.h5"))
-
