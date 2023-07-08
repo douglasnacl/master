@@ -31,13 +31,6 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "-sw",
-    "--save_weights",
-    help="optional: executa rotina para salvar pesos",
-    action="store_true",
-)
-
-parser.add_argument(
     "-v",
     "--visualize",
     help="optional: executa rotina com gráficos",
@@ -72,17 +65,11 @@ if __name__ == "__main__":
             """)
         processing_device = "GPU"
    
-    if(args.save_weights & args.visualize):
-        logging.info("Salvando pesos")
-        routine(save_weights=True, processing_device=args.processing_device, visualize=True)
-    elif(args.visualize):
-        logging.info("Salvando pesos e Visualização")
-        routine(save_weights=False, processing_device=args.processing_device, visualize=True)
-    elif(args.save_weights):
-        logging.info("Salvando pesos e Visualização")
-        routine(save_weights=True, processing_device=args.processing_device)
+    if(args.visualize):
+        logging.info("Visualização")
+        routine(processing_device=args.processing_device, visualize=True)
     elif(args.download_data):
-        logging.info("Rotinha de Download de Dados")
+        logging.info("Rotina de Download de Dados")
         stock_data = StockDataGenerator()
         stock_data.export_csv()
 
