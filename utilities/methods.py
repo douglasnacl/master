@@ -74,7 +74,7 @@ def test_agent(trading_env, agent, test_df, test_df_nomalized, visualize=True, t
         results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
         results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
     
-def routine(processing_device="GPU", visualize=False):
+def routine(processing_device="GPU", visualize=False, deterministic=False):
     logging.info("Running the routine")
 
     if processing_device != 'GPU':

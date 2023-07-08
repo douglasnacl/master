@@ -31,6 +31,14 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-p",
+    "--period",
+    choices=["deterministic", "stochastic"],
+    # default="stochastic",
+    help="optional: Escolhe o tipo de período (default: stochastic)",
+)
+
+parser.add_argument(
     "-v",
     "--visualize",
     help="optional: executa rotina com gráficos",
@@ -57,31 +65,39 @@ if __name__ == "__main__":
     logging_basic_config()
     logging.info("Running the current task")
 
+    # Definindo o periodo
+    if args.period != 'deterministic':
+        if args.period != 'stochastic':
+            args.period = "stochastic"
+        print("Periodo: ", args.period, "\n\n")
+    # Definindo o dispositivo de processamento
     if args.processing_device != 'CPU':
         if args.processing_device != 'GPU':
             raise ValueError("""
                 Apenas são permitidos valores CPU ou GPU
                     > O valor padrão é GPU, caso não seja passado.
             """)
-        processing_device = "GPU"
-   
+        args.processing_device = "GPU"
+    
+    _deterministic = True if args.period == 'deterministic' else False
     if(args.visualize):
         logging.info("Visualização")
-        routine(processing_device=args.processing_device, visualize=True)
+        routine(processing_device=args.processing_device, visualize=True, deterministic=_deterministic)
+
     elif(args.download_data):
         logging.info("Rotina de Download de Dados")
-        stock_data = StockDataGenerator()
-        stock_data.export_csv()
+        # stock_data = StockDataGenerator()
+        # stock_data.export_csv()
 
-        # asset = args.download_data
-        # # Ativo a ser avaliado
-        # interval = '1h' # Também é possível usar '4h','1h','15m','1m'
-        # # Define-se a data inicial e final
-        # interval_start = datetime(2021, 11, 1, 0, 0)
-        # interval_end = datetime(2022, 11, 1, 0, 0)
-        # # Chama a função para obtenção dos dados
-        # _ = fetch_data(interval_start, interval_end, asset, interval)
+        asset = args.download_data
+        # Ativo a ser avaliado
+        interval = '1h' # Também é possível usar '4h','1h','15m','1m'
+        # Define-se a data inicial e final
+        interval_start = datetime(2021, 11, 1, 0, 0)
+        interval_end = datetime(2022, 11, 1, 0, 0)
+        # Chama a função para obtenção dos dados
+        _ = fetch_data(interval_start, interval_end, asset, interval)
     else:
-        routine(processing_device=args.processing_device)
+        routine(processing_device=args.processing_device, deterministic=_deterministic)
 
     
