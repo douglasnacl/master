@@ -16,7 +16,7 @@ if [ $# -gt 0 ] && [ "$1" == "cuda" ]; then
         echo "pacman -S qt5-base qt5-x11extras libxcb xcb-util xcb-util-keysyms xcb-util-image xcb-util-wm xcb-util-cursor"
     elif [ -f /etc/debian_version ]; then
         echo "Debian"
-        # wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+        # wget https/:/developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
         # mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
         # wget https://developer.download.nvidia.com/compute/cuda/12.1.0/local_installers/cuda-repo-ubuntu2204-12-1-local_12.1.0-530.30.02-1_amd64.deb
         # dpkg -i cuda-repo-ubuntu2204-12-1-local_12.1.0-530.30.02-1_amd64.deb
@@ -64,7 +64,7 @@ pip install scikit-learn==1.2.2
 pip install python-dotenv==1.0.0
 conda install -c anaconda qt
 conda install pyqt
-conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 # https://geekflare.com/install-tensorflow-on-windows-and-linux/
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
-export QT_PLUGIN_PATH=/home/douglasnacl/anaconda3/lib/python3.10/site-packages/cv2/qt/plugins/
+# conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0 # https://geekflare.com/install-tensorflow-on-windows-and-linux/
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
+# export QT_PLUGIN_PATH=/home/douglasnacl/anaconda3/lib/python3.10/site-packages/cv2/qt/plugins/
 conda install -c anaconda tensorflow-gpu

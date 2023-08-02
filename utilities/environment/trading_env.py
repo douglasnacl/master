@@ -26,8 +26,9 @@ class TradingEnv:
         Mostrar indicadores
         ??? Fator de normalização ???
   """
-  def __init__(self, df, df_normalized, initial_balance=1000, render_range=100, display_reward=False, display_indicators=False):
-    # Define o espaço de ações e o tamanho do espaço, assim como arametros personalizados
+  def __init__(self, df, df_normalized, initial_balance=1000, render_range=100, display_reward=False, display_indicators=False, deterministic=False):
+    random.seed(42)
+    # Define o espaço de ações e o tamanho do espaço, assim como parametros personalizados
     self.df = df.reset_index()
     self.df_normalized = df_normalized.reset_index()
     self.df_total_steps = len(self.df)-1
@@ -35,7 +36,8 @@ class TradingEnv:
     
     # self.lookback_window_size = lookback_window_size
     self._step = 0
-    self._init_step = 0
+    self._used_indices_into_steps = set()
+    self.max_interval_tries = 0
     # Faixa de renderização da visualização
     self.render_range = render_range 
     # Define se a recompensa será visualizada no gráfico
@@ -56,6 +58,7 @@ class TradingEnv:
     self.current_volatility = volatility
     self.agent_daily_return = []
 
+    self.deterministic = deterministic
 
   def reset(self, env_steps_size = 0):
     # Reinicia o estado do ambiente para o estado inicial
@@ -77,15 +80,61 @@ class TradingEnv:
     self.env_steps_size = env_steps_size
     self.punish_value = 0
     self.agent_daily_return = []
-    
-    if self.env_steps_size > 0:
-      self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
-      self._init_step = self._step
-      self._end_step = self._step + self.env_steps_size
-    else:
-      self._step = self.env_steps_size
-      self._end_step = len(self.df_normalized) - 1
 
+    logging.info(f"A quantidade permitida de testes são {int((len(self.df_normalized) - 1)/self.env_steps_size)} - total points: {(len(self.df_normalized) - 1)}")
+    
+    if self.deterministic:
+      logging.info("Realizando a execução em um periodo deterministico!")
+      
+      if self._step == 0:
+        self._step = 0
+        self._end_step = self.env_steps_size
+        self._used_indices_into_steps = set()
+        # Quantidade maxima de treinos
+
+      elif self._end_step + 1 not in self._used_indices_into_steps: 
+        self._step = self._end_step
+        self._end_step = self._step + self.env_steps_size
+      # else:
+
+      elif self._end_step > (len(self.df_normalized) - 1) and self.env_steps_size < (len(self.df_normalized) - 1):
+        self._step = 0
+        self._end_step = self.env_steps_size
+        self._used_indices_into_steps = set()
+      
+      logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step}")
+
+    else:
+      logging.info("Realizando a execução em um periodo estocástico!")
+      
+      if self._step == 0:
+        self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
+        self._end_step = self._step + self.env_steps_size   
+        self._used_indices_into_steps = set()
+
+      if self.env_steps_size > 0:
+        
+        self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
+        self._end_step = self._step + self.env_steps_size
+
+        while (self._step in self._used_indices_into_steps or self._end_step in self._used_indices_into_steps) and self.max_interval_tries <= int((len(self.df_normalized) - 1)/self.env_steps_size): 
+          
+          self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
+          self._end_step = self._step + self.env_steps_size
+          self.max_interval_tries += 1
+        
+      else:
+        raise ValueError("O valor dos passos precisa ser maior que zero")
+      
+      logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step}")
+        
+        
+      
+                   
+    used_indices_in_this_run = set(range(self._step, self._end_step))
+    self._used_indices_into_steps.update(used_indices_in_this_run)
+
+    
     return self.df.loc[self._step] # state[-1]
 
   def next_observation(self):

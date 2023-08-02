@@ -35,7 +35,6 @@ class DoubleDeepQLearningAgent:
     nn_optimizer='Adam',
     nn_tau=100,
     tensors_float=tf.float32,
-    index_name="",
     model="", 
     comment="",
   ):      
@@ -87,7 +86,6 @@ class DoubleDeepQLearningAgent:
     self.online_network = self.build_model()
     self.target_network = self.build_model(trainable=False)
 
-    self.index_name = index_name
     self.update_target()
 
     self.reset()
@@ -266,41 +264,13 @@ class DoubleDeepQLearningAgent:
     else:
         return np.mean(active_returns) / active_std
     
-  # def get_capm(self, _init, _end, agent_daily_return):
-  #   from scipy.stats import linregress
-
-  #   # print("_init: ", _init, " - _end: ", _end, " - diff: ", _end - _init, " - len: ", len(agent_daily_return))
-
-  #   index = pd.read_csv(f"./assets/ts/{self.index_name}.csv")
-  #   # index['Date'] = index['Datetime']
-  #   index = index[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
-  #   index = index.iloc[_init:_end].reset_index(drop=True)
-    
-  #   active = pd.read_csv("./assets/ts/PETR4.csv")
-  #   # active['Date'] = active['Datetime']
-  #   active = active[['Date', 'Open', 'Close', 'High', 'Low', 'Volume']]
-  #   active = active.iloc[_init:_end].reset_index(drop=True)
-    
-  #   # Combine the returns into a single dataframe
-  #   returns = pd.DataFrame({
-  #     'index': index['Close'].pct_change().fillna(0),
-  #     'buy_and_hold': active['Close'].pct_change().fillna(0),
-  #     'day_trading': agent_daily_return
-  #   })
-  #   # print("index: ", returns['index'], " - active: ", returns['buy_and_hold'], " - returns: ", returns['day_trading'])
-  #   beta, _, rvalue, _, _ = linregress(returns['index'].dropna(), returns['day_trading'].dropna())
-
-  #   # Definir a taxa livre de risco como a taxa de retorno do Tesouro Nacional de 10 anos
-  #   rf = 0.095 # Fonte: https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-publicos
-
-  #   # Calcular o retorno esperado do mercado como a média dos retornos diários do Ibovespa
-  #   rm = returns['index'].mean() * len(returns['index']) # Fonte: https://www.investing.com/indices/brazil-35-historical-data
-  #   capm = rf + beta * (rm - rf)
-  #   return capm, beta
+  
 
   def train(self, trading_env, visualize=False, train_episodes=100, max_train_episode_steps=360):
     # Cria o TensorBoard writer
     
+    
+
     self.create_writer(trading_env.initial_balance, train_episodes)
     # Define a janela recente para a quantidade de train_episodes de patrimônio líquido
     total_net_worth = deque(maxlen=train_episodes) 

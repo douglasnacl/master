@@ -9,7 +9,6 @@ NN_LEARNING_RATE=1e-6
 NN_L2_REG=0.0001
 NN_OPTIMIZER=Adam
 NN_TAU=25
-INDEX_NAME=ETHUSD_1h_full
 MODEL=Double Deep Q-Learning Network
 COMMENT=An agent to learn how to negotiate stocks
 TRAIN_EPISODES=200
