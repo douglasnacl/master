@@ -60,6 +60,10 @@ class TradingEnv:
 
     self.deterministic = deterministic
 
+  def __get_step(self):
+      self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
+      self._end_step = self._step + self.env_steps_size  
+
   def reset(self, env_steps_size = 0):
     # Reinicia o estado do ambiente para o estado inicial
     self.trading_graph = TradingGraph(render_range=self.render_range, display_reward=self.display_reward, display_indicators=self.display_indicators) # init visualization
@@ -80,8 +84,6 @@ class TradingEnv:
     self.env_steps_size = env_steps_size
     self.punish_value = 0
     self.agent_daily_return = []
-
-    logging.info(f"A quantidade permitida de testes são {int((len(self.df_normalized) - 1)/self.env_steps_size)} - total points: {(len(self.df_normalized) - 1)}")
     
     if self.deterministic:
       logging.info("Realizando a execução em um periodo deterministico!")
@@ -102,39 +104,37 @@ class TradingEnv:
         self._end_step = self.env_steps_size
         self._used_indices_into_steps = set()
       
-      logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step}")
+      used_indices_in_this_run = set(range(self._step, self.env_steps_size))
 
     else:
       logging.info("Realizando a execução em um periodo estocástico!")
       
       if self._step == 0:
-        self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
-        self._end_step = self._step + self.env_steps_size   
+        self.__get_step()
         self._used_indices_into_steps = set()
 
       if self.env_steps_size > 0:
         
-        self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
-        self._end_step = self._step + self.env_steps_size
+        self.__get_step()
 
-        while (self._step in self._used_indices_into_steps or self._end_step in self._used_indices_into_steps) and self.max_interval_tries <= int((len(self.df_normalized) - 1)/self.env_steps_size): 
+        while self._step in self._used_indices_into_steps and self.max_interval_tries <= int((len(self.df_normalized) - 1)/self.env_steps_size): 
           
-          self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
-          self._end_step = self._step + self.env_steps_size
+          self.__get_step()
           self.max_interval_tries += 1
         
       else:
         raise ValueError("O valor dos passos precisa ser maior que zero")
       
-      logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step}")
-        
-        
-      
-                   
-    used_indices_in_this_run = set(range(self._step, self._end_step))
-    self._used_indices_into_steps.update(used_indices_in_this_run)
+      _margin = int(0.1*(len(self.df_normalized) - 1)/self.env_steps_size)
 
-    
+      if self._step - _margin < 0:
+        used_indices_in_this_run = set(range(0, self._step + _margin))
+      else:
+        used_indices_in_this_run = set(range((self._step - _margin), (self._step + _margin)))
+
+    self._used_indices_into_steps.update(used_indices_in_this_run)
+    logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step}")
+
     return self.df.loc[self._step] # state[-1]
 
   def next_observation(self):

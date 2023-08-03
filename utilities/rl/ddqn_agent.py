@@ -344,9 +344,8 @@ class DoubleDeepQLearningAgent:
         self.writer.add_scalar('data/perc_average_net_worth', average_net_worth/trading_env.initial_balance - 1, episode)
         self.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
         self.writer.add_scalar('data/rewards', average_reward, episode)
-        self.writer.add_scalar('data/win_rate', win_rate, episode) 
-        # self.writer.add_scalar('data/capm', capm, episode) 
-        # self.writer.add_scalar('data/beta', beta, episode) 
+        self.writer.add_scalar('data/win_rate', win_rate, episode)
+        
         processing_time = time() - start
         self.writer.add_scalar('data/time_to_process', processing_time, episode) 
       
