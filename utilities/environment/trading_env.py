@@ -61,29 +61,35 @@ class TradingEnv:
     self.deterministic = deterministic
 
   def __get_step(self):
-      self._step = random.randint(self.env_steps_size, len(self.df_normalized) - 1 - self.env_steps_size)
+      self._step = random.randint(self.env_steps_size, len(self.df) - 1 - self.env_steps_size)
       self._end_step = self._step + self.env_steps_size  
 
   def reset(self, env_steps_size = 0):
     # Reinicia o estado do ambiente para o estado inicial
     self.trading_graph = TradingGraph(render_range=self.render_range, display_reward=self.display_reward, display_indicators=self.display_indicators) # init visualization
-    # Define a janela observada nas negociações
 
+    # Define a janela observada nas negociações
     self.balance = self.initial_balance
     self.net_worth = self.initial_balance
     self.prev_net_worth = self.initial_balance
     self.stock_held = 0
     self.stock_sold = 0
     self.stock_bought = 0
+
     # Rastreador da contagem de ordens do episódio
     self.episode_orders = 0 
+
     # Rastreador da contagem de ordens no episódio anterior
     self.prev_episode_orders = 0 
+    
     # Define a janela observada nas recompensas
     self.rewards = deque(maxlen=self.render_range)
     self.env_steps_size = env_steps_size
     self.punish_value = 0
     self.agent_daily_return = []
+    
+    # Define contador de percorrencia de base de dados
+    self._full_dataset_used_times = 0
     
     if self.deterministic:
       logging.info("Realizando a execução em um periodo deterministico!")
@@ -91,20 +97,36 @@ class TradingEnv:
       if self._step == 0:
         self._step = 0
         self._end_step = self.env_steps_size
-        self._used_indices_into_steps = set()
+        used_indices_in_this_run = set(range(0, self._end_step))
         # Quantidade maxima de treinos
 
       elif self._end_step + 1 not in self._used_indices_into_steps: 
         self._step = self._end_step
         self._end_step = self._step + self.env_steps_size
-      # else:
+        used_indices_in_this_run = set(range(self._step, self._end_step))
 
-      elif self._end_step > (len(self.df_normalized) - 1) and self.env_steps_size < (len(self.df_normalized) - 1):
-        self._step = 0
-        self._end_step = self.env_steps_size
-        self._used_indices_into_steps = set()
+      elif self._end_step > (len(self.df) - 1) and self.env_steps_size < (len(self.df) - 1):
+        
+        if self._step + self.env_steps_size > (len(self.df) - 1):
+          self._full_dataset_used_times+=1
+          __increment = 100 # int(0.1*(len(self.df) - 1)/self.env_steps_size)
+          self._step = (self._full_dataset_used_times * __increment) + self.env_steps_size
+          self._end_step = self.env_steps_size * 2
+          used_indices_in_this_run = set(range(0, self._end_step))
+
+        else:
+          self._step = 0
+          self._end_step = self.env_steps_size
+          self._used_indices_into_steps = set()
+          self._full_dataset_used_times = 0
+          
+          used_indices_in_this_run = set(range(0, self._end_step))
+
       
-      used_indices_in_this_run = set(range(self._step, self.env_steps_size))
+      if used_indices_in_this_run:
+        self._used_indices_into_steps.update(used_indices_in_this_run)
+      else:
+        self._used_indices_into_steps = set()
 
     else:
       logging.info("Realizando a execução em um periodo estocástico!")
@@ -133,7 +155,7 @@ class TradingEnv:
         used_indices_in_this_run = set(range((self._step - _margin), (self._step + _margin)))
 
     self._used_indices_into_steps.update(used_indices_in_this_run)
-    logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step}")
+    logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step} com um total de {len(self._used_indices_into_steps)} passos utilizados")
 
     return self.df.loc[self._step] # state[-1]
 
