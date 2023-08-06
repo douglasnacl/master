@@ -75,6 +75,8 @@ class TradingEnv:
     self.stock_held = 0
     self.stock_sold = 0
     self.stock_bought = 0
+    
+    self.max_interval_tries = 0
 
     # Rastreador da contagem de ordens do episódio
     self.episode_orders = 0 
@@ -95,19 +97,23 @@ class TradingEnv:
       logging.info("Realizando a execução em um periodo deterministico!")
       
       if self._step == 0:
+        print("etapa 1")
         self._step = 0
         self._end_step = self.env_steps_size
         used_indices_in_this_run = set(range(0, self._end_step))
         # Quantidade maxima de treinos
 
-      elif self._end_step + 1 not in self._used_indices_into_steps: 
-        self._step = self._end_step
+      elif (self._end_step + 1 not in self._used_indices_into_steps) and ((self._end_step + 1 + self.env_steps_size ) < (len(self.df) - 1) ): 
+        print("etapa 2")
+        print("self._end_step: ", self._end_step)
+        self._step = self._end_step + 1
         self._end_step = self._step + self.env_steps_size
         used_indices_in_this_run = set(range(self._step, self._end_step))
 
-      elif self._end_step > (len(self.df) - 1) and self.env_steps_size < (len(self.df) - 1):
-        
-        if self._step + self.env_steps_size > (len(self.df) - 1):
+      else: # elif self._end_step > (len(self.df) - 1) and self.env_steps_size < (len(self.df) - 1):
+        print("etapa 3")
+        if ((self._end_step + 1 + self.env_steps_size ) > (len(self.df) - 1) ):
+          print("etapa 3.1")
           self._full_dataset_used_times+=1
           __increment = 100 # int(0.1*(len(self.df) - 1)/self.env_steps_size)
           self._step = (self._full_dataset_used_times * __increment) + self.env_steps_size
@@ -115,6 +121,7 @@ class TradingEnv:
           used_indices_in_this_run = set(range(0, self._end_step))
 
         else:
+          print("etapa 3.2")
           self._step = 0
           self._end_step = self.env_steps_size
           self._used_indices_into_steps = set()
@@ -122,12 +129,8 @@ class TradingEnv:
           
           used_indices_in_this_run = set(range(0, self._end_step))
 
+      self._used_indices_into_steps.update(used_indices_in_this_run)
       
-      if used_indices_in_this_run:
-        self._used_indices_into_steps.update(used_indices_in_this_run)
-      else:
-        self._used_indices_into_steps = set()
-
     else:
       logging.info("Realizando a execução em um periodo estocástico!")
       
@@ -136,7 +139,6 @@ class TradingEnv:
         self._used_indices_into_steps = set()
 
       if self.env_steps_size > 0:
-        
         self.__get_step()
 
         while self._step in self._used_indices_into_steps and self.max_interval_tries <= int((len(self.df_normalized) - 1)/self.env_steps_size): 
@@ -147,15 +149,19 @@ class TradingEnv:
       else:
         raise ValueError("O valor dos passos precisa ser maior que zero")
       
-      _margin = int(0.1*(len(self.df_normalized) - 1)/self.env_steps_size)
+      _margin = int(0.4*self.env_steps_size)
 
       if self._step - _margin < 0:
         used_indices_in_this_run = set(range(0, self._step + _margin))
+      elif len(self._used_indices_into_steps) >= len(self.df) or self.max_interval_tries > int((len(self.df) - 1)/self.env_steps_size):
+        self._full_dataset_used_times += 1
+        self._used_indices_into_steps = set()
+        used_indices_in_this_run = set(range((self._step - _margin), (self._step + _margin)))
       else:
         used_indices_in_this_run = set(range((self._step - _margin), (self._step + _margin)))
 
     self._used_indices_into_steps.update(used_indices_in_this_run)
-    logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step} com um total de {len(self._used_indices_into_steps)} passos utilizados")
+    logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step} com um total de {len(self._used_indices_into_steps)}/{len(self.df)} passos utilizados (passagem: {self._full_dataset_used_times})")
 
     return self.df.loc[self._step] # state[-1]
 
