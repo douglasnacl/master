@@ -115,7 +115,7 @@ class TradingEnv:
         if ((self._end_step + 1 + self.env_steps_size ) > (len(self.df) - 1) ):
           print("etapa 3.1")
           self._full_dataset_used_times+=1
-          __increment = 100 # int(0.1*(len(self.df) - 1)/self.env_steps_size)
+          __increment = 100
           self._step = (self._full_dataset_used_times * __increment) + self.env_steps_size
           self._end_step = self.env_steps_size * 2
           used_indices_in_this_run = set(range(0, self._end_step))
