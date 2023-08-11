@@ -17,7 +17,7 @@ def logging_basic_config():
             logging.StreamHandler(),
         ],
         format="%(asctime)s - %(levelname)s - %(message)s",
-        level=logging.DEBUG,
+        level=logging.CRITICAL,
         datefmt="%d-%b-%y %H:%M:%S",
     )
 
