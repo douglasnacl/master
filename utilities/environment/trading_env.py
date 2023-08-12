@@ -60,6 +60,8 @@ class TradingEnv:
 
     self.deterministic = deterministic
 
+    self.balance = self.initial_balance
+
   def __get_step(self):
       self._step = random.randint(self.env_steps_size, len(self.df) - 1 - self.env_steps_size)
       self._end_step = self._step + self.env_steps_size  
@@ -69,9 +71,9 @@ class TradingEnv:
     self.trading_graph = TradingGraph(render_range=self.render_range, display_reward=self.display_reward, display_indicators=self.display_indicators) # init visualization
 
     # Define a janela observada nas negociações
+    self.prev_net_worth = self.balance # self.initial_balance
     self.balance = self.initial_balance
     self.net_worth = self.initial_balance
-    self.prev_net_worth = self.initial_balance
     self.stock_held = 0
     self.stock_sold = 0
     self.stock_bought = 0
@@ -97,23 +99,18 @@ class TradingEnv:
       logging.info("Realizando a execução em um periodo deterministico!")
       
       if self._step == 0:
-        print("etapa 1")
         self._step = 0
         self._end_step = self.env_steps_size
         used_indices_in_this_run = set(range(0, self._end_step))
         # Quantidade maxima de treinos
 
       elif (self._end_step + 1 not in self._used_indices_into_steps) and ((self._end_step + 1 + self.env_steps_size ) < (len(self.df) - 1) ): 
-        print("etapa 2")
-        print("self._end_step: ", self._end_step)
         self._step = self._end_step + 1
         self._end_step = self._step + self.env_steps_size
         used_indices_in_this_run = set(range(self._step, self._end_step))
 
       else: # elif self._end_step > (len(self.df) - 1) and self.env_steps_size < (len(self.df) - 1):
-        print("etapa 3")
         if ((self._end_step + 1 + self.env_steps_size ) > (len(self.df) - 1) ):
-          print("etapa 3.1")
           self._full_dataset_used_times+=1
           __increment = 100
           self._step = (self._full_dataset_used_times * __increment) + self.env_steps_size
@@ -121,7 +118,6 @@ class TradingEnv:
           used_indices_in_this_run = set(range(0, self._end_step))
 
         else:
-          print("etapa 3.2")
           self._step = 0
           self._end_step = self.env_steps_size
           self._used_indices_into_steps = set()

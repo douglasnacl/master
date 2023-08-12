@@ -77,7 +77,7 @@ class DoubleDeepQLearningAgent:
     self.epsilon = .1 # valor inicial de epsilon  (10%)
     self.epsilon_start = self.epsilon
     self.epsilon_end = .01 # valor final de epsilon (1%)
-    self.epsilon_decay_steps = 250 # quantidade de passos de decaimento (250)
+    self.epsilon_decay_steps = 1000 # quantidade de passos de decaimento (250)
     self.epsilon_decay = (self.epsilon_start - self.epsilon_end) / self.epsilon_decay_steps # (0.1 - 0.01) / 250 = 0.000396
     self.epsilon_exponential_decay = .99  # decaimento exponencial para epsilon (0.99)
     self.epsilon_history = []
@@ -200,7 +200,6 @@ class DoubleDeepQLearningAgent:
     # A experiencia de repetição ocorre quando a memória de trasição é menor que tamanho o lote definido
     if len(self.experience) < self.batch_size:
       return
-
     # Empilha as matrizes, formato próprio para o treinamento
     # Obtem uma amostra do minibatch da experiência
     minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
@@ -211,7 +210,7 @@ class DoubleDeepQLearningAgent:
     isinf = np.isinf(next_states).any()
 
     if isnan or isinf:
-      ('Input data contains NaN or Inf values')
+      logging.info('Input data contains NaN or Inf values')
 
     scaler = MinMaxScaler(feature_range=(0, 1))
     next_states = scaler.fit_transform(next_states)

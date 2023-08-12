@@ -23,6 +23,7 @@ The properties that you can use while is parsing command-line arguments and opti
 To Do
 
 - Verificar frequencia de treinamento da rede
+    - epsilon_decay
 - Verificar ações e suas consequencias
 - Verificar redes similares em outros lugares e a forma como aprendem
 - Verificar parametros que podem ser ajustados

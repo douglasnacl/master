@@ -70,6 +70,7 @@ if __name__ == "__main__":
         if args.period != 'stochastic':
             args.period = "stochastic"
         print("Periodo: ", args.period, "\n\n")
+        
     # Definindo o dispositivo de processamento
     if args.processing_device != 'CPU':
         if args.processing_device != 'GPU':
