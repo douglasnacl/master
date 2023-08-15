@@ -290,7 +290,7 @@ class DoubleDeepQLearningAgent:
             # Seleciona a melhor ação baseado na politica epsilon greedy
             action, prediction = self.act(state)
             
-            next_state, reward, done = trading_env.step(action)
+            action, next_state, reward, done = trading_env.step(action)
 
             self.memorize_transition(
                 state, 
