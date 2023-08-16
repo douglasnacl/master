@@ -77,7 +77,7 @@ class DoubleDeepQLearningAgent:
     self.epsilon = .1 # valor inicial de epsilon  (10%)
     self.epsilon_start = self.epsilon
     self.epsilon_end = .01 # valor final de epsilon (1%)
-    self.epsilon_decay_steps = 1000 # quantidade de passos de decaimento (250)
+    self.epsilon_decay_steps = 250 # quantidade de passos de decaimento (250)
     self.epsilon_decay = (self.epsilon_start - self.epsilon_end) / self.epsilon_decay_steps # (0.1 - 0.01) / 250 = 0.000396
     self.epsilon_exponential_decay = .99  # decaimento exponencial para epsilon (0.99)
     self.epsilon_history = []
@@ -89,11 +89,6 @@ class DoubleDeepQLearningAgent:
     self.update_target()
 
     self.reset()
-
-    self.action_0 = 0
-    self.action_1 = 0
-    self.action_2 = 0
-    self.action_random = 0
 
   def _newest_file_in_dir(path):
     files = os.listdir(path)
@@ -154,8 +149,7 @@ class DoubleDeepQLearningAgent:
     q = self.online_network.predict(state, verbose=0) 
     
     # Escolhe aleatorimente um número entre 0 e 1 e caso seja menor ou igual a epsilon, uma ação aleatório é executada
-    if np.random.rand() < self.epsilon: 
-      self.action_random += 1
+    if np.random.rand() < self.epsilon:
       action, q =  np.random.choice(self.num_actions), q
     # Escolhe a ação onde Q obtem seu máximo valor
     else:
@@ -180,9 +174,9 @@ class DoubleDeepQLearningAgent:
             # Reduz o valor de epsilon em epsilon_decay
             self.epsilon -= self.epsilon_decay 
         # caso contrário, se epsilon x epsilon_exponential_decay (0.99) for maior que epsilon_end, então:
-        else: 
-          if (self.epsilon * self.epsilon_exponential_decay) > self.epsilon_end:
-            self.epsilon *= self.epsilon_exponential_decay
+        # else: 
+        #   if (self.epsilon * self.epsilon_exponential_decay) > self.epsilon_end:
+        #     self.epsilon *= self.epsilon_exponential_decay
 
       self.episodes += 1
       self.rewards_history.append(self.episode_reward)
@@ -262,8 +256,6 @@ class DoubleDeepQLearningAgent:
         return 0
     else:
         return np.mean(active_returns) / active_std
-    
-  
 
   def train(self, trading_env, visualize=False, train_episodes=100, max_train_episode_steps=360):
     # Cria o TensorBoard writer

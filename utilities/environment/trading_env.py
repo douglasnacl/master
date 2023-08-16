@@ -218,9 +218,9 @@ class TradingEnv:
 
     elif action == 1 and self.balance > self.initial_balance * 0.05:  # Buy
         # Compra com 100% do saldo atual (balanço financeiro)
-        self.quantity_of_stocks_bought = self.balance / current_price * (1-self.fees)
+        self.quantity_of_stocks_bought = (self.balance * (1-self.fees)) / current_price 
         self.stock_bought = np.round(self.quantity_of_stocks_bought*100)/100  # stock_qnt rounded to 2 decimal places
-        self.balance = self.balance - self.stock_bought * current_price * (1-self.fees)
+        self.balance = self.balance - self.stock_bought * current_price 
         self.stock_held += self.stock_bought
         _type = 'buy'
         self.episode_orders += 1
@@ -228,9 +228,8 @@ class TradingEnv:
     elif action == 2 and self.stock_held * current_price > self.initial_balance * 0.05:  # Sell
         # Vende todas as ações em mãos
         self.stock_sold = self.stock_held
-        # Calcula o montante recebido pela venda do ativo dado as taxas
-        self.stock_sold *= (1-self.fees) 
-        self.balance += self.stock_sold * current_price
+        # Calcula o montante recebido pela venda do ativo dado as taxas de transação
+        self.balance += self.stock_sold * current_price * (1-self.fees) 
         self.stock_held -= self.stock_sold
         _type = 'sell'
         self.episode_orders += 1
@@ -255,10 +254,10 @@ class TradingEnv:
         volatility_penalty = -0.1
     else:
         volatility_penalty = 0
-
+    
     opportunity_cost = 0.02
     opportunity_cost_penalty = -opportunity_cost * self.episode_orders
-
+    
     reward = percent_change # risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
     reward = max(reward, -1)
 
@@ -266,7 +265,7 @@ class TradingEnv:
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
     # logging.debug
-    print("Action: ", action, "Type: ", _type, "Stock Bought: ", self.stock_bought, "Stock Sold: ", self.stock_sold, "Stock Held: ", self.stock_held, "Balance: ", self.balance, "Net Worth: ", self.net_worth, "Reward: ", reward, "Current Price: ", current_price, "Date: ", date )
+    # print("Action: ", action, "Type: ", _type, "Stock Bought: ", self.stock_bought, "Stock Sold: ", self.stock_sold, "Stock Held: ", self.stock_held, "Balance: ", self.balance, "Net Worth: ", self.net_worth, "Reward: ", reward, "Current Price: ", current_price, "Date: ", date )
     # Update trades and return action
     self.trades.append({
         'Date': date,
@@ -281,67 +280,10 @@ class TradingEnv:
 
     return action, reward
  
-  # def negotiate_stocks(self, action, state=None):
-  #   current_price = state['Open']
-  #   date = state['Date'] 
-  #   high = state['High'] 
-  #   low = state['Low'] 
-
-  #   # Ação Manter Posição - Não realiza nenhuma operação
-  #   if action == 0: 
-      # self.stock_bought = 0
-      # self.stock_sold = 0
-      # _type = 'hold'
-      # self.episode_orders += 0
-
-  #   # Ação Comprar - Antes de realizar a operação checa se o balanço atual é maior que 5% do balanço inicial
-  #   elif action == 1 and self.balance > self.initial_balance*0.05:
-  #     # Compra com 100% do saldo atual (balanço financeiro)
-  #     self.quantity_of_stocks_bought = self.balance / current_price * (1-self.fees)
-  #     self.stock_bought = np.round(self.quantity_of_stocks_bought*100)/100  # stock_qnt rounded to 2 decimal places
-  #     self.balance = self.balance - self.stock_bought * current_price * (1-self.fees)
-  #     self.stock_held += self.stock_bought
-  #     _type = 'buy'
-  #     self.episode_orders += 1
-
-  #   # Ação Vender - Antes de realizar a operação checa se os ativos em mãos vezes o preço do ativo é maior que 5% do balanço inical
-  #   elif action == 2 and self.stock_held * current_price > self.initial_balance*0.05:
-  #     # Vende todas as ações em mãos
-  #     self.stock_sold = self.stock_held
-  #     # Calcula o montante recebido pela venda do ativo dado as taxas
-  #     self.stock_sold *= (1-self.fees) 
-  #     self.balance += self.stock_sold * current_price
-  #     self.stock_held -= self.stock_sold
-  #     _type = 'sell'
-  #     self.episode_orders += 1
-  #   else:
-  #     self.stock_bought = 0
-  #     self.stock_sold = 0
-  #     _type = 'hold'
-  #     action = 0
-  #     self.episode_orders += 0
-
-  #   print("Action: ", action, "Type: ", _type, "Stock Bought: ", self.stock_bought, "Stock Sold: ", self.stock_sold, "Stock Held: ", self.stock_held, "Balance: ", self.balance, "Net Worth: ", self.net_worth, "Current Price: ", current_price, "Date: ", date )
-  #   self.trades.append({
-  #     'Date' : date, 
-  #     'High' : high, 
-  #     'Low' : low, 
-  #     'Volume': self.stock_sold if _type == 'sell' else (self.stock_bought if _type == 'buy' else self.stock_held), 
-  #     'type': _type, 
-  #     'current_price': current_price
-  #   })
-    
-  #   self.prev_net_worth = self.net_worth
-  #   self.net_worth = self.balance + self.stock_held * current_price
-
-  #   # Calculate daily return
-  #   if self.trades and date == self.trades[-1]['Date']:
-  #       agent_daily_return = (self.net_worth - self.prev_net_worth) / self.prev_net_worth
-  #       self.agent_daily_return.append(agent_daily_return)
-  #   return action 
-# Função Get Reward: calcula a recompensa de acordo com o tipo de ação realizada - Compra, Venda ou Manter Posição
+ 
+# Reward: calcula a recompensa de acordo com o tipo de ação realizada - Compra, Venda ou Manter Posição
 # considerando:
-# Custos de /usr/share/code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.htmlTransação: O primeiro passo é calcular os custos de transação. Os custos de transação só são aplicados quando uma posição é alterada e o custo é calculado como uma porcentagem do valor da posição atual. Um custo de transação de 1% é assumido nesta implementação.
+# Custos de Transação: O primeiro passo é calcular os custos de transação. Os custos de transação só são aplicados quando uma posição é alterada e o custo é calculado como uma porcentagem do valor da posição atual. Um custo de transação de 0.1% é assumido nesta implementação.
 # Ganho/Perda Percentual: O ganho/perda percentual é calculado com base nos volumes e preços atuais e anteriores. Se a posição atual for "compra" e a posição anterior for "venda" ou "manter", a variação percentual é calculada como (valor_atual - valor_anterior - custo_transação) / valor_anterior. Se a posição atual for "venda" e a posição anterior for "compra" ou "manter", a variação percentual é calculada como (valor_anterior - valor_atual - custo_transação) / valor_anterior. Se a posição atual for "manter", a variação percentual é definida como 0. Se uma ação inválida for tomada, como comprar após uma ordem de compra, uma recompensa negativa é dada.
 # Retorno Ajustado ao Risco: O ganho/perda percentual é então ajustado para o risco. Nesta implementação, um índice de Sharpe de 0,5 é assumido, portanto, o retorno ajustado ao risco é calculado como variação_percentual / 0,5.
 # Penalidade de Volatilidade: Uma penalidade é aplicada para negociações realizadas durante períodos de alta volatilidade. Nesta implementação, um limite de volatilidade de 2% é assumido. Se a volatilidade atual estiver acima do limite, uma penalidade de -0,1 é aplicada.
@@ -349,65 +291,6 @@ class TradingEnv:
 # Combinando as Recompensas: A recompensa final é a soma do retorno ajustado ao risco, da penalidade de volatilidade e da penalidade de custo de oportunidade. A recompensa é limitada a -1 para evitar grandes recompensas negativas.
 # No geral, esta implementação parece levar em consideração vários fatores que podem afetar a lucratividade, como custos de transação, risco, volatilidade e custo de oportunidade.
   
-  # def get_reward(self):
-  #   if self.episode_orders > 1 and self.episode_orders > self.prev_episode_orders:
-  #       self.prev_episode_orders = self.episode_orders
-  #       current_position = self.trades[-1]['type']
-  #       prev_position = self.trades[-2]['type']
-
-  #       current_volume = self.trades[-1]['Volume']
-  #       prev_volume = self.trades[-2]['Volume']
-
-  #       current_price = self.trades[-1]['current_price']
-  #       prev_price = self.trades[-2]['current_price']
-
-  #       # Calcula os custos de transação 
-  #       # transaction_cost = 0.01  # Define o custo de transação como 1%
-  #       # if current_position != prev_position:
-  #       #     # Aplica o custo de transação apenas quando a posição é alterada
-  #       #     transaction_cost *= (current_volume * current_price) 
-
-  #       # Calcula o percentual de ganho/perda baseado no volume e preço atual e anterior
-  #       prev_amount = prev_volume * prev_price
-  #       if current_position == "buy" and self.stock_bought:
-  #           current_amount = current_volume * current_price * (1 - self.fees)
-  #           percent_change = (current_amount - prev_amount) / prev_amount
-  #       elif current_position == "sell" and self.stock_sold:
-  #           current_amount = prev_volume * current_price * (1 - self.fees)
-  #           percent_change = (current_amount - prev_amount) / prev_amount
-  #       elif current_position == "hold":
-  #           current_amount = current_volume * current_price 
-  #           percent_change = 0
-  #       else:
-  #           # Recompença negativa para ações inválidas
-  #           percent_change = -1 
-
-  #       print("Current Position: ", current_position, "Previous Position: ", prev_position, "Current Amount: ", current_amount, "Previous Amount: ", prev_amount, "Percent Change: ", percent_change)
-  #       # Incorpora o retorno ajustado ao risco
-  #       sharpe_ratio =  0.5  # Assume um Sharpe ratio de 0.5
-  #       risk_adjusted_return = percent_change / sharpe_ratio
-
-  #       # Aplica a penalidade para negociações feitas durante períodos de alta volatilidade
-  #       volatility_threshold = 0.02  # Assume a volatility threshold of 2%
-  #       if self.current_volatility > volatility_threshold:
-  #           volatility_penalty = -0.1  # Penalize trades made during high volatility periods
-  #       else:
-  #           volatility_penalty = 0
-
-  #       # Aplica a penalidade de custo de oportunidade para cada negociação
-  #       opportunity_cost = 0.02  # Assume um retorno potencial de 2% em investimentos alternativos
-  #       opportunity_cost_penalty = -opportunity_cost * self.episode_orders # Aplique o custo de oportunidade para cada negociação
-
-  #       # Combina as recompenças e penalidades
-  #       reward = risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
-  #       reward = max(reward, -1)  # Limita a recompença negativa a -1 para evitar recompenças muito negativas 
-        
-  #       # logging.info("INFO: Position: {} - Reward: {:5f}".format(current_position, reward))
-  #       self.trades[-1]["Reward"] = reward
-
-  #       return reward
-  #   else:
-  #       return 0
     
   def render(self, visualize = False):
     if visualize:
