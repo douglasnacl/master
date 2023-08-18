@@ -72,7 +72,6 @@ class TradingEnv:
 
     # Define a janela observada nas negociações
     self.prev_net_worth = self.balance # self.initial_balance
-    print("PREVIOUS NET WORTH: ", self.prev_net_worth)
     self.balance = self.initial_balance
     self.net_worth = self.initial_balance
     self.stock_held = 0

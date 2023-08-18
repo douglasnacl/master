@@ -51,7 +51,7 @@ class DoubleDeepQLearningAgent:
   
     # Defina o tamanho do estado 
     # 5 indicadores padrão do mercado (OHCL) e indicadores calculados
-    self.state_size = state_size
+    self.state_size = state_size + 2 # self.net_worth + self.balance
     
     # Define o repositório onde se salva os modelos
     self.log_name = datetime.now().strftime("%Y_%m_%d_%H_%M")+"_ddqn_trader"
@@ -174,9 +174,10 @@ class DoubleDeepQLearningAgent:
             # Reduz o valor de epsilon em epsilon_decay
             self.epsilon -= self.epsilon_decay 
         # caso contrário, se epsilon x epsilon_exponential_decay (0.99) for maior que epsilon_end, então:
-        # else: 
-        #   if (self.epsilon * self.epsilon_exponential_decay) > self.epsilon_end:
-        #     self.epsilon *= self.epsilon_exponential_decay
+        else: 
+          if (self.epsilon * self.epsilon_exponential_decay) > self.epsilon_end:
+            self.epsilon *= self.epsilon_exponential_decay
+            logging.info("Atualizando epsilon exponetial")
 
       self.episodes += 1
       self.rewards_history.append(self.episode_reward)
@@ -279,10 +280,17 @@ class DoubleDeepQLearningAgent:
         for _ in range(max_train_episode_steps):
             trading_env.render(visualize)
 
+            state = state.copy()
+            state.at["net_worth"] = trading_env.net_worth if trading_env.net_worth else trading_env.balance
+            state.at["balance"] = trading_env.balance
+            print("balance: ", state.at["balance"], " net_wort: ", state.at["net_worth"])
             # Seleciona a melhor ação baseado na politica epsilon greedy
             action, prediction = self.act(state)
             
             action, next_state, reward, done = trading_env.step(action)
+            next_state = next_state.copy()
+            next_state.at["net_worth"] = trading_env.net_worth 
+            next_state.at["balance"] = trading_env.balance 
 
             self.memorize_transition(
                 state, 
@@ -291,6 +299,7 @@ class DoubleDeepQLearningAgent:
                 next_state, 
                 0.0 if done else 1.0
             )
+            
             
             states.append(np.expand_dims(state, axis=0))
             next_states.append(np.expand_dims(next_state, axis=0))
@@ -373,8 +382,8 @@ class DoubleDeepQLearningAgent:
       'action_space': str(tuple(self.action_space)),
       "initial_balance": initial_balance,
       "training_episodes": train_episodes,
-      "state_size": self.state_size,
-      "network_architecture": f"input: {self.state_size} - internals: {self.nn_architecture} - output: {self.action_space}",
+      "state_size": self.state_size + 1,
+      "network_architecture": f"input: {self.state_size + 1} - internals: {self.nn_architecture} - output: {self.action_space}",
       "learning_rate": self.nn_learning_rate,
       "activation": self.nn_activation,
       "optimizer": self.nn_optimizer,
