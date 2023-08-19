@@ -283,7 +283,7 @@ class DoubleDeepQLearningAgent:
             state = state.copy()
             state.at["net_worth"] = trading_env.net_worth if trading_env.net_worth else trading_env.balance
             state.at["balance"] = trading_env.balance
-            print("balance: ", state.at["balance"], " net_wort: ", state.at["net_worth"])
+            # print("balance: ", state.at["balance"], " net_wort: ", state.at["net_worth"])
             # Seleciona a melhor ação baseado na politica epsilon greedy
             action, prediction = self.act(state)
             
