@@ -28,6 +28,7 @@ class TradingGraph:
         'sell': 'venda',
         'hold': 'segurar'
     }
+  
   # Classe responsável por gerar a visualização utilizando matplotlib utilizada para renderizar os preços da seguinte forma:
   # Métricas: date, open, high, low, close, volume, net_worth, trades
   def __init__(self, render_range, display_reward=False, display_indicators=False):
@@ -38,8 +39,10 @@ class TradingGraph:
     self.render_range = render_range
     self.display_reward = display_reward
     self.display_indicators = display_indicators
+
     # define a aparencia do grafico
     self.define_graph_appearance()
+
     # define os indicadores caso queiramos mostrá-los
     if self.display_indicators:
       # Cria um novo eixo para os indicadores que compartilham o eixo x (ax2)
@@ -55,8 +58,10 @@ class TradingGraph:
 
     # Cria o subplot superior para o eixo de preços
     self.ax1 = plt.subplot2grid((6,1), (0,0), rowspan=5, colspan=1)
+
     # Cria o subplot inferior para o volume que compartilha o eixo x
     self.ax2 = plt.subplot2grid((6,1), (5,0), rowspan=1, colspan=1, sharex=self.ax1)
+
     # Cria um novo eixo para o patrimonio líquido (net worth) que compartilha o eixo x com o preço
     self.ax3 = self.ax1.twinx()
     self.date_format = mpl_dates.DateFormatter('%d-%m-%Y')
@@ -216,7 +221,7 @@ class TradingGraph:
     image = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
     # Mostra a imagem com opencv
-    # cv2_imshow(image) # 
+    # Ao utilizar o colab.research, alterar a linha abaixo para cv2_imshow(image)
     cv2.imshow("Double Deep Q Lerning trading bot",image)
 
     if cv2.waitKey(25) & 0xFF == ord("q"):

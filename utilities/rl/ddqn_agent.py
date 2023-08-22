@@ -37,6 +37,7 @@ class DoubleDeepQLearningAgent:
     tensors_float=tf.float32,
     model="", 
     comment="",
+    deterministic=False
   ):      
   
     self.model = model
@@ -63,11 +64,13 @@ class DoubleDeepQLearningAgent:
     # Define a taxa de aprendizado
     self.nn_learning_rate = nn_learning_rate
     self.nn_activation = nn_activation
+
     # Define o fator de desconto
     self.gamma = gamma
 
     # Define a arquitetura padrão das camadas ocultas da rede target e, por consequencia, online
     self.nn_architecture = nn_architecture
+
     # Define a taxa de regulização l2
     self.nn_l2_reg = nn_l2_reg
     self.nn_optimizer = nn_optimizer
@@ -85,6 +88,7 @@ class DoubleDeepQLearningAgent:
     # Para aprendizado são utilizadas duas redes, porém para comparação entre st e st+1 é preciso congelar os pesos
     self.online_network = self.build_model()
     self.target_network = self.build_model(trainable=False)
+    self.deterministic = deterministic
 
     self.update_target()
 
@@ -99,11 +103,12 @@ class DoubleDeepQLearningAgent:
     # Inicializa a função com valores nulos
     self.total_steps = self.train_steps = 0
     self.episodes = self.episode_length = self.train_episodes = 0
-    self.steps_per_episode = [] # deque(maxlen=self.env_steps_size)
+    # self.steps_per_episode = deque(maxlen=self.env_steps_size)
     self.episode_reward = 0
-    self.rewards_history = [] # deque(maxlen=self.env_steps_size)
+    # self.rewards_history = deque(maxlen=self.env_steps_size)
 
-    self.nn_tau = self.nn_tau # frequencia de atualização da rede neural
+    # frequencia de atualização da rede neural
+    self.nn_tau = self.nn_tau 
     self.losses = []
     self.idx = tf.range(self.batch_size) # <tf.Tensor: shape=(4000,), dtype=int32, numpy=array([ 0, 1, 2, ..., 3997, 3998, 3999], dtype=int32)>
     self.is_training = True
@@ -141,6 +146,7 @@ class DoubleDeepQLearningAgent:
     '''
     # A cada chamada incrementa o contador de passos
     self.total_steps += 1 
+
     # Realiza o reshape do estado atual para o formato de aceito
     state = np.array(state[2:]).astype(self.np_float)
     state = state.reshape(-1, self.state_size)
@@ -171,6 +177,7 @@ class DoubleDeepQLearningAgent:
         # se o episódio for menor que o epsilon_decay_steps (250), então:
         if self.episodes < self.epsilon_decay_steps: 
           if (self.epsilon - self.epsilon_decay) > self.epsilon_end:
+
             # Reduz o valor de epsilon em epsilon_decay
             self.epsilon -= self.epsilon_decay 
         # caso contrário, se epsilon x epsilon_exponential_decay (0.99) for maior que epsilon_end, então:
@@ -180,8 +187,8 @@ class DoubleDeepQLearningAgent:
             logging.info("Atualizando epsilon exponetial")
 
       self.episodes += 1
-      self.rewards_history.append(self.episode_reward)
-      self.steps_per_episode.append(self.episode_length)
+      # self.rewards_history.append(self.episode_reward)
+      # self.steps_per_episode.append(self.episode_length)
       self.episode_reward, self.episode_length = 0, 0
 
     # Armazena (st,at,Rt,st+1,done) em uma experience replay
@@ -195,6 +202,7 @@ class DoubleDeepQLearningAgent:
     # A experiencia de repetição ocorre quando a memória de trasição é menor que tamanho o lote definido
     if len(self.experience) < self.batch_size:
       return
+    
     # Empilha as matrizes, formato próprio para o treinamento
     # Obtem uma amostra do minibatch da experiência
     minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
@@ -210,9 +218,11 @@ class DoubleDeepQLearningAgent:
     scaler = MinMaxScaler(feature_range=(0, 1))
     next_states = scaler.fit_transform(next_states)
     next_states = tf.convert_to_tensor(next_states, dtype=self.tensors_float)
+
     # Realiza a previsão da rede online com base nos valores de q para o próximo estado
     next_q_values = self.online_network.predict_on_batch(next_states) # Q_online(st+1, at+1)
-    # Escolhe a ação com maior valor qZ
+
+    # Escolhe a ação com maior valor q para o próximo estado
     best_actions = tf.argmax(next_q_values, axis=1) #  a*t+1 = max_(a_(t+1)) Q_online(st+1, at+1)
     
     # Realiza a previsão da rede target com base nos valores de q para o próximo estado
@@ -235,6 +245,7 @@ class DoubleDeepQLearningAgent:
     states = np.array(states[:, 2:]).astype(self.np_float)
     states = scaler.fit_transform(states)
     states = tf.convert_to_tensor(states, dtype=self.tensors_float)
+    
     # Valores de q previstos - Q_online (st, at) = targets
     q_values = self.online_network.predict_on_batch(states) # Q(st, at)
     q_values[tuple([self.idx, actions])] = targets # Q(st, at) =  rt + 1 * gamma * Q_alvo(st+1, max_(a_(t+1)) Q_online(st+1, at+1)))
@@ -388,6 +399,7 @@ class DoubleDeepQLearningAgent:
       "activation": self.nn_activation,
       "optimizer": self.nn_optimizer,
       "batch_size": self.batch_size,
+      "period_type": "deterministic" if self.deterministic else "stochastic",
       "model": self.model,
       "comment": self.comment,
       "training_end": ""

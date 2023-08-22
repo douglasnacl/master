@@ -54,6 +54,7 @@ class TradingEnv:
     # Define as colunas, desconsiderando a 'index' e a 'Date'
 
     self.daily_returns = np.log(df['Close']/df['Close'].shift(1))
+    # print("Daily Returns: ", self.daily_returns, "Daily Returns STD: ", self.daily_returns.std(), "Size: ", len(self.daily_returns))
     volatility = self.daily_returns.std()  
     self.current_volatility = volatility
     self.agent_daily_return = []
@@ -96,7 +97,6 @@ class TradingEnv:
     self._full_dataset_used_times = 0
     
     if self.deterministic:
-      logging.info("Realizando a execução em um periodo deterministico!")
       
       if self._step == 0:
         self._step = 0
@@ -128,7 +128,6 @@ class TradingEnv:
       self._used_indices_into_steps.update(used_indices_in_this_run)
       
     else:
-      logging.info("Realizando a execução em um periodo estocástico!")
       
       if self._step == 0:
         self.__get_step()
@@ -184,11 +183,9 @@ class TradingEnv:
     
     if self._step >= 30:
       daily_return_series = pd.Series(data=self.daily_returns)  # create a series with repeating values of daily_return
-      self.current_volatility = daily_return_series.rolling(window=30).std().iloc[-1] # 30-day rolling window
-
+      self.current_volatility = daily_return_series.iloc[self._step: self._end_step].std() # 30-day rolling window
     else:
-      self.current_volatility = self.daily_returns.std()
-
+      self.current_volatility = self.daily_returns.std() 
     obs = self.next_observation()
     return action, obs, reward, done
 
@@ -245,26 +242,29 @@ class TradingEnv:
     # prev_amount = prev_volume * prev_price
     percent_change = (self.balance + self.stock_held * current_price - prev_amount) / prev_amount
     
-    sharpe_ratio = 0.5
+    sharpe_ratio = 0.01
     risk_adjusted_return = percent_change / sharpe_ratio
 
     volatility_threshold = 0.02
+    # print("Volatility: ", self.current_volatility, "Volatility Threshold: ", volatility_threshold)
     if self.current_volatility > volatility_threshold:
-        volatility_penalty = -0.1
+        volatility_penalty = -0.01
     else:
         volatility_penalty = 0
     
-    opportunity_cost = 0.02
+    opportunity_cost = 1e-5
     opportunity_cost_penalty = -opportunity_cost * self.episode_orders
     
-    reward = percent_change # risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
-    reward = max(reward, -1)
+    
+    reward = risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
+    reward = max(reward, 0) # max(reward, -1)
 
     # Update net worth
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
     # logging.debug
-    # print("Action: ", action, "Type: ", _type, "Stock Bought: ", self.stock_bought, "Stock Sold: ", self.stock_sold, "Stock Held: ", self.stock_held, "Balance: ", self.balance, "Net Worth: ", self.net_worth, "Reward: ", reward, "Current Price: ", current_price, "Date: ", date )
+
+    logging.debug("Action: ", action, "Type: ", _type, "Stock Bought: ", self.stock_bought, "Stock Sold: ", self.stock_sold, "Stock Held: ", self.stock_held, "Balance: ", self.balance, "Net Worth: ", self.net_worth, "Reward: ", reward, "Current Price: ", current_price, "Date: ", date )
     # Update trades and return action
     self.trades.append({
         'Date': date,

@@ -66,7 +66,8 @@ def test_agent(trading_env, agent, test_df, test_df_nomalized, visualize=True, t
             
     print("average {} episodes agent net_worth: {}, orders: {}".format(test_episodes, average_net_worth/test_episodes, average_orders/test_episodes))
     print("No profit episodes: {}".format(no_profit_episodes))
-    # save test results to test_results.txt file
+    
+    # Salvando os resultados do teste no arquivo test_results.txt
     with open("test_results.txt", "a+") as results:
         current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
         results.write(f'{current_date}, {name}, test episodes:{test_episodes}')
@@ -89,7 +90,7 @@ def routine(processing_device="GPU", visualize=False, deterministic=False):
     df = df.dropna()
     df = df.sort_values('Date')
 
-    df = add_indicators(df) # insert indicators to df 2021_02_21_17_54_ddqn_trader
+    df = add_indicators(df) 
     
     df_nomalized = min_max_normalization(df[99:])[1:]
     df = df[100:].dropna()
@@ -147,9 +148,14 @@ def routine(processing_device="GPU", visualize=False, deterministic=False):
         model=model,
         comment=comment,
     )
-
+    if deterministic:
+        logging.info("Realizando a execução em um periodo deterministico!")
+    if deterministic != True:
+        logging.info("Realizando a execução em um periodo estocástico!")
+        
     agent.train(trading_env=trading_env, visualize=visualize, train_episodes=train_episodes, max_train_episode_steps=episode_steps)
     # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
+    
 
 
 
