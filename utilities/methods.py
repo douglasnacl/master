@@ -147,6 +147,7 @@ def routine(processing_device="GPU", visualize=False, deterministic=False):
         tensors_float=tensors_float, # Define se será 32bit ou 16bit dependendo do hardware do treinamento
         model=model,
         comment=comment,
+        deterministic=deterministic
     )
     if deterministic:
         logging.info("Realizando a execução em um periodo deterministico!")
