@@ -205,7 +205,8 @@ class DoubleDeepQLearningAgent:
     
     # Empilha as matrizes, formato próprio para o treinamento
     # Obtem uma amostra do minibatch da experiência
-    minibatch = map(np.array, zip(*sample(self.experience, self.batch_size)))
+    # print(self.experience, type(self.experience))
+    minibatch = map(np.array, zip(*list(self.experience)[-self.batch_size:])) # map(np.array, zip(*sample(self.experience, self.batch_size)))
     states, actions, rewards, next_states, not_done = minibatch # et = (st, at, rt, st+1)
 
     next_states = np.array(next_states[:, 2:]).astype(self.np_float)
