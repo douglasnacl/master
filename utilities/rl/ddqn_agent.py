@@ -269,12 +269,14 @@ class DoubleDeepQLearningAgent:
         return 0
     else:
         return np.mean(active_returns) / active_std
-
+    
+  def twap(self, df, start_step, end_step, period):
+    df = df[start_step: end_step].copy()
+    tp = (df['Low'] + df['Close'] + df['High']).divide(3)
+    return df.assign(twap=(tp.rolling(period).sum().divide(period)))
+    
   def train(self, trading_env, visualize=False, train_episodes=100, max_train_episode_steps=360):
     # Cria o TensorBoard writer
-    
-    
-
     self.create_writer(trading_env.initial_balance, train_episodes)
     # Define a janela recente para a quantidade de train_episodes de patrimônio líquido
     total_net_worth = deque(maxlen=train_episodes) 
@@ -333,7 +335,7 @@ class DoubleDeepQLearningAgent:
             
 
 
-        agent_daily_return = trading_env.agent_daily_return
+        # agent_daily_return = trading_env.agent_daily_return
         # capm, beta = self.get_capm(trading_env._init_step, trading_env._step, agent_daily_return)
 
         total_net_worth.append(trading_env.net_worth)
@@ -357,7 +359,14 @@ class DoubleDeepQLearningAgent:
         self.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
         self.writer.add_scalar('data/rewards', average_reward, episode)
         self.writer.add_scalar('data/win_rate', win_rate, episode)
-        
+        self.writer.add_scalar('data/agent_returns', np.average(trading_env.agent_returns), episode) 
+        self.writer.add_scalar('data/market_returns', np.average(trading_env.market_returns), episode) 
+        twap = self.twap(trading_env.df, trading_env.initial_step, trading_env.end_step, 2)
+        twap = pd.Series(twap['twap'].dropna())
+        twap_variation = (twap - twap.shift(1)).dropna()
+        avg_twap = np.average(twap_variation)
+        self.writer.add_scalar('data/avg_twap', avg_twap , episode) 
+
         processing_time = time() - start
         self.writer.add_scalar('data/time_to_process', processing_time, episode) 
       

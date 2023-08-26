@@ -57,7 +57,7 @@ class TradingEnv:
     # print("Daily Returns: ", self.daily_returns, "Daily Returns STD: ", self.daily_returns.std(), "Size: ", len(self.daily_returns))
     volatility = self.daily_returns.std()  
     self.current_volatility = volatility
-    self.agent_daily_return = []
+    self.agent_returns = []
 
     self.deterministic = deterministic
 
@@ -91,7 +91,8 @@ class TradingEnv:
     self.rewards = deque(maxlen=self.render_range)
     self.env_steps_size = env_steps_size
     self.punish_value = 0
-    self.agent_daily_return = []
+    self.agent_returns = []
+    
     
     # Define contador de percorrencia de base de dados
     self._full_dataset_used_times = 0
@@ -155,7 +156,12 @@ class TradingEnv:
       else:
         used_indices_in_this_run = set(range((self._step - _margin), (self._step + _margin)))
 
+    self.market_returns =  pd.Series(data=self.daily_returns).iloc[self._step: self._end_step]
     self._used_indices_into_steps.update(used_indices_in_this_run)
+
+    # Armazendo a informação do passo inicial e final para calculo de métricas
+    self.initial_step = self._step
+    self.end_step = self._end_step
     logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step} com um total de {len(self._used_indices_into_steps)}/{len(self.df)} passos utilizados (passagem: {self._full_dataset_used_times})")
 
     return self.df.loc[self._step] # state[-1]
@@ -182,10 +188,11 @@ class TradingEnv:
       done = False
     
     if self._step >= 30:
-      daily_return_series = pd.Series(data=self.daily_returns)  # create a series with repeating values of daily_return
-      self.current_volatility = daily_return_series.iloc[self._step: self._end_step].std() # 30-day rolling window
+      self.current_volatility = self.market_returns.std() # 30-day rolling window
     else:
       self.current_volatility = self.daily_returns.std() 
+    
+
     obs = self.next_observation()
     return action, obs, reward, done
 
@@ -262,6 +269,7 @@ class TradingEnv:
     # Update net worth
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
+    self.agent_returns.append(self.net_worth/self.prev_net_worth)
     # logging.debug
 
     logging.debug("Action: ", action, "Type: ", _type, "Stock Bought: ", self.stock_bought, "Stock Sold: ", self.stock_sold, "Stock Held: ", self.stock_held, "Balance: ", self.balance, "Net Worth: ", self.net_worth, "Reward: ", reward, "Current Price: ", current_price, "Date: ", date )
