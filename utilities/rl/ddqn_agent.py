@@ -123,6 +123,7 @@ class DoubleDeepQLearningAgent:
         self.nn_architecture, 
         self.nn_learning_rate, 
         self.nn_l2_reg,
+        tensors_float=self.tensors_float,
         activation=self.nn_activation,
         optimizer=self.nn_optimizer,
         trainable=trainable)

@@ -80,8 +80,8 @@ def routine(processing_device="GPU", visualize=False, deterministic=False):
     if processing_device != 'GPU':
         print("INFO: Dispositivo escolhido CPU")
         use_cpu()
-    else:
-        tensors_float = check_computer_device()
+    
+    tensors_float = check_computer_device()
 
     logging.info(f"Realizando a leitura do arquivo de dados {stock_name}")
     df = pd.read_csv(f'./assets/ts/{stock_name}.csv').loc[:, ['Date', 'Open','Close','High','Low','Volume']]#.iloc[:, :-2]#['Date', 'Open','Close','High','Low','Volume']

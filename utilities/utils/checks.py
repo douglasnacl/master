@@ -9,6 +9,7 @@ import os
 def check_computer_device():
 
     gpu_devices = tf.config.experimental.list_physical_devices('GPU')
+    tensors_float = tf.float32
     if gpu_devices:
         logging.info('Processamento utilizando GPU')
         for gpu in gpu_devices:

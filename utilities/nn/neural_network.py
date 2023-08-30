@@ -8,7 +8,7 @@ import tensorflow as tf
 from tensorflow import keras
 class NeuralNetwork:
 
-  def __init__(self, state_size, action_space, architecture, learning_rate, l2_reg, activation='relu', optimizer='Adam', trainable=True) -> None:
+  def __init__(self, state_size, action_space, architecture, learning_rate, l2_reg, tensors_float, activation='relu', optimizer='Adam', trainable=True) -> None:
     self.state_size = state_size # (4096, 18)
     self.action_space = action_space # (0, 1, 2)
     self.num_actions = len(self.action_space) # (3) hold, buy e sell
@@ -17,7 +17,7 @@ class NeuralNetwork:
     self.optimizer = optimizer 
     self.learning_rate = learning_rate
     self.trainable = trainable
-    
+    self.tensors_float = tensors_float
     self.l2_reg = l2_reg
 
   def get_optimizer(self):
@@ -73,7 +73,7 @@ class NeuralNetwork:
     q_values = tf.reduce_sum(y_true * y_pred, axis=1, keepdims=True)
 
     # Compute the target Q-values using the DDQN update rule
-    target_q_values = y_true * (1 - tf.cast(tf.equal(y_pred, tf.reduce_max(y_pred, axis=1, keepdims=True)), dtype=tf.float16)) + y_true * tf.cast(tf.equal(y_pred, tf.reduce_max(y_pred, axis=1, keepdims=True)), dtype=tf.float16) * q_values
+    target_q_values = y_true * (1 - tf.cast(tf.equal(y_pred, tf.reduce_max(y_pred, axis=1, keepdims=True)), dtype=self.tensors_float)) + y_true * tf.cast(tf.equal(y_pred, tf.reduce_max(y_pred, axis=1, keepdims=True)), dtype=self.tensors_float) * q_values
 
     # Compute the mean squared error between the target Q-values and the predicted Q-values
     return tf.reduce_mean(tf.square(target_q_values - q_values))
