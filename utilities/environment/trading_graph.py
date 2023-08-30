@@ -41,7 +41,7 @@ class TradingGraph:
     self.display_indicators = display_indicators
 
     # define a aparencia do grafico
-    self.define_graph_appearance()
+    self.define_graph_appearence()
 
     # define os indicadores caso queiramos mostrá-los
     if self.display_indicators:
@@ -49,7 +49,7 @@ class TradingGraph:
       self.ax4 = self.ax2.twinx() # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.twinx.html
       self.instantiate_indicators()
 
-  def define_graph_appearance(self):
+  def define_graph_appearence(self):
     plt.close('all')
     plt.style.use('ggplot')
     # Define o width e height de uma figura  
