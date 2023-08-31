@@ -35,11 +35,14 @@ class DoubleDeepQLearningAgent:
     nn_optimizer='Adam',
     nn_tau=100,
     tensors_float=tf.float32,
+    processing_device="",
+    stock_name="",
     model="", 
     comment="",
     deterministic=False
   ):      
-  
+
+    
     self.model = model
     self.comment = comment
     self.tensors_float = tensors_float
@@ -88,6 +91,8 @@ class DoubleDeepQLearningAgent:
     # Para aprendizado são utilizadas duas redes, porém para comparação entre st e st+1 é preciso congelar os pesos
     self.online_network = self.build_model()
     self.target_network = self.build_model(trainable=False)
+    self.stock_name = stock_name
+    self.processing_device = processing_device
     self.deterministic = deterministic
 
     self.update_target()
@@ -401,6 +406,8 @@ class DoubleDeepQLearningAgent:
     # Salva os parâmetros de treinamento no arquivo parameters.json par uso futuro
     params = {
       "training_start": datetime.now().strftime('%Y-%m-%d %H:%M'),
+      "processing_device": self.processing_device,
+      "stock_name": self.stock_name,
       'action_space': str(tuple(self.action_space)),
       "initial_balance": initial_balance,
       "training_episodes": train_episodes,

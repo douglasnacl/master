@@ -145,6 +145,8 @@ def routine(processing_device="GPU", visualize=False, deterministic=False):
         nn_optimizer=nn_optimizer, # Otimizador da Rede
         nn_tau=nn_tau, # Frequencia de Atualização da Rede Alvo (Target Network)
         tensors_float=tensors_float, # Define se será 32bit ou 16bit dependendo do hardware do treinamento
+        processing_device=processing_device,
+        stock_name=stock_name,
         model=model,
         comment=comment,
         deterministic=deterministic
