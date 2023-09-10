@@ -123,15 +123,15 @@ class DoubleDeepQLearningAgent:
     # Cria a rede neural utilizada no treinamento 
     print("Neural Network Architecture: ", self.nn_architecture, " Learning Rate: ", self.nn_learning_rate, " L2 Regularization: ", self.nn_l2_reg, " Optimizer: ", self.nn_optimizer, " Trainable: ", trainable, " State size: ", self.state_size, " Action space: ", self.action_space)
     neural_network = NeuralNetwork(
-        self.state_size,
-        self.action_space, 
-        self.nn_architecture, 
-        self.nn_learning_rate, 
-        self.nn_l2_reg,
-        tensors_float=self.tensors_float,
-        activation=self.nn_activation,
-        optimizer=self.nn_optimizer,
-        trainable=trainable)
+      self.state_size,
+      self.action_space, 
+      self.nn_architecture, 
+      self.nn_learning_rate, 
+      self.nn_l2_reg,
+      tensors_float=self.tensors_float,
+      activation=self.nn_activation,
+      optimizer=self.nn_optimizer,
+      trainable=trainable)
 
     model = neural_network.build()
     return model
@@ -359,14 +359,14 @@ class DoubleDeepQLearningAgent:
             win_count += 1
         win_rate = win_count / (episode + 1)  # Calculate win rate
         
-        self.writer.add_scalar('data/episode_reward', episode_reward, episode)
+        self.writer.add_scalar('data/  ', episode_reward, episode)
         self.writer.add_scalar('data/average_net_worth', average_net_worth, episode)
-        self.writer.add_scalar('data/perc_average_net_worth', average_net_worth/trading_env.initial_balance - 1, episode)
         self.writer.add_scalar('data/episode_orders', trading_env.episode_orders, episode)
         self.writer.add_scalar('data/rewards', average_reward, episode)
         self.writer.add_scalar('data/win_rate', win_rate, episode)
         self.writer.add_scalar('data/agent_returns', np.average(trading_env.agent_returns), episode) 
         self.writer.add_scalar('data/market_returns', np.average(trading_env.market_returns), episode) 
+        self.writer.add_scalar('data/diff_returns', np.average(trading_env.agent_returns) - np.average(trading_env.market_returns), episode) 
         twap = self.twap(trading_env.df, trading_env.initial_step, trading_env.end_step, 2)
         twap = pd.Series(twap['twap'].dropna())
         twap_variation = (twap - twap.shift(1)).dropna()

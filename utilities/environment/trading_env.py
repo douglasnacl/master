@@ -53,7 +53,7 @@ class TradingEnv:
     self.fees = 0.001 
     # Define as colunas, desconsiderando a 'index' e a 'Date'
 
-    self.daily_returns = np.log(df['Close']/df['Close'].shift(1))
+    self.daily_returns = df['Close']/df['Close'].shift(1)
     # print("Daily Returns: ", self.daily_returns, "Daily Returns STD: ", self.daily_returns.std(), "Size: ", len(self.daily_returns))
     volatility = self.daily_returns.std()  
     self.current_volatility = volatility

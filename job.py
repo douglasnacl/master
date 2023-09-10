@@ -31,8 +31,8 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "-p",
-    "--period",
+    "-i",
+    "--interval",
     choices=["deterministic", "stochastic"],
     # default="stochastic",
     help="optional: Escolhe o tipo de período (default: stochastic)",
@@ -66,10 +66,10 @@ if __name__ == "__main__":
     logging.info("Running the current task")
 
     # Definindo o periodo
-    if args.period != 'deterministic':
-        if args.period != 'stochastic':
-            args.period = "stochastic"
-        print("Periodo: ", args.period, "\n\n")
+    if args.interval != 'deterministic':
+        if args.interval != 'stochastic':
+            args.interval = "stochastic"
+        print("Periodo: ", args.interval, "\n\n")
         
     # Definindo o dispositivo de processamento
     if args.processing_device != 'CPU':
@@ -80,7 +80,7 @@ if __name__ == "__main__":
             """)
         args.processing_device = "GPU"
     
-    _deterministic = True if args.period == 'deterministic' else False
+    _deterministic = True if args.interval == 'deterministic' else False
     if(args.visualize):
         logging.info("Visualização")
         routine(processing_device=args.processing_device, visualize=True, deterministic=_deterministic)
@@ -94,8 +94,8 @@ if __name__ == "__main__":
         # Ativo a ser avaliado
         interval = '1h' # Também é possível usar '4h','1h','15m','1m'
         # Define-se a data inicial e final
-        interval_start = datetime(2021, 11, 1, 0, 0)
-        interval_end = datetime(2022, 11, 1, 0, 0)
+        interval_start = datetime(2016, 3, 14, 0, 0)
+        interval_end = datetime(2023, 9, 9, 0, 0)
         # Chama a função para obtenção dos dados
         _ = fetch_data(interval_start, interval_end, asset, interval)
     else:

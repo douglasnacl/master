@@ -39,7 +39,7 @@ def fetch_data(start, end, symbol, interval):
         print(f"data Inicial: {pd.to_datetime(start, unit='ms')} - data final: {pd.to_datetime(end, unit='ms')} - passos faltantes: {int(total_steps)}")
         start = start + step
         total_steps -= data_points
-        time.sleep(1.5)
+        time.sleep(3)
 
     # define as colunas dos dados 
     columns = ['Date', 'Open', 'Close', 'High', 'Low', 'Volume']
