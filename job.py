@@ -26,7 +26,6 @@ parser.add_argument(
     "-dd",
     "--download_data",
     choices=["BTCUSD", "ETHUSD"],
-    # default="BTCUSD",
     help="optional: executa rotina para obter novos dados (default: BTCUSD)",
 )
 
@@ -34,7 +33,6 @@ parser.add_argument(
     "-i",
     "--interval",
     choices=["deterministic", "stochastic"],
-    # default="stochastic",
     help="optional: Escolhe o tipo de período (default: stochastic)",
 )
 

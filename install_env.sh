@@ -66,7 +66,6 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
 export LD_LIBRARY_PATH=/home/douglasnacl/anaconda3/lib:$LD_LIBRARY_PATH
 # export QT_PLUGIN_PATH=/home/douglasnacl/anaconda3/lib/python3.10/site-packages/cv2/qt/plugins/
 conda install -c anaconda tensorflow-gpu
-pip install opencv-python-headless
 
 export PATH="home/douglasnacl/anaconda3/bin:$PATH"
 export LD_LIBRARY_PATH="home/douglasnacl/anaconda3/lib:$LD_LIBRARY_PATH"
