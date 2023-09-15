@@ -39,7 +39,7 @@ class DoubleDeepQLearningAgent:
     stock_name="",
     model="", 
     comment="",
-    deterministic=False
+    deterministic=True
   ):      
 
     

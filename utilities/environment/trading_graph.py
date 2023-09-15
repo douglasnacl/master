@@ -186,20 +186,21 @@ class TradingGraph:
                 high_low = trade['Low'] - RANGE*0.02
                 ycoords = trade['Low'] - RANGE*0.08
                 self.ax1.scatter(trade_date, high_low, c='green', label='compra', s = 120, edgecolors='none', marker="^")
-            else:
+            elif trade['type'] == 'sell':
                 high_low = trade['High'] + RANGE*0.02
                 ycoords = trade['High'] + RANGE*0.06
                 self.ax1.scatter(trade_date, high_low, c='red', label='venda', s = 120, edgecolors='none', marker="v")
             
             if self.display_reward:
                 try:
-                    self.ax1.annotate(
-                        '{0:<5}: {1:.2f}'.format(self.translate_trade_type(trade['type']), trade['Reward']), 
-                        (trade_date-0.02, high_low),
-                        xytext=(trade_date-0.02, ycoords),
-                        bbox=dict(boxstyle='round', fc='w', ec='k', lw=1), 
-                        fontsize="small"
-                    )
+                    if trade['type'] != 'hold': 
+                      self.ax1.annotate( 
+                          '{0:<5}: {1:.4f}'.format(self.translate_trade_type(trade['type']), trade['Reward']),
+                          (trade_date-0.02, high_low),
+                          xytext=(trade_date-0.02, ycoords),
+                          bbox=dict(boxstyle='round', fc='w', ec='k', lw=1), 
+                          fontsize="small"
+                      )
                 except:
                     pass
 

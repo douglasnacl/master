@@ -265,7 +265,7 @@ class TradingEnv:
     
     reward = risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
     reward = max(reward, 0) # max(reward, -1)
-
+    
     # Update net worth
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price

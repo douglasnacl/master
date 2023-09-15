@@ -65,8 +65,10 @@ if __name__ == "__main__":
 
     # Definindo o periodo
     if args.interval != 'deterministic':
-        if args.interval != 'stochastic':
+        if args.interval == 'stochastic':
             args.interval = "stochastic"
+        else:
+            args.interval = "deterministic"
         print("Periodo: ", args.interval, "\n\n")
         
     # Definindo o dispositivo de processamento
