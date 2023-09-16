@@ -16,8 +16,6 @@ class TradingEnv:
         Dados normalizados
       initial_balance: inta
         Balanço inicial, ou seja, a posição financeira no início do episódio
-      lookback_window_size: int
-        Janela de observação
       render_range: int
         Faixa de renderização da visualização
       display_reward: boolean
@@ -33,8 +31,7 @@ class TradingEnv:
     self.df_normalized = df_normalized.reset_index()
     self.df_total_steps = len(self.df)-1
     self.initial_balance = initial_balance
-    
-    # self.lookback_window_size = lookback_window_size
+
     self._step = 0
     self._used_indices_into_steps = set()
     self.max_interval_tries = 0
@@ -162,9 +159,8 @@ class TradingEnv:
     # Armazendo a informação do passo inicial e final para calculo de métricas
     self.initial_step = self._step
     self.end_step = self._end_step
-    logging.info(f"O intervalo atual vai de  {self._step} até {self._end_step} com um total de {len(self._used_indices_into_steps)}/{len(self.df)} passos utilizados (passagem: {self._full_dataset_used_times})")
 
-    return self.df.loc[self._step] # state[-1]
+    return self.df.loc[self._step] 
 
   def next_observation(self):
 
@@ -287,18 +283,6 @@ class TradingEnv:
 
     return action, reward
  
- 
-# Reward: calcula a recompensa de acordo com o tipo de ação realizada - Compra, Venda ou Manter Posição
-# considerando:
-# Custos de Transação: O primeiro passo é calcular os custos de transação. Os custos de transação só são aplicados quando uma posição é alterada e o custo é calculado como uma porcentagem do valor da posição atual. Um custo de transação de 0.1% é assumido nesta implementação.
-# Ganho/Perda Percentual: O ganho/perda percentual é calculado com base nos volumes e preços atuais e anteriores. Se a posição atual for "compra" e a posição anterior for "venda" ou "manter", a variação percentual é calculada como (valor_atual - valor_anterior - custo_transação) / valor_anterior. Se a posição atual for "venda" e a posição anterior for "compra" ou "manter", a variação percentual é calculada como (valor_anterior - valor_atual - custo_transação) / valor_anterior. Se a posição atual for "manter", a variação percentual é definida como 0. Se uma ação inválida for tomada, como comprar após uma ordem de compra, uma recompensa negativa é dada.
-# Retorno Ajustado ao Risco: O ganho/perda percentual é então ajustado para o risco. Nesta implementação, um índice de Sharpe de 0,5 é assumido, portanto, o retorno ajustado ao risco é calculado como variação_percentual / 0,5.
-# Penalidade de Volatilidade: Uma penalidade é aplicada para negociações realizadas durante períodos de alta volatilidade. Nesta implementação, um limite de volatilidade de 2% é assumido. Se a volatilidade atual estiver acima do limite, uma penalidade de -0,1 é aplicada.
-# Custo de Oportunidade: Um custo de oportunidade é aplicado para cada negociação realizada. Nesta implementação, um retorno potencial de 2% é assumido para investimentos alternativos. A penalidade de custo de oportunidade é calculada como -custo_oportunidade * ordens_do_episódio.
-# Combinando as Recompensas: A recompensa final é a soma do retorno ajustado ao risco, da penalidade de volatilidade e da penalidade de custo de oportunidade. A recompensa é limitada a -1 para evitar grandes recompensas negativas.
-# No geral, esta implementação parece levar em consideração vários fatores que podem afetar a lucratividade, como custos de transação, risco, volatilidade e custo de oportunidade.
-  
-    
   def render(self, visualize = False):
     if visualize:
       img = self.trading_graph.render(self.df.loc[self._step], self.net_worth, self.trades)
