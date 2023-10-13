@@ -115,13 +115,18 @@ class TradingGraph:
     self.update_indicators(df)
 
     for item in list(self._indicators_labels.keys())[:-1]:
-        self.ax1.plot(date_render_range, self._indicators[item], self._indicators_linestyle[item], color=self._indicators_colors[item], label=self._indicators_labels[item], alpha=0.5)
-    self.ax1.legend(loc='upper left')
+        self.ax1.plot(date_render_range, self._indicators[item], self._indicators_linestyle[item], color=self._indicators_colors[item], label=self._indicators_labels[item], alpha=0.2)
+    legend = self.ax1.legend(loc='upper left')
+    legend.get_frame().set_facecolor('white')
+    legend.get_frame().set_alpha(0.5)
     
     self.ax4.clear()
-    self.ax4.plot(date_render_range, self.RSI, color='green', linestyle=self._indicators_linestyle['RSI'], label=self._indicators_labels['RSI'])
+    self.ax4.plot(date_render_range, self.RSI, color='green', linestyle=self._indicators_linestyle['RSI'], label=self._indicators_labels['RSI'], alpha=0.2)
     self.ax4.set_ylabel('RSI') 
-    self.ax4.legend(loc='upper left')
+    self.ax4.yaxis.set_label_position('right')
+    legend = self.ax4.legend(loc='upper right')
+    legend.get_frame().set_facecolor('white')
+    legend.get_frame().set_alpha(0.5)
 
   def update_render_range(self):
     # Limpa o eixo da renderização do passo anterior
@@ -131,16 +136,20 @@ class TradingGraph:
     # Coloca todas as datas em uma lista e preeche o subplot ax2 com o volume
     date_render_range = [i[0] for i in self.render_data]
     self.ax2.clear()
-    self.ax2.bar(date_render_range, self.volume, 0.025, label='Volume', alpha=0.5)
+    self.ax2.bar(date_render_range, self.volume, 0.025, label='Volume', alpha=0.2)
     self.ax2.set_ylabel('Volume')
-    self.ax2.legend(loc='upper left')
+    legend = self.ax2.legend(loc='upper left')
+    legend.get_frame().set_facecolor('white')
+    legend.get_frame().set_alpha(0.5)
     return date_render_range
 
   def plot_net_worth(self, date_render_range):
     # Desenha o patrimonio líquido no subplot ax3 (compartilhado com ax1)
     self.ax3.clear()
-    self.ax3.plot(date_render_range, self.net_worth, color="blue", label='Patrimônio Líquido', alpha=0.5)
-    self.ax3.legend(loc='upper left')
+    self.ax3.plot(date_render_range, self.net_worth, color="blue", label='Patrimônio Líquido', alpha=0.2)
+    legend = self.ax3.legend(loc='upper right')
+    legend.get_frame().set_facecolor('white')
+    legend.get_frame().set_alpha(0.5)
 
   def translate_trade_type(self, operation_type):
     
@@ -153,7 +162,7 @@ class TradingGraph:
     high = df["High"]
     low = df["Low"]
     close = df["Close"]
-    volume = df["Volume"]
+    volume = df["Volume"]*1000
 
     # Adiciona o volume e patrimonio líquido a lista deque
     self.volume.append(volume)
@@ -195,11 +204,11 @@ class TradingGraph:
                 try:
                     if trade['type'] != 'hold': 
                       self.ax1.annotate( 
-                          '{0:<5}: {1:.4f}'.format(self.translate_trade_type(trade['type']), trade['Reward']),
+                          '{0:<5}: {1:.4f} und'.format(self.translate_trade_type(trade['type']), trade['Volume']),
                           (trade_date-0.02, high_low),
                           xytext=(trade_date-0.02, ycoords),
                           bbox=dict(boxstyle='round', fc='w', ec='k', lw=1), 
-                          fontsize="small"
+                          fontsize="medium"
                       )
                 except:
                     pass
@@ -208,6 +217,7 @@ class TradingGraph:
     self.ax2.set_xlabel('Data')
     self.ax1.set_ylabel('Preço')
     self.ax3.set_ylabel('Patrimônio Líquido')
+    self.ax3.yaxis.set_label_position('right')
 
     self.fig.tight_layout()
 
