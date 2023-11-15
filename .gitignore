@@ -7,7 +7,9 @@ _references
 _documents
 .ipynb_checkpoints
 .vscode
+weights/
 logs
+runs
 start.sh
 .env
 logs/
