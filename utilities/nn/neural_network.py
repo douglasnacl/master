@@ -57,7 +57,6 @@ class NeuralNetwork:
     )
     model = Sequential(layers)
     model.compile(
-      # loss='huber',
       optimizer=optimizer,
       loss=self.ddqn_loss
     )
@@ -65,15 +64,15 @@ class NeuralNetwork:
     return model
         
   def ddqn_loss(self, y_true, y_pred):
-    # If y_true has shape (batch_size,), reshape it to (batch_size, 1)
+    # Se y_true tem shape (batch_size, ), realiza reshape para (batch_size, 1)
     if len(y_true.shape) == 1:
         y_true = tf.reshape(y_true, (-1, 1))
 
-    # Compute the Q-values for the actions taken in the input batch
+    # Calcula os Q-values para as ações tomadas no batch de entrada
     q_values = tf.reduce_sum(y_true * y_pred, axis=1, keepdims=True)
 
-    # Compute the target Q-values using the DDQN update rule
+    # Calcula os Q-values para as ações tomadas pela rede alvo
     target_q_values = y_true * (1 - tf.cast(tf.equal(y_pred, tf.reduce_max(y_pred, axis=1, keepdims=True)), dtype=self.tensors_float)) + y_true * tf.cast(tf.equal(y_pred, tf.reduce_max(y_pred, axis=1, keepdims=True)), dtype=self.tensors_float) * q_values
 
-    # Compute the mean squared error between the target Q-values and the predicted Q-values
+    # Calcula o erro quadrático médio entre os Q-values alvo e os Q-values preditos
     return tf.reduce_mean(tf.square(target_q_values - q_values))

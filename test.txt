@@ -1,0 +1,1237 @@
+.
+├── _assets
+│   ├── ambient_configuration.png
+│   ├── Análise numérica para as equações de Navier-Stokes, em 2D, com viscosidade não-local.pdf
+│   ├── and_or.png
+│   ├── ddql-fluxogram.png
+│   ├── deep_reinforcement_learning.png
+│   ├── dissertação_douglas.docx
+│   ├── dissertação_douglas.old.docx
+│   ├── double_deep_reinforcement_learning.png
+│   ├── draft_douglas_dissertation revisado.pdf
+│   ├── draft_mestrado.excalidraw
+│   ├── experiment_ddrl.png
+│   ├── getting_data.png
+│   ├── map.emmx
+│   ├── model_overview.png
+│   ├── neural_network.png
+│   ├── neural network.svg
+│   ├── neuron.png
+│   ├── neuron.svg
+│   ├── neuron.svg.2022_08_07_12_18_57.0.svg
+│   ├── perceptron.png
+│   ├── Reinforcement Learning.jpg
+│   ├── reinforcement_learning.png
+│   ├── roteiro qualify.docx
+│   ├── schema-final.svg
+│   ├── schema.svg
+│   ├── starting_execution.png
+│   ├── TradingEnv.ipynb
+│   ├── trading_env.png
+│   └── training_ddrq.png
+├── assets
+│   └── ts
+│       ├── BTCUSD_1h_full.csv
+│       └── ETHUSD_1h_full.csv
+├── _backup
+│   ├── 21_06_28-Dissertação - Douglas (2).zip
+│   ├── 21_06_28-Dissertação - Douglas.zip
+│   ├── 21_06_30-Dissertação - Douglas (2).zip
+│   ├── 21_06_30-Dissertação - Douglas.zip
+│   ├── 21_11_29-Dissertação - Douglas (2).zip
+│   ├── 21_11_29-Dissertação - Douglas.zip
+│   ├── 21_12_01-Dissertação - Douglas.zip
+│   ├── 22_01_28-Dissertação - Douglas.zip
+│   ├── 22_01_30-Dissertação - Douglas.zip
+│   ├── 22_03_13-Dissertação - Douglas.zip
+│   ├── 22_03_15-Dissertação - Douglas.zip
+│   ├── 22_03_19-Dissertação - Douglas.zip
+│   ├── 22_03_20-Dissertação - Douglas.zip
+│   ├── 22_03_21-Dissertação - Douglas.zip
+│   ├── 22_03_23-Dissertação - Douglas.zip
+│   ├── 22_03_27-Dissertação - Douglas.zip
+│   ├── 22_03_27v2-Dissertação - Douglas.zip
+│   ├── 22_04_03-Dissertação - Douglas.zip
+│   ├── 22_04_07-Dissertação - Douglas.zip
+│   ├── 22_04_09-Dissertação - Douglas.zip
+│   ├── 22_04_11-Dissertação - Douglas.zip
+│   ├── 22_04_13-Dissertação - Douglas.zip
+│   ├── 22_04_13v2-Dissertação - Douglas.zip
+│   ├── 22_05_05-Dissertação - Douglas.zip
+│   ├── 22_05_11-Dissertação - Douglas.zip
+│   ├── 22_05_30-Dissertação - Douglas.zip
+│   ├── 22_05_31v1-Dissertação - Douglas.zip
+│   ├── 22_05_31v2-Dissertação - Douglas.zip
+│   ├── 22_06_01-Dissertação - Douglas.zip
+│   ├── 22_06_02-Dissertação - Douglas.zip
+│   ├── 22_06_03-Dissertação - Douglas.zip
+│   ├── 22_06_03v2-Dissertação - Douglas.zip
+│   ├── 22_06_04-Dissertação - Douglas.zip
+│   ├── 22_06_05-Dissertação - Douglas.zip
+│   ├── 22_06_06-douglas_dissertation.pdf
+│   ├── 22_08_02-Dissertação - Douglas.zip
+│   ├── 22_08_03-Dissertação - Douglas-douglas-laptop.zip
+│   ├── 22_08_03-Dissertação - Douglas.zip
+│   ├── 22_08_03-douglas_dissertation.pdf
+│   ├── 22_08_05-Dissertação - Douglas.zip
+│   ├── 22_08_07-Dissertação - Douglas.zip
+│   ├── 22_08_07-douglas_dissertation.pdf
+│   ├── 22_08_07v2-Dissertação - Douglas.zip
+│   ├── 22_08_07v2-douglas_dissertation.pdf
+│   ├── 22_08_07v2-douglas_dissertation-Weslley.pdf
+│   ├── 22_08_09-Dissertação - Douglas.zip
+│   ├── 22_08_10-Dissertação - Douglas.zip
+│   ├── 22_08_11-Dissertação - Douglas.zip
+│   ├── 22_08_11-douglas_dissertation.pdf
+│   ├── 22_08_11-douglas_dissertation-Weslley.pdf
+│   ├── 22_08_14-Dissertação - Douglas.zip
+│   ├── 22_08_14-douglas_dissertation.pdf
+│   ├── 22_08_14v2-Dissertação - Douglas.zip
+│   ├── 22_08_20-Dissertação - Douglas.zip
+│   ├── 22_11_16-Dissertação - Douglas.zip
+│   ├── 22_11_21-Dissertação - Douglas.zip
+│   ├── 22_11_21-douglas_dissertation.pdf
+│   ├── Certidao-12906001716.pdf
+│   ├── dados_bitcoin_dolar.png
+│   ├── douglas_dissertation.pdf
+│   └── trading_bot_v3.ipynb
+├── _books
+│   ├── 1509.06461.pdf
+│   ├── 1710.02298.pdf
+│   ├── 2021_LucasBaiãoPires.pdf
+│   ├── Aprendizado por reforço em ambientes não-estacionários.pdf
+│   ├── APRENDIZADO POR REFORÇO PROFUNDO MULTIAGENTE APLICADO .pdf
+│   ├── Base de Dados - Questionário.xlsx
+│   ├── Biscaia_2019.pdf
+│   ├── cheatsheet.pdf
+│   ├── Deep Learning for Time Series Forecasting - Predict the Future with MLPs, CNNs and LSTMs in Python (2018).pdf
+│   ├── Deep Reinforcement Learning Hands-On (2020, Packt).pdf
+│   ├── deep_reinforcement_learning.png
+│   ├── Disserta__o___Douglas.pdf
+│   ├── Generative Adversarial Networks Projects _ Build Next-Generation Generative Models Using TensorFlow and Keras. (2019, Packt Publishing Ltd).epub
+│   ├── Generative Deep Learning_ Teaching Machines to Paint, Write, Compose, and Play (2019, O’Reilly Media).pdf
+│   ├── guia dissetação.pdf
+│   ├── hands-onmachinelearningforalgorithmictrading.epub
+│   ├── hands-onmachinelearningforalgorithmictrading.pdf
+│   ├── Hands-On Machine Learning for Algorithmic Trading.pdf
+│   ├── j.ins.2020.05.066.pdf
+│   ├── journal.pone.0263181.pdf
+│   ├── Monografias
+│   │   ├── Dissertacao-de-mestrado_Rodrigo_Couto.pdf
+│   │   ├── Dissertacao_Tiago_Colliri.pdf
+│   │   ├── MONOGRAFIA_Trading_system_autonomo_baseado_redes_neurais_artificiais.pdf
+│   │   ├── PB_COCTB_2015_2_18.pdf
+│   │   ├── TCC_AnalisePadroesTendencia.pdf
+│   │   ├── TCC pdfa.pdf
+│   │   └── tesealexandrepimenta.pdf
+│   ├── Practical Synthetic Data Generation_ Balancing Privacy and the Broad Availability of Data-O'Reilly Media (2020).pdf
+│   ├── Recurrent Neural Networks for Prediction_ Learning Algorithms, Architectures and Stability - 2001.pdf
+│   ├── Reinforcement Learning An Introduction.pdf
+│   ├── reinforcement_learning.jpg
+│   ├── Time Series Databases New Ways to Store and Access Data.epub
+│   ├── Time-series forecasting - 2001.pdf
+│   └── Tutorial
+│       ├── Classe 01 - Introducción - tipos de revisión de la literatura - Busqueda en bases de datos con uso de palavras claves e extracción de artículos.pptx
+│       ├── ESTRUTURAÇÃO BÁSICA PARA ESCRITA CIENTÍFICA DE UM ARTIGO.pdf
+│       ├── Manual da Revisão Bibliográfica - GEEMAT.pdf
+│       └── PRISMA - EXEMPLO.xlsx
+├── _documents
+│   ├── 22_08_01-douglas_dissertation.pdf
+│   ├── artigos
+│   │   ├── 10.1007@978-3-030-19823-720.pdf
+│   │   ├── A Brief Survey of Deep Reinforcement Learning.pdf
+│   │   ├── Adaptive Stock Trading Strategies with Deep Reinforcement Learning Methods.pdf
+│   │   ├── A Generalist Agent.pdf
+│   │   ├── An intelligent financial portfolio trading strategy using deep Q-learning.pdf
+│   │   ├── Application of stochastic recurrent reinforcement learning to index trading.pdf
+│   │   ├── A Q-learning agent for automated trading in equity stock markets.pdf
+│   │   ├── Artificial Neural Network Based Process Modeling.pdf
+│   │   ├── A Theoretical Analysis of Deep Q-Learning.pdf
+│   │   ├── bhardwaj2020.pdf
+│   │   ├── Convergence Results for Single-Step On-Policy Reinforcement-Learning Algorithms.pdf
+│   │   ├── Cryptocurrency trading_ a comprehensive survey.pdf
+│   │   ├── Curriculo%20-%20DouglasOliveira%20-%20English%20-%20Software%20Support%20Specialist.docx
+│   │   ├── data-06-00119-v2.pdf
+│   │   ├── DEEP REINFORCEMENT LEARNING_ AN OVERVIEW.pdf
+│   │   ├── Deep reinforcement learning based trading agents.pdf
+│   │   ├── Deep Reinforcement Learning for Dexterous Manipulation with Concept Networks - 2017.pdf
+│   │   ├── Deep Reinforcement Learning for Trading—A Critical Survey.pdf
+│   │   ├── degris2012-Model-Free Reinforcement Learning with Continuous Action in Practice.pdf
+│   │   ├── douglas_dissertation.pdf
+│   │   ├── Ernest P. Chan - Quantitative trading _ how to build your own algorithmic trading business. (2021, John Wiley & Sons).pdf
+│   │   ├── Fundamental Analysis Models in Financial Markets – Review Study.pdf
+│   │   ├── golub1995-A stochastic programming model for money management.pdf
+│   │   ├── Holistic Reinforcement Learning - The Role of Structure and Attention - radulescu2019.pdf
+│   │   ├── How_to_write_a_lit_review.pdf
+│   │   ├── Improving Financial Trading Decisions Using Deep Q-learning.pdf
+│   │   ├── Investor Sentiment in the Stock Market.pdf
+│   │   ├── Learning Financial Asset-Specific Trading Rules via Deep Reinforcement Learning.pdf
+│   │   ├── lek2008-Multilayer Perceptron.pdf
+│   │   ├── mackie-mason2006-AUTOMATED MARKETS AND TRADING AGENTS.pdf
+│   │   ├── METHODS TO AVOID OVERFITTING AND UNDER-FITTING IN SUPERVISED MACHINE LEARNING (COMPARATIVE STUDY).pdf
+│   │   ├── METHODS_TO_AVOID_OVER-FITTING_AND_UNDER-.pdf
+│   │   ├── mnih2015-Human-level control through deep reinforcement learning.pdf
+│   │   ├── moody1998-Performance functions and reinforcement learning for trading systems and portfolios.pdf
+│   │   ├── Multi-DQN_ An ensemble of Deep Q-learning agents for stock market forecasting.pdf
+│   │   ├── others
+│   │   │   ├── 2022-06-06-17-56-00-Análise_de_Dados_Healthscore.ipynb
+│   │   │   ├── A Model-Free Robust Policy Iteration Algorithm for Optimal Control of Nonlinear Systems.pdf
+│   │   │   ├── A Multiagent Approach to Q-Learning for Daily Stock Trading.pdf
+│   │   │   ├── A Review of Activation Function for Artificial Neural Network.pdf
+│   │   │   ├── A Tabular Method for Dynamic Oracles in Transition-Based Parsing.pdf
+│   │   │   ├── bhasin2010-A model-free robust policy iteration algorithm for optimal control of nonlinear systems.pdf
+│   │   │   ├── Chess AI_ Competing Paradigms for Machine Intelligence.pdf
+│   │   │   ├── Convergence Results for Single-Step On-Policy Reinforcement-Learning Algorithms.pdf
+│   │   │   ├── daw2005-Uncertainty-based competition between prefrontal and dorsolateral striatal systems for behavioral control.pdf
+│   │   │   ├── Deep learning, reinforcement learning, and world models.pdf
+│   │   │   ├── Deep Reinforcement Learning-Based Adaptive Controller for Trajectory Tracking and Altitude Control of an Aerial Robot.pdf
+│   │   │   ├── derongliu2014-Policy Iteration Adaptive Dynamic Programming Algorithm for Discrete-Time Nonlinear Systems.pdf
+│   │   │   ├── dossantosmignon2017-An Adaptive Implementation of ε-Greedy in Reinforcement Learning.pdf
+│   │   │   ├── doya2002-Multiple Model-Based Reinforcement Learning.pdf
+│   │   │   ├── Efficient Exploration for Reinforcement Learning.pdf
+│   │   │   ├── guo2004-A New Q-Learning Algorithm Based on the Metropolis Criterion.pdf
+│   │   │   ├── hahn2020-Understanding dropout as an optimization trick.pdf
+│   │   │   ├── He2019-Application of Q-Learning and RBF Network in Chinese Chess Game System.pdf
+│   │   │   ├── kroemer2011-Active Exploration for Robot Parameter Selection in Episodic Reinforcement Learning.pdf
+│   │   │   ├── Learning From Delayed Rewards.pdf
+│   │   │   ├── Learning to learn by gradient descent by gradient descent.pdf
+│   │   │   ├── littman2001-Value-function reinforcement learning in Markov games.pdf
+│   │   │   ├── luo2016-Model-Free Optimal Tracking Control via Critic-Only Q-Learning.pdf
+│   │   │   ├── Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm.pdf
+│   │   │   ├── mnih2015-Human-level control through deep reinforcement learning.pdf
+│   │   │   ├── Novel data-driven two-dimensional Q-learning for optimal tracking control of batch process with unknown dynamics.pdf
+│   │   │   ├── Off-Policy Deep Reinforcement Learning without Exploration.pdf
+│   │   │   ├── Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines.pdf
+│   │   │   ├── Policy Gradient Methods for Reinforcement Learning with Function Approximation.pdf
+│   │   │   ├── Policy Iteration Algorithm Based Fault Tolerant Tracking Control_ An Implementation on Reconfigurable Manipulators.pdf
+│   │   │   ├── rejeb2005-An Adaptive Approach for the Exploration-Exploitation Dilemma for Learning Agents.pdf
+│   │   │   ├── Reward is enough.pdf
+│   │   │   ├── RLbook2020.pdf
+│   │   │   ├── States versus Rewards_ Dissociable Neural Prediction Error Signals Underlying Model-Based and Model-Free Reinforcement Learning.pdf
+│   │   │   ├── Sutton1988-Learning to Predict by the Methods of Temporal Differences.pdf
+│   │   │   ├── SuttonBartoReinforcement Learning_ An Introduction.pdf
+│   │   │   └── touma2011-Basic Research on Speed-Up of Reinforcement Learning Using Parallel Processing for Combination Value Function.pdf
+│   │   ├── Reinforcement learning enabled dynamic bidding strategy for instant delivery trading.pdf
+│   │   ├── reinforcement learning for trading systems and portfolios.pdf
+│   │   ├── Reinforcement learning in financial markets - a.pdf
+│   │   ├── Reinforcement Learning in Stock Trading.pdf
+│   │   ├── Sentiment-influenced trading system based on multimodal deep reinforcement learning.pdf
+│   │   ├── SSRN-id603481.pdf
+│   │   ├── Stock trading rule discovery with double deep Q-network.pdf
+│   │   ├── tan2017.pdf
+│   │   ├── The Quarterly Review of Economics and Finance.pdf
+│   │   ├── to read
+│   │   │   ├── _A Brief Survey of Deep Reinforcement Learning.pdf
+│   │   │   ├── Active Exploration for Robot Parameter Selection in Episodic Reinforcement Learning.pdf
+│   │   │   ├── Adaptive stock trading strategies with deep reinforcement learning methods.pdf
+│   │   │   ├── Adaptive ε-greedy exploration in reinforcement learning based on value differences.pdf
+│   │   │   ├── _A Deep Reinforcement Learning Approach for Automated Cryptocurrency Trading.pdf
+│   │   │   ├── _A Double Deep Q-Learning Model for Energy-Efficient Edge Scheduling.pdf
+│   │   │   ├── A Generalist Agent.pdf
+│   │   │   ├── _A literature review of technical analysis on stock markets.pdf
+│   │   │   ├── _A model-free robust policy iteration algorithm for optimal control of.pdf
+│   │   │   ├── _A multiagent approach to Q-learning for daily stock trading.pdf
+│   │   │   ├── An Adaptive Implementation of ϵ-Greedy in Reinforcement Learning.pdf
+│   │   │   ├── A new Q-learning algorithm based on the metropolis criterion.pdf
+│   │   │   ├── _An intelligent financial portfolio trading strategy using deep Q-learning.pdf
+│   │   │   ├── Application of Q-Learning and RBF Network in Chinese Chess Game System.pdf
+│   │   │   ├── _A Q-learning agent for automated trading in equity stock markets.pdf
+│   │   │   ├── _A Review of Activation Function for Artificial Neural Network.pdf
+│   │   │   ├── Artificial neural network based process modeling.pdf
+│   │   │   ├── Artificial neural networks_ A tutorial.pdf
+│   │   │   ├── A survey of applications of markov decision processes.pdf
+│   │   │   ├── A Theoretical Analysis of Deep Q-Learning.pdf
+│   │   │   ├── A theoretical framework for Back-Propagation - 1988.pdf
+│   │   │   ├── bhardwaj2020.pdf
+│   │   │   ├── bhasin2010.pdf
+│   │   │   ├── Brief Papers Training Feedforward Networks with the Marquardt Algorithm.pdf
+│   │   │   ├── Chess AI_ Competing Paradigms for Machine Intelligence.pdf
+│   │   │   ├── Classes of multiagent Q-learning dynamics with ε-greedy exploration.pdf
+│   │   │   ├── Classical text in translation_ An example of statistical investigation of the text eugene onegin concerning the connection of samples in chains.pdf
+│   │   │   ├── Comparative Study of Convolution Neural Network’s Relu and Leaky-Relu Activation Functions - 2019.pdf
+│   │   │   ├── Convergence Results for Single-Step On-Policy Reinforcement-Learning.pdf
+│   │   │   ├── Cryptocurrency trading_ a comprehensive survey.pdf
+│   │   │   ├── Deep learning, reinforcement learning, and world models.pdf
+│   │   │   ├── Deep LSTM with reinforcement learning layer for financial trend prediction in FX high frequency trading systems.pdf
+│   │   │   ├── Deep reinforcement learning for trading.pdf
+│   │   │   ├── Deep Reinforcement Learning_ From Q-Learning to Deep Q-Learning.pdf
+│   │   │   ├── Deep Reinforcement Learning with Double Q-Learning.pdf
+│   │   │   ├── _Double Deep Q-Learning for Optimal Execution.pdf
+│   │   │   ├── doya2002-Multiple Model-Based Reinforcement Learning.pdf
+│   │   │   ├── Dynamic programming and stochastic control processes - bellman1958.pdf
+│   │   │   ├── Efficient Exploration for Reinforcement Learning.pdf
+│   │   │   ├── Ernest P. Chan - Quantitative trading _ how to build your own algorithmic trading business. (2021, John Wiley & Sons).pdf
+│   │   │   ├── Fundamental Analysis Models in Financial Markets – Review Study.pdf
+│   │   │   ├── Human-level control through deep reinforcement learning.pdf
+│   │   │   ├── Improving neural networks by preventing co-adaptation of feature detectors.pdf
+│   │   │   ├── Investor Sentiment in the Stock Market.pdf
+│   │   │   ├── Learning Activation Functions to Improve Deep Neural Networks.pdf
+│   │   │   ├── Learning algorithms and probability distributions in feed-forward and feed-back networks.pdf
+│   │   │   ├── Learning representations by back-propagating errors - 1986 Mostra que BackPropation pode ser usado para obter melhores resultados.pdf
+│   │   │   ├── Learning to learn by gradient descent by gradient descent.pdf
+│   │   │   ├── Learning to Predict by the Methods of Temporal Differences.pdf
+│   │   │   ├── lek2008-Multilayer Perceptron.pdf
+│   │   │   ├── Machine Learning in Radiation Oncology.pdf
+│   │   │   ├── maisilva,+3.+ANÁLISE+DE+CORRELAÇÃO+ENTRE+INDICADORES+FINANCEIROS+etc_20130711.pdf
+│   │   │   ├── Markov Decision Processes_ Concepts and Algorithms - 2009.pdf
+│   │   │   ├── Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm.pdf
+│   │   │   ├── METHODS TO AVOID OVER-FITTING AND UNDER-FITTING IN SUPERVISED MACHINE LEARNING (COMPARATIVE STUDY).pdf
+│   │   │   ├── _Multi-DQN_ An ensemble of Deep Q-learning agents for stock market forecasting.pdf
+│   │   │   ├── neely2014.pdf
+│   │   │   ├── Off-Policy Deep Reinforcement Learning without Exploration.pdf
+│   │   │   ├── On the Capabilities of Multilayer Perceptrons - 1988.pdf
+│   │   │   ├── On the role of dynamic programming in statistical communication theory - bellman 1957.pdf
+│   │   │   ├── Perceptrons_ An Introduction to Computational Geometry.pdf
+│   │   │   ├── Performance Analysis of Various Activation Functions in Generalized MLP Architectures of Neural Networks.pdf
+│   │   │   ├── Performance Functions and Reinforcement Learning for Trading Systems and Portfolios.pdf
+│   │   │   ├── Policy Gradient Methods for Reinforcement Learning with Function.pdf
+│   │   │   ├── Prioritized Experience Replay.pdf
+│   │   │   ├── Processos de Decisão de Markov_ um tutorial.pdf
+│   │   │   ├── Q-Learning.pdf
+│   │   │   ├── Regularization Matters In Policy Optimization-an Empirical Study On Continuous Control.pdf
+│   │   │   ├── Reinforcement learning_ exploration–exploitation dilemma in multi-agent foraging task - yogeswaran2012.pdf
+│   │   │   ├── Reinforcement learning in financial markets-a survey.pdf
+│   │   │   ├── Restricted gradient-descent algorithm for value-function approximation in reinforcement learning - damottasallesbarreto2008.pdf
+│   │   │   ├── Reward is enough.pdf
+│   │   │   ├── Robert D. Edwards, John Magee - Technical Analysis of Stock Trends-AMACOM (2001).pdf
+│   │   │   ├── Some Problems in the Theory of Dynamic Programming.pdf
+│   │   │   ├── States versus rewards_ Dissociable neural prediction error signals underlying model-based and model-free reinforcement learning.pdf
+│   │   │   ├── Stock trading rule discovery with double deep Q-network.pdf
+│   │   │   ├── ____Successful Pass Schedule Design in Open-Die Forging Using Double Deep Q-Learning.pdf
+│   │   │   ├── Theory of the Backpropagation Neural Network.pdf
+│   │   │   ├── The perceptron_ A probabilistic model for information storage and organization in the brain.pdf
+│   │   │   └── Training feedforward networks with the Marquardt algorithm - 1994.pdf
+│   │   ├── Trading strategy of structured mutual fund based on deep learning network.pdf
+│   │   └── wang2003.pdf
+│   ├── artigos.zip
+│   ├── dissertação_douglas.docx
+│   ├── dissertação_douglas-DOUGLAS-PC.docx
+│   ├── dissertação_douglas.old.docx
+│   ├── dissertação_douglas_rev_vanessa.pdf
+│   ├── dissertação_douglas_rev_weslley.pdf
+│   ├── douglas_dissertation.pdf
+│   ├── fichamento.xlsx
+│   ├── map.emmx
+│   └── timeline_douglas.xlsx
+├── env
+├── _example
+│   ├── build_dogs_vs_cats.py
+│   ├── config
+│   │   ├── dogs_vs_cats_config.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── dogs_vs_cats_config.cpython-37.pyc
+│   │       └── __init__.cpython-37.pyc
+│   ├── crop_accuracy.py
+│   ├── extract_features.py
+│   ├── __init__.py
+│   ├── output
+│   │   ├── 9650.png
+│   │   ├── dogs_vs_cats_mean.json
+│   │   └── __init__.py
+│   ├── train_alexnet.py
+│   └── train_model.py
+├── __init__.py
+├── job.py
+├── LICENSE
+├── logs
+│   ├── 2022-03-06-stock-trading-bot.log
+│   ├── 2022-03-07-stock-trading-bot.log
+│   ├── 2022-03-08-stock-trading-bot.log
+│   ├── 2022-03-09-stock-trading-bot.log
+│   ├── 2022-03-10-stock-trading-bot.log
+│   ├── 2022-03-21-stock-trading-bot.log
+│   ├── 2023-07-07-stock-trading-bot.log
+│   ├── 2023-07-08-stock-trading-bot.log
+│   ├── 2023-08-03-stock-trading-bot.log
+│   ├── 2023-08-04-stock-trading-bot.log
+│   ├── 2023-08-05-stock-trading-bot.log
+│   ├── 2023-08-08-stock-trading-bot.log
+│   ├── 2023-08-09-stock-trading-bot.log
+│   ├── 2023-08-12-stock-trading-bot.log
+│   ├── 2023-08-15-stock-trading-bot.log
+│   ├── 2023-08-18-stock-trading-bot.log
+│   ├── 2023-08-19-stock-trading-bot.log
+│   ├── 2023-08-21-stock-trading-bot.log
+│   ├── 2023-08-22-stock-trading-bot.log
+│   ├── 2023-08-23-stock-trading-bot.log
+│   ├── 2023-08-26-stock-trading-bot.log
+│   ├── 2023-08-28-stock-trading-bot.log
+│   ├── 2023-08-29-stock-trading-bot.log
+│   ├── 2023-08-30-stock-trading-bot.log
+│   ├── 2023-09-09-stock-trading-bot.log
+│   ├── 2023-09-10-stock-trading-bot.log
+│   ├── 2023-09-11-stock-trading-bot.log
+│   ├── 2023-09-12-stock-trading-bot.log
+│   ├── 2023-09-14-stock-trading-bot.log
+│   ├── 2023-09-20-stock-trading-bot.log
+│   └── 2023-11-14-stock-trading-bot.log
+├── README.md
+├── _references
+│   ├── 2018_IcaroDaCostaMota_tcc.pdf
+│   ├── abstract
+│   │   ├── Douglas - MODELO Pre Projeto de Dissertação.doc
+│   │   ├── Douglas - MODELO Pre Projeto de Dissertação V3.doc
+│   │   ├── Douglas - MODELO Pre Projeto de Dissertação V3.pdf
+│   │   ├── Douglas - Resumo do tema de Dissertação.doc
+│   │   └── Douglas - Resumo do tema de Dissertação.pdf
+│   ├── A Double Deep Q-Learning Model for Energy-Efficient Edge Scheduling.pdf
+│   ├── An Empirical Research on the Investment Strategy of Stock Market based on Deep Reinforcement Learning model.pdf
+│   ├── Application Of Deep Reinforcement Learning For Indian Stock Trading Automation.pdf
+│   ├── applications
+│   │   ├── Capturing Financial markets to apply Deep Reinforcement Learning.pdf
+│   │   ├── Deep Direct Reinforcement Learning for Financial - deng2016.pdf
+│   │   ├── Deep Reinforcement Learning-Based Irrigation Scheduling - yang2020.pdf
+│   │   ├── Deep Reinforcement Learning for Trading.pdf
+│   │   ├── Observation Time Effects in Reinforcement Learning on Contracts for Difference - 2021.pdf
+│   │   └── Stock Market Forecasting Using Machine Learning Algorithms.pdf
+│   ├── Cartaz-da-Qualify-dissertação-Douglas-Oliveira-F.pdf
+│   ├── double_deep_q_learning.pdf
+│   ├── Double Q-learning.pdf
+│   ├── douglas_dissertation_v_2022-12-29.pdf
+│   ├── NIPS-2017-bridging-the-gap-between-value-and-policy-based-reinforcement-learning-Paper.pdf
+│   ├── papers
+│   │   ├── 01-Introdução
+│   │   │   └── Contextualização
+│   │   │       └── Aprendizado de máquina
+│   │   │           ├── Arthur Samuel_ Pioneer in Machine Learning - mccarthy1991.pdf
+│   │   │           ├── Computation Beyond the Turing Limit - siegelmann1995.pdf
+│   │   │           ├── Computing Machinery and Intelligence - turing1950.pdf
+│   │   │           ├── Foundations of Machine Learning - 2012, The MIT Press.pdf
+│   │   │           ├── Some_Studies_in_Machine_Learning_Using_the_Game_of_Checkers.pdf
+│   │   │           └── What Is Machine Learning - elnaqa2015.pdf
+│   │   ├── 02-Fundamentação Teórica
+│   │   │   ├── 1207.0580.pdf
+│   │   │   ├── On the Capabilities of Multilayer Perceptrons - 1988.pdf
+│   │   │   ├── Redes Neurais Artificiais
+│   │   │   │   ├── A Logical Calculus of the Ideas Immanent in Nervous Activity - 1943.pdf
+│   │   │   │   ├── A logical calculus of the ideas immanent in nervous activity - mcculloch1943.pdf
+│   │   │   │   ├── Artificial intelligence- a general survey - Lighthill1973.pdf
+│   │   │   │   ├── Artificial neural networks_ a tutorial - jain1996.pdf
+│   │   │   │   ├── A theoretical framework for Back-Propagation - 1988.pdf
+│   │   │   │   ├── Learning algorithms and probability distributions in feed-forward and feed-back networks - 1987.pdf
+│   │   │   │   ├── Learning representations by back-propagating errors.pdf
+│   │   │   │   ├── Marvin Minsky, Seymour A. Papert - Perceptrons_ An Introduction to Computational Geometry (1987, The MIT Press) - libgen.lc.pdf
+│   │   │   │   ├── Perceptrons_ An introduction to computational geometry (1969, MIT Press) - 1969.djvu
+│   │   │   │   ├── Theory of the backpropagation neural network - 1989.pdf
+│   │   │   │   ├── The perceptron - A probabilistic model for information storage and organization in the brain - 1958.pdf
+│   │   │   │   └── Training feedforward networks with the Marquardt algorithm - 1994.pdf
+│   │   │   └── Regularization
+│   │   │       ├── Adversarial Dropout Regularization - 2017.pdf
+│   │   │       ├── Dropout Training as Adaptive Regularization - 2013.pdf
+│   │   │       ├── Feature selection, L1 vs. L2 regularization, and rotational invariance - ng2004.pdf
+│   │   │       ├── On Manifold Regularization - TR-2004-05.pdf
+│   │   │       ├── Recurrent Neural Network Regularization - 2015.pdf
+│   │   │       ├── regularization_matters_in_poli-Original Pdf.pdf
+│   │   │       ├── The Implicit and Explicit Regularization Effects of Dropout - 2020.pdf
+│   │   │       └── What is the Effect of Importance Weighting in Deep Learning - 2019.pdf
+│   │   ├── 0.png
+│   │   ├── 1183519147.pdf
+│   │   ├── 12-001.pdf
+│   │   ├── A Comparative Study of Training Algorithms for Supervised Machine Learning - 2012.pdf
+│   │   ├── ACTIVATION FUNCTIONS IN NEURAL NETWORKS - 2020.pdf
+│   │   ├── Adaptive ε-Greedy Exploration in Reinforcement Learning Based on Value Differences - 2010.pdf
+│   │   ├── A Deep Learning Based Illegal Insider-Trading Detection and Prediction Technique in Stock Market.pdf
+│   │   ├── A General Multilayer Perceptrons Feed Forward Neural Network Algorithm for Learning Capability - 2013.pdf
+│   │   ├── A Hybrid CNN–LSTM Network for the Classification of Human Activities Based on Micro-Doppler Radar - zhu2020.pdf
+│   │   ├── Alcoholism identification via convolutional neural network based on parametric ReLU, dropout, and batch normalization - wang2018.pdf
+│   │   ├── A Mathematical Theory of Communication - 1948.pdf
+│   │   ├── An Agricultural Time Series-Cross Section Dataset - 1977.pdf
+│   │   ├── Analysis of different activation functions using back propagation neural networks - 2013.pdf
+│   │   ├── An essay towards solving a problem in the doctrine of chances - bayes1763.pdf
+│   │   ├── An Example of Statistical Investigation of the Text Eugene Onegin Concerning the Connection of Samples in Chains - markov2006.pdf
+│   │   ├── Ants and Reinforcement Learning_ A Case Study in Routing in Dynamic Networks - 1998.pdf
+│   │   ├── Aplicação de técnicas de aprendizado de máquina na predição de tendência das ações nas bolsas de valores - 2018.pdf
+│   │   ├── Aplicações
+│   │   │   └── Predicting Stock Market Trends Using Machine Learning and Deep Learning Algorithms Via Continuous and Binary Data; a Comparative Analysis - 2020.pdf
+│   │   ├── Applications of Deep Learning and Reinforcement Learning to Biological Data - mahmud2018.pdf
+│   │   ├── A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence, August 31, 1955 - 2006.pdf
+│   │   ├── A pruning based method to learn both weights and connections for LSTM - 2015.pdf
+│   │   ├── A review of supervised machine learning algorithms and their applications to ecological data - crisci2012.pdf
+│   │   ├── A review On reinforcement learning_ Introduction and applications in industrial process control - nian2020.pdf
+│   │   ├── A Survey of Applications of Markov Decision Processes - 1991.pdf
+│   │   ├── Backpropagation
+│   │   │   ├── Improving the Convergence of Back-Propagation Learning with Second-Order Methods - 1989.pdf
+│   │   │   ├── ler.txt
+│   │   │   └── Neural Networks and Deep Learning.pdf
+│   │   ├── Batch Normalization_ Accelerating Deep Network Training by Reducing Internal Covariate Shift - ioffe2015.pdf
+│   │   ├── Batch normalized recurrent neural networks - laurent2016.pdf
+│   │   ├── Beyond Accuracy, F-score and ROC a Family of Discriminant Measures for Performance Evaluation.pdf
+│   │   ├── BotMiner - Clustering Analysis of Network Traffic for Protocol- and Structure-Independent Botnet Detection.pdf
+│   │   ├── cap8.odt
+│   │   ├── Chapter 22 - Semi-Supervised Learning - zhou2014.pdf
+│   │   ├── Classes of Multiagent Q-learning Dynamics with epsilon-greedy Exploration - 2010.pdf
+│   │   ├── Cognitron - A self-organizing multilayered neural network - First _CNN_ 1975.pdf
+│   │   ├── Combining instance-based learning and logistic regression for multilabel classification - 2009.pdf
+│   │   ├── Comparative Study of Convolution Neural Network’s Relu and Leaky-Relu Activation Functions - 2019.pdf
+│   │   ├── Comparing supervised and unsupervised category learning - Love2002.pdf
+│   │   ├── Comparison of offline and real-time human activity recognition results using machine learning techniques - suto2018.pdf
+│   │   ├── Composite Task-Completion Dialogue Policy Learning via Hierarchical Deep Reinforcement Learning - 2017.pdf
+│   │   ├── Construção de modelos estatísticos baseados na avaliação de séries temporais históricas da cultura da mandioca no Brasil.pdf
+│   │   ├── Convolution
+│   │   │   ├── Exploring Convolutional Neural Network Structures and Optimization Techniques for Speech Recognition - cnn_2013.pdf
+│   │   │   ├── ler.txt
+│   │   │   └── Understanding of a convolutional neural network - albawi2017.pdf
+│   │   ├── Cross-Domain Transfer for Reinforcement Learning - 2007.pdf
+│   │   ├── Curiosity-driven Exploration by Self-supervised Prediction - 2017.pdf
+│   │   ├── Cybernetics and Forecasting Techniques - 1967.zip
+│   │   ├── Data Augmentation
+│   │   │   ├── Data Augmentation and Dense-LSTM for Human Activity Recognition using WiFi Signal - zhang2020.pdf
+│   │   │   ├── Data Augmentation for Recognition of Handwritten Words and Lines Using a CNN-LSTM Network - wigington2017.pdf
+│   │   │   ├── The Art of Data Augmentation - vandyk2001.pdf
+│   │   │   └── Understanding Data Augmentation for Classification_ When to Warp - wong2016.pdf
+│   │   ├── Deep learning in neural networks_ An overview - schmidhuber2015.pdf
+│   │   ├── Deep Learning using Rectified Linear Units (ReLU) - 2018.pdf
+│   │   ├── Deep Recurrent Q-Learning for Partially Observable MDPs - 2017.pdf
+│   │   ├── _Deep Reinforcement Learning_ An Overview - 2017.pdf
+│   │   ├── Deep-Reinforcement-Learning-Based Autonomous UAV Navigation With Sparse Rewards - wang2020.pdf
+│   │   ├── Deep Reinforcement Learning for Dexterous Manipulation with Concept Networks - 2017.pdf
+│   │   ├── Deep Reinforcement Learning with Double Q-Learning - 2016.pdf
+│   │   ├── Distributed Prioritized Experience Replay - 2018.pdf
+│   │   ├── Early Stopping - But When - prechelt1998.pdf
+│   │   ├── Ensemble Methods
+│   │   │   └── ler.txt
+│   │   ├── Exploration and Exploitation in Organizational Learning - March_1991.pdf
+│   │   ├── Fast Policy Learning through Imitation and Reinforcement - 2018.pdf
+│   │   ├── Flatten-T Swish_ a thresholded ReLU-Swish-like activation function for deep learning - 2018.pdf
+│   │   ├── fontes de dados - hidrologia.pdf
+│   │   ├── Forward-Backward Reinforcement Learning - 2018.pdf
+│   │   ├── four-separate-data-splits.png
+│   │   ├── From Reinforcement Learning to Optimal Control_ A unified framework for sequential decisions - 2019.pdf
+│   │   ├── Generalized Hindsight for Reinforcement Learning - 2020.pdf
+│   │   ├── Generalized TD Learning - 2011.pdf
+│   │   ├── Gradient-Based learning applied to document recognition - 1998.pdf
+│   │   ├── Gradient Flow in Recurrent Nets_ the Difficulty of Learning Long-Term Dependencies - Vanish Gradient Problem 2001 .pdf
+│   │   ├── Gradient Theory of Optimal Flight Paths - kelley1960.pdf
+│   │   ├── Hierarchical Reinforcement Learning with Hindsight - 2018.08180v2
+│   │   ├── Hierarchical Reinforcement Learning with Hindsight - 2018.pdf
+│   │   ├── Hindsight Experience Replay - 2018.pdf
+│   │   ├── Hindsight policy gradients - 2019.pdf
+│   │   ├── How Does Batch Normalization Help Optimization - 2019.pdf
+│   │   ├── Implementation of a Sigmoid Activation function for Neural Network - 2012.pdf
+│   │   ├── Improving RTS Game AI by Supervised Policy Learning, Tactical Search, and Deep Reinforcement Learning - barriga2019.pdf
+│   │   ├── Incremental Least-Squares Temporal Difference Learning - 2006.pdf
+│   │   ├── Initializers
+│   │   │   └── ler.txt
+│   │   ├── Input Generalization in Delayed Reinforcement Learning_ An Algorithm and Performance Comparisons - 1991.pdf
+│   │   ├── Instance-based learning algorithms - aha1991.pdf
+│   │   ├── Instance-Based Utile Distinctions for Reinforcement Learning with Hidden State - 1995.pdf
+│   │   ├── Integrated Architectures for Learning, Planning, and Reacting Based on Approximating Dynamic Programming - sutton1990.pdf
+│   │   ├── Introduction to model-based teaching and learning in science education - gobert2000.pdf
+│   │   ├── Ivakhnenko, A. G. (1971). Polynomial Theory of Complex Systems - Possível primeira aparição Deep Learning.pdf
+│   │   ├── Kernel
+│   │   │   └── ler.txt
+│   │   ├── Learning from delayed reward - 1989.pdf
+│   │   ├── Learning long-term dependencies with gradient descent is difficult - bengio1994.pdf
+│   │   ├── Learning model-free robot control by a Monte Carlo EM algorithm - vlassis2009.pdf
+│   │   ├── Learning Multi-Level Hierarchies with Hindsight - 2019.pdf
+│   │   ├── Learning representations by back-propagating errors - 1986 Mostra que BackPropation pode ser usado para obter melhores resultados.pdf
+│   │   ├── Learning representations by back-propagating errors - rumelhart1986.pdf
+│   │   ├── Learning to predict by the methods of temporal differences - 1988.pdf
+│   │   ├── Learning to predict by the methods of temporal difference - Sutton1988.pdf
+│   │   ├── ler.txt
+│   │   ├── Leveraging Demonstrations for Deep Reinforcement - 2017.pdf
+│   │   ├── LSTM_ A Search Space Odyssey - 2015.pdf
+│   │   ├── Machine Learning Basics - Overfitting e Underfitting - Slide.pdf
+│   │   ├── Markov Decision Processes_ Concepts and Algorithms - 2009.pdf
+│   │   ├── merton1973.pdf
+│   │   ├── Methods To Avoid Over-fitting And Under-fitting In Supervised Machine Learning (comparative Study) - 2015.pdf
+│   │   ├── MixMatch_ A Holistic Approach to Semi-Supervised Learning - 2019.pdf
+│   │   ├── Model-based learning for mobile robot navigation from the dynamical systems perspective - tani1996.pdf
+│   │   ├── Model-Based Reinforcement Learning for Atari - 2020.pdf
+│   │   ├── Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning - 2018.pdf
+│   │   ├── Model-free Q-learning designs for linear discrete-time zero-sum games with application to H-infinity control - al-tamimi2007.pdf
+│   │   ├── Model-Free reinforcement learning with continuous action in practice - degris2012.pdf
+│   │   ├── MULEX_ Disentangling Exploitation from Exploration in Deep RL - 2017.pdf
+│   │   ├── Multi Kernel Learning with Online-Batch Optimization - orabona2012a.pdf
+│   │   ├── Multiple Model-Based Reinforcement Learning - doya2002.pdf
+│   │   ├── NatureDeepReview.pdf
+│   │   ├── Network Architectures
+│   │   │   ├── A CNN-based face detector with a simple feature map and a coarse-to-fine classifier - Withdrawn - chen2015.pdf
+│   │   │   ├── An Empirical Exploration of Recurrent Network Architectures - 2015.pdf
+│   │   │   ├── Back-propagation fails to separate - 1989.pdf
+│   │   │   ├── Building High-level Features Using Large Scale Unsupervised Learning - 2012.pdf
+│   │   │   ├── Convolutional, Long Short-Term Memory, fully connected Deep Neural Networks - 2015.pdf
+│   │   │   ├── Deep Learning.pdf
+│   │   │   ├── Do RNN and LSTM have Long Memory - 2020.pdf
+│   │   │   ├── Efficient BackProp.pdf
+│   │   │   ├── Fast R-CNN - 2015.pdf
+│   │   │   ├── Fundamentals of Recurrent Neural Network (RNN) and Long Short-Term Memory (LSTM) network - sherstinsky2020.pdf
+│   │   │   ├── Going deeper with convolutions - 2014.pdf
+│   │   │   ├── GRU
+│   │   │   │   ├── Gate-variants of Gated Recurrent Unit (GRU) neural networks - dey2017.pdf
+│   │   │   │   └── Recurrent Neural Networks for Multivariate Time Series with Missing Values - 2018.pdf
+│   │   │   ├── ImageNet Classification with Deep Convolutional Neural Networks - Alexnet - 2012.pdf
+│   │   │   ├── Impact of fully connected layers on performance of convolutional neural networks for image classification - basha2019.pdf
+│   │   │   ├── Investigating recurrent neural network memory structures using neuro-evolution - ororbia2019.pdf
+│   │   │   ├── Learning Activation Functions to Improve Deep Neural Networks.pdf
+│   │   │   ├── Learning CNN Filters From User-Drawn Image Markers for Coconut-Tree Image Classification - desouza2020.pdf
+│   │   │   ├── Learning Structure and Strength of CNN Filters for Small Sample Size Training - 2018.pdf
+│   │   │   ├── ler.txt
+│   │   │   ├── Long Short-Term Memory Recurrent Neural Network Architectures for Large Scale Acoustic Modeling - 2014.pdf
+│   │   │   ├── LSTM
+│   │   │   │   ├── Long Short-Term Memory 1997.pdf
+│   │   │   │   ├── long short-term memory (LSTM) network of 2003 by Hochreiter _ Schmidhuber.pdf
+│   │   │   │   └── lstm - 1997.pdf
+│   │   │   ├── Non-Linear Convolution Filters for CNN-Based Learning - 2017.pdf
+│   │   │   ├── Object Detection Networks on Convolutional Feature Maps - ren2016.pdf
+│   │   │   ├── On derivation of MLP backpropagation from the Kelley-Bryson optimal-control gradient formula and its application.pdf
+│   │   │   ├── On the problem of local minima in backpropagation - 1992.pdf
+│   │   │   ├── Overcoming the vanishing gradient problem in plain recurrent networks.pdf
+│   │   │   ├── Reinforcement Learning
+│   │   │   │   ├── Adaptively Truncating Backpropagation Through Time to Control Gradient Bias - 2020.pdf
+│   │   │   │   ├── A Gentle Tutorial of Recurrent Neural Network with Error Backpropagation - 2016.pdf
+│   │   │   │   ├── An empirical investigation of the challenges of real-world reinforcement learning - 2020.pdf
+│   │   │   │   ├── A policy-blending formalism for shared control - dragan2013.pdf
+│   │   │   │   ├── Challenges of Real-World Reinforcement Learning - 2019.pdf
+│   │   │   │   ├── Comparison of Predictive Algorithms- Backpropagation, SVM, LSTM and Kalman Filter for Stock Market - 2019.pdf
+│   │   │   │   ├── Constrained Markov decision processes - 1999.pdf
+│   │   │   │   ├── Deep Reinforcement Learning With Optimized Reward Functions for Robotic Trajectory Planning - xie2019.pdf
+│   │   │   │   ├── Dense Recurrent Neural Networks for Accelerated MRI- History-Cognizant Unrolling of Optimization Algorithms - hosseini2020.pdf
+│   │   │   │   ├── Finding Structure in Reinforcement Learning - NIPS-1994.pdf
+│   │   │   │   ├── Gradient Descent for General Reinforcement Learning - 1999.pdf
+│   │   │   │   ├── Holistic Reinforcement Learning - The Role of Structure and Attention - radulescu2019.pdf
+│   │   │   │   ├── Introduction- The Challenge of Reinforcement Learning - 1992.pdf
+│   │   │   │   ├── Learning agents for uncertain environments (extended abstract) - 1998.pdf
+│   │   │   │   ├── Markov
+│   │   │   │   │   ├── An Example of Statistical Investigation of the Text Eugene Onegin Concerning the Connection of Samples in Chains - Markov Chains 1913 - Translate 2007.pdf
+│   │   │   │   │   ├── A Reward Optimization Method Based on Action Subrewards in Hierarchical Reinforcement Learning - fu2014.pdf
+│   │   │   │   │   ├── A survey of algorithmic methods for partially observed Markov decision processes - lovejoy1991.pdf
+│   │   │   │   │   ├── Automated Generation And Analysis Of Markov Reward Models Using Stochastic Reward Nets - 1993.pdf
+│   │   │   │   │   ├── Dynamic programming and Markov decision processes - 1996.pdf
+│   │   │   │   │   ├── Hierarchical Control and Learning for Markov Decision Processes - 1998 - 1990.pdf
+│   │   │   │   │   ├── Markov and Markov reward model transient analysis - An overview of numerical approaches - reibman1989.pdf
+│   │   │   │   │   ├── Markov and the Birth of Chain Dependence Theory - 1996.pdf
+│   │   │   │   │   ├── Markov Reward Models and Markov Decision Processes in Discrete and Continuous Time-Performance Evaluation and Optimization - gouberman2014.pdf
+│   │   │   │   │   ├── Means and variances of time averages in Markovian environments - 1987.pdf
+│   │   │   │   │   ├── Numerical Transient Analysis Of Markov Models - 1988.pdf
+│   │   │   │   │   ├── Performability Analysis Using Semi-Markov Reward Processes - 1990.pdf
+│   │   │   │   │   └── Transient analysis of cumulative measures of markov model behavior - 1989.pdf
+│   │   │   │   ├── On Training Recurrent Networks with Truncated Backpropagation Through time in Speech Recognition - tang2018.pdf
+│   │   │   │   ├── Policy Gradient Methods for Reinforcement Learning with Function Approximation - 1999.pdf
+│   │   │   │   ├── Policy Gradient Reinforcement Learning for Fast Quadrupedal Locomotion - kohl2004.pdf
+│   │   │   │   ├── Recurrent Neural Networks Trained With Backpropagation Through Time Algorithm to Estimate Nonlinear Load Harmonic Currents - mazumdar2008.pdf
+│   │   │   │   ├── Regularizing and Optimizing LSTM Language Models - 2017.pdf
+│   │   │   │   ├── Reinforcement Learning and the Reward Engineering Principle - 2014.pdf
+│   │   │   │   ├── Reinforcement learning by backpropagation through an LSTM model-critic - 2007.pdf
+│   │   │   │   ├── Reinforcement Learning for Robots Using Neural Networks - 1993.pdf
+│   │   │   │   ├── Reinforcement Learning Through Gradient Descent - 1999.pdf
+│   │   │   │   ├── Restricted gradient-descent algorithm for value-function approximation in reinforcement learning - damottasallesbarreto2008.pdf
+│   │   │   │   ├── Rewards Prediction-Based Credit Assignment for Reinforcement Learning With Sparse Binary Rewards - seo2019.pdf
+│   │   │   │   ├── The Optimal Reward Baseline for Gradient·Based Reinforcement Learning - 2013.pdf
+│   │   │   │   └── Unbiasing Truncated Backpropagation Through Time - 2017.pdf
+│   │   │   ├── Support - Vector Networks - 1995.pdf
+│   │   │   ├── Swish_ a Self-Gated Activation Function.pdf
+│   │   │   └── Using ant colony optimization to optimize long short-term memory recurrent neural networks - elsaid2018.pdf
+│   │   ├── Networks for Approximation and Learning - regularization - 1990.pdf
+│   │   ├── Neural Computations Underlying Arbitration between Model-Based and Model-free Learning - lee2014.pdf
+│   │   ├── Neural network applications in business A review and analysis of the literature - 1997.pdf
+│   │   ├── Neural networks and physical systems with emergent collective computational abilities - 1982.pdf
+│   │   ├── On-Line Algorithms in Machine Learning - blum1998.pdf
+│   │   ├── On the Computational Power of Neural Nets - siegelmann1995.pdf
+│   │   ├── On the difficulty of training Recurrent Neural Networks - Gradient Problems - 2012.pdf
+│   │   ├── On The Pairing Of The Softmax Activation And Cross{Entropy Penalty Functions And The Derivation Of The Softmax Activation Function - 1997.pdf
+│   │   ├── On the use of backpropagation in associative reinforcement learning - williams1988.pdf
+│   │   ├── Optimizers
+│   │   │   ├── Accelerated Distributed Nesterov Gradient Descent.pdf
+│   │   │   ├── ADADELTA_ An Adaptive Learning Rate Method.pdf
+│   │   │   ├── ADAM_ A METHOD FOR STOCHASTIC OPTIMIZATION.pdf
+│   │   │   ├── Adaptive Subgradient Methods for Online Learning and Stochastic Optimization -ADAGRAD.pdf
+│   │   │   ├── A method for solving the convex programming problem with convergence rate - Nesterov Original Paper.pdf
+│   │   │   ├── An overview of gradient descent optimization.pdf
+│   │   │   ├── A Stochastic Approximation Method - SGD First Paper.pdf
+│   │   │   ├── Better Mini-Batch Algorithms via Accelerated Gradient Methods.pdf
+│   │   │   ├── Ler.txt
+│   │   │   ├── Neural Networks for Machine - Learning Lecture 6a Overview of mini-batch gradient descent - RMSProp.pdf
+│   │   │   ├── On the importance of initialization and momentum in deep learning.pdf
+│   │   │   ├── Some methods of speeding up the convergence of iteration methods - Momentum.pdf
+│   │   │   ├── Stochastic Estimation of the Maximum of a Regression Function - SGD 2.pdf
+│   │   │   └── The general inefficiency of batch training for gradient descent learning.pdf
+│   │   ├── Overcoming Exploration in Reinforcement Learning with Demonstrations - nair2018.pdf
+│   │   ├── Overfitting and Underfitting Analysis for Deep Learning Based End-to-end Communication Systems - 2019.pdf
+│   │   ├── Parallel Distributed Processing_ Explorations in the Microstructure of Cognition_ Foundations - 1986.pdf
+│   │   ├── Parameterised Sigmoid and ReLU Hidden Activation Functions for DNN Acoustic Modelling - 2015.pdf
+│   │   ├── Performance Analysis of Various Activation Functions in Generalized MLP Architectures of Neural Networks - 2011.pdf
+│   │   ├── Planilha-Timeline.xlsx
+│   │   ├── Policy gradient methods for reinforcement learning with function approximation - 2000.pdf
+│   │   ├── Pooling Layer
+│   │   │   ├── Deep Residual Learning for Image Recognition - 2015.pdf
+│   │   │   ├── ler.txt
+│   │   │   ├── Striving for Simplicity_ The All Convolutional Net - 2014.pdf
+│   │   │   └── Temporal Pyramid Pooling-Based Convolutional Neural Network for Action Recognition - wang2016.pdf
+│   │   ├── Prioritized Experience Replay - 2015.pdf
+│   │   ├── Process mining_ a two-step approach to balance between underfitting and overfitting - 2010.pdf
+│   │   ├── Real-time recurrent learning neural network for stream-flow forecasting - chang2002.pdf
+│   │   ├── Reinforcement learning_ exploration–exploitation dilemma in multi-agent foraging task - yogeswaran2012.pdf
+│   │   ├── Reinforcement Learning with Unsupervised Auxiliary Tasks - 2016.pdf
+│   │   ├── Research on convolutional neural network based on improved Relu piecewise activation function - lin2018.pdf
+│   │   ├── Reward shaping for reinforcement learning by emotion expressions - hwang2014.pdf
+│   │   ├── Searching for Activation Functions - 2017.pdf
+│   │   ├── Self-improving reactive agents based on reinforcement learning, planning and teaching - 1992.pdf
+│   │   ├── Semi-Supervised and Unsupervised Extreme Learning Machines - gaohuang2014.pdf
+│   │   ├── Simplified Hardware Implementation of the Softmax Activation Function - kouretas2019.pdf
+│   │   ├── Solving the credit assignment problem_ explicit and implicit learning of action sequences with probabilistic outcomes - fu2007.pdf
+│   │   ├── Stock Price Pattern Recognition - A Recurrent Neural Network Approach - 1990.pdf
+│   │   ├── Study of Dependency on number of LSTM units for Character based Text Generation models - chakraborty2020.pdf
+│   │   ├── Taylor expansion of the accumulated rounding error - 1970 - Backpropagation.pdf
+│   │   ├── TEMPORAL CREDIT ASSIGNMENT IN REINFORCEMENT LEARNING - 1984.pdf
+│   │   ├── Temporal Difference Learning and TD-Gammon - 1995.pdf
+│   │   ├── The Alignment Problem for Bayesian History-Based Reinforcement Learners -everitt2018.pdf
+│   │   ├── The Bellman Equation
+│   │   │   ├── Applied dynamic programming - 1962.pdf
+│   │   │   ├── Dynamic programming and stochastic control processes - bellman1958.pdf
+│   │   │   ├── Dynamic Programming - rhoward1960.pdf
+│   │   │   ├── On adaptive control processes - bellman1959.pdf
+│   │   │   └── On the role of dynamic programming in statistical communication theory - bellman 1957.pdf
+│   │   ├── The Curse of Dimensionality in Data Mining and Time Series Prediction - 2005.pdf
+│   │   ├── The Exploration-Exploitation Dilemma_ A Multidisciplinary Framework - berger-tal2014.pdf
+│   │   ├── The neuroscientific foundations of the exploration−exploitation dilemma - 2010.pdf
+│   │   ├── Time Series
+│   │   │   ├── _Crop Yield Prediction Using Deep Reinforcement Learning Model for Sustainable Agrarian Applications - elavarasan2020.pdf
+│   │   │   ├── Deep reinforcement learning for selecting demand forecast models to empower Industry 3.5 and an empirical study for a semiconductor component distributor - 2018.pdf
+│   │   │   ├── Learning to Forecast Price - kelley2002.pdf
+│   │   │   ├── Mining Time Series Data - 2005.pdf
+│   │   │   ├── Predicting chaotic time series - farmer1987.pdf
+│   │   │   ├── Reinforcement Learning Control for Water-Efficient Agricultural Irrigation - sun2017.pdf
+│   │   │   ├── Searching and mining trillions of time series subsequences under dynamic time warping - rakthanmanon2012.pdf
+│   │   │   ├── Short-Term Load Forecast of Microgrids by a New Bilevel Prediction Strategy - amjady2010.pdf
+│   │   │   ├── Time Series Data Analysis on Agriculture Food Production.pdf
+│   │   │   └── Time-series data mining - esling2012.pdf
+│   │   ├── Training Recurrent Answering Units with Joint Loss Minimization for VQA - 2016.pdf
+│   │   ├── Training with Exploration Improves a Greedy Stack LSTM Parser - 2015.pdf
+│   │   ├── train-or-transfer.png
+│   │   ├── Unifying Temporal and Structural Credit Assignment Problems - 2004.pdf
+│   │   ├── Unsupervised Learning - 1999.pdf
+│   │   ├── Unsupervised Machine Learning for Networking_ Techniques, Applications and Research Challenges - 2019.pdf
+│   │   ├── Using deep reinforcement learning approach for solving the multiple sequence alignment problem - 2019.pdf
+│   │   ├── Visual Analysis of Hidden State Dynamics in Recurrent Neural Networks - 2016.pdf
+│   │   ├── Visualizing and Understanding Recurrent Networks - 2015.pdf
+│   │   ├── Watkins-Dayan1992_Article_Q-learning.pdf
+│   │   └── Why Tanh_ Choosing a Sigmoidal Function - 1992.pdf
+│   ├── Parecer do Exame  de Seminário de Dissertação Qualificação Douglas de Oliveira MCCT.doc
+│   ├── Reinforcement Learning in Stock Trading. Advances in Intelligent Systems and Computing, 311–322.pdf
+│   └── Stock trading rule discovery with double deep Q-network.pdf
+├── requirements.txt
+├── runs
+│   ├── 2023_09_10_21_28_ddqn_trader
+│   │   ├── 1007.47_ddqn_trader.h5
+│   │   ├── 1009.34_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694392137.pop-os
+│   │   ├── events.out.tfevents.1694392138.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_10_22_06_ddqn_trader
+│   │   ├── 1016.43_ddqn_trader.h5
+│   │   ├── 1023.32_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694394392.pop-os
+│   │   ├── events.out.tfevents.1694394393.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_10_22_46_ddqn_trader
+│   │   ├── 1007.47_ddqn_trader.h5
+│   │   ├── 1013.93_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694396761.pop-os
+│   │   ├── events.out.tfevents.1694396763.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_10_23_23_ddqn_trader
+│   │   ├── 1022.97_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694399038.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_10_23_24_ddqn_trader
+│   │   ├── 1026.65_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694399040.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_11_00_02_ddqn_trader
+│   │   ├── 1004.53_ddqn_trader.h5
+│   │   ├── 1013.05_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694401377.pop-os
+│   │   ├── events.out.tfevents.1694401378.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_11_00_41_ddqn_trader
+│   │   ├── 1019.72_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694403716.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_11_00_43_ddqn_trader
+│   │   ├── 1018.02_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694403782.pop-os
+│   │   ├── events.out.tfevents.1694403824.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_11_00_44_ddqn_trader
+│   │   ├── 1018.75_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694403858.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_11_01_03_ddqn_trader
+│   │   ├── 1019.76_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1694405005.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_20_21_09_ddqn_trader
+│   │   ├── 1016.43_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1695254982.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_09_20_21_10_ddqn_trader
+│   │   ├── 1004.53_ddqn_trader.h5
+│   │   ├── _ddqn_trader.h5
+│   │   ├── events.out.tfevents.1695255028.pop-os
+│   │   ├── log.json
+│   │   └── parameters.json
+│   ├── 2023_11_14_21_55_ddqn_trader
+│   │   ├── events.out.tfevents.1700009750.pop-os
+│   │   └── parameters.json
+│   ├── 2023_11_14_21_56_ddqn_trader
+│   │   ├── events.out.tfevents.1700009767.pop-os
+│   │   └── parameters.json
+│   ├── csv
+│   │   ├── 2023_09_10_21_28_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_10_21_28_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_10_21_28_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_10_22_06_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_10_22_06_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_10_22_06_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_10_22_46_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_10_22_46_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_10_22_46_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_10_23_23_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_episode_reward.csv
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_perc_average_net_worth.csv
+│   │   │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_10_23_23_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_10_23_23_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_10_23_23_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_10_23_24_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_10_23_24_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_10_23_24_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_11_00_02_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_11_00_02_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_11_00_02_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_11_00_41_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_11_00_41_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_11_00_41_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_11_00_43_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_11_00_43_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_11_00_43_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_11_00_44_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_11_00_44_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_11_00_44_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_11_01_03_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_11_01_03_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_11_01_03_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_20_21_09_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_20_21_09_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_20_21_09_ddqn_trader-tag-data_win_rate.csv
+│   │   ├── 2023_09_20_21_10_ddqn_trader
+│   │   │   ├── parameters.json
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_agent_returns.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_average_net_worth.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_avg_twap.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data___.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_diff_returns.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_episode_orders.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_information_ratio.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_market_returns.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_rewards.csv
+│   │   │   ├── run-2023_09_20_21_10_ddqn_trader-tag-data_time_to_process.csv
+│   │   │   └── run-2023_09_20_21_10_ddqn_trader-tag-data_win_rate.csv
+│   │   └── old-build-table.ipynb
+│   ├── data
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (CPU) - 128_128 - 100.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (CPU) - 128_256_128 - 100.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (CPU) - 64_128_64 - 100.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (CPU) - 64_64 - 100.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (GPU) - 128_128 - 100.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (GPU) - 128_256_128 - 1000.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (GPU) - 128_256_128 - 100.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (GPU) - 64_128_64 - 100.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (GPU) - 64_64 - 1000.csv
+│   │   ├── Tempo de processamento por Episódio para o Bitcoin (GPU) - 64_64 - 100.csv
+│   │   ├── Tempo de processamento por Episódio para o Ethereum (GPU) - 128_256_128 - 1000.csv
+│   │   └── Tempo de processamento por Episódio para o Ethereum (GPU) - 64_64 - 1000.csv
+│   ├── images
+│   │   ├── processing_time_comparative.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(CPU)_-_128_128_-_100.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(CPU)_-_128_256_128_-_100.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(CPU)_-_64_128_64_-_100.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(CPU)_-_64_64_-_100.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(GPU)_-_128_128_-_100.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(GPU)_-_128_256_128_-_1000.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(GPU)_-_128_256_128_-_100.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(GPU)_-_64_128_64_-_100.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(GPU)_-_64_64_-_1000.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Bitcoin_(GPU)_-_64_64_-_100.png
+│   │   ├── Tempo_de_processamento_por_Episódio_para_o_Ethereum_(GPU)_-_128_256_128_-_1000.png
+│   │   └── Tempo_de_processamento_por_Episódio_para_o_Ethereum_(GPU)_-_64_64_-_1000.png
+│   └── old
+│       ├── 2023_08_30_20_44_ddqn_trader
+│       │   ├── 1014.70_ddqn_trader.h5
+│       │   ├── 1019.29_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693439047.pop-os
+│       │   ├── events.out.tfevents.1693439083.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── 2023_08_30_21_17_ddqn_trader
+│       │   ├── 1016.94_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693441062.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── 2023_08_30_21_18_ddqn_trader
+│       │   ├── 1020.89_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693441084.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── 2023_08_30_21_55_ddqn_trader
+│       │   ├── 1015.59_ddqn_trader.h5
+│       │   ├── 1021.86_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693443302.pop-os
+│       │   ├── events.out.tfevents.1693443330.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── 2023_08_30_22_08_ddqn_trader
+│       │   ├── 1019.29_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693444137.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-deterministic-(16,128,256,128,3)-100
+│       │   ├── 1021.67_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1692661136.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-deterministic-(16,128,256,128,3)-100v
+│       │   ├── 1007.71_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693072833.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-deterministic-(16,64,64,3)-100v0
+│       │   ├── 1034.22_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1692664168.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-stocastic-(16,128,128,3)-1000
+│       │   ├── 1002.17_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693353810.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-stocastic-(16,64,64,3)-1000
+│       │   ├── 1005.06_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693350490.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-stochastic-(16,128,256,128,3)-100v
+│       │   ├── 1027.63_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693070622.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-stochastic-(16,64,64,3)-100
+│       │   ├── 1013.75_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693258206.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-stochastict-(16,128,256,128,3)
+│       │   ├── 1040.54_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1692657954.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── btc-ddql-stochastict-(16,64,64,3)
+│       │   ├── 1032.01_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1692667065.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── eth-ddql-deterministic-(16,128,128,3)-100
+│       │   ├── 1015.59_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693264595.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── eth-ddql-deterministic-(16,64,64,3)-100
+│       │   ├── 1021.86_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693260517.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── eth-ddql-stocastic-(16,128,128,3)-1000
+│       │   ├── 1006.10_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693393822.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── eth-ddql-stocastic-(16,128,128,3)-cpu
+│       │   ├── 1023.90_ddqn_trader.h5
+│       │   ├── 1027.48_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693434747.pop-os
+│       │   ├── events.out.tfevents.1693434762.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── eth-ddql-stocastic-(16,64,64,3)-1000
+│       │   ├── 1005.00_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693393866.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       ├── eth-ddql-stochastic-(16,128,128,3)-100
+│       │   ├── 1014.54_ddqn_trader.h5
+│       │   ├── _ddqn_trader.h5
+│       │   ├── events.out.tfevents.1693262379.pop-os
+│       │   ├── log.json
+│       │   └── parameters.json
+│       └── old
+│           ├── 2023_08_30_20_44_ddqn_trader
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_agent_returns.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_average_net_worth.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_avg_twap.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_episode_orders.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_episode_reward.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_information_ratio.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_market_returns.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_perc_average_net_worth.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_rewards.csv
+│           │   ├── run-2023_08_30_20_44_ddqn_trader-tag-data_time_to_process.csv
+│           │   └── run-2023_08_30_20_44_ddqn_trader-tag-data_win_rate.csv
+│           ├── 2023_08_30_21_17_ddqn_trader
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_agent_returns.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_average_net_worth.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_avg_twap.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_episode_orders.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_episode_reward.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_information_ratio.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_market_returns.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_perc_average_net_worth.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_rewards.csv
+│           │   ├── run-2023_08_30_21_17_ddqn_trader-tag-data_time_to_process.csv
+│           │   └── run-2023_08_30_21_17_ddqn_trader-tag-data_win_rate.csv
+│           ├── 2023_08_30_21_18_ddqn_trader
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_agent_returns.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_average_net_worth.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_avg_twap.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_episode_orders.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_episode_reward.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_information_ratio.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_market_returns.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_perc_average_net_worth.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_rewards.csv
+│           │   ├── run-2023_08_30_21_18_ddqn_trader-tag-data_time_to_process.csv
+│           │   └── run-2023_08_30_21_18_ddqn_trader-tag-data_win_rate.csv
+│           ├── 2023_08_30_21_55_ddqn_trader
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_agent_returns.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_average_net_worth.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_avg_twap.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_episode_orders.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_episode_reward.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_information_ratio.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_market_returns.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_perc_average_net_worth.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_rewards.csv
+│           │   ├── run-2023_08_30_21_55_ddqn_trader-tag-data_time_to_process.csv
+│           │   └── run-2023_08_30_21_55_ddqn_trader-tag-data_win_rate.csv
+│           └── 2023_08_30_22_08_ddqn_trader
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_agent_returns.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_average_net_worth.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_avg_twap.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_ddql_loss_per_replay.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_episode_orders.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_episode_reward.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_information_ratio.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_market_returns.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_perc_average_net_worth.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_rewards.csv
+│               ├── run-2023_08_30_22_08_ddqn_trader-tag-data_time_to_process.csv
+│               └── run-2023_08_30_22_08_ddqn_trader-tag-data_win_rate.csv
+├── test
+│   ├── __init__.py
+│   └── methods.py
+├── test.txt
+├── training_2022-07-19-77d58568-9e56-4099-9a37-f7c66dfa70a8-1658284483.csv
+└── utilities
+    ├── environment
+    │   ├── __init__.py
+    │   ├── __pycache__
+    │   │   ├── __init__.cpython-310.pyc
+    │   │   ├── trading_env.cpython-310.pyc
+    │   │   └── trading_graph.cpython-310.pyc
+    │   ├── trading_env.py
+    │   └── trading_graph.py
+    ├── __init__.py
+    ├── io
+    │   ├── fetch_data.py
+    │   ├── __init__.py
+    │   └── __pycache__
+    │       ├── fetch_data.cpython-310.pyc
+    │       ├── __init__.cpython-310.pyc
+    │       └── stock_data_generator.cpython-310.pyc
+    ├── methods.py
+    ├── nn
+    │   ├── neural_network.py
+    │   └── __pycache__
+    │       └── neural_network.cpython-310.pyc
+    ├── __pycache__
+    │   ├── __init__.cpython-310.pyc
+    │   └── methods.cpython-310.pyc
+    ├── rl
+    │   ├── ddqn_agent.py
+    │   └── __pycache__
+    │       └── ddqn_agent.cpython-310.pyc
+    └── utils
+        ├── build-table.ipynb
+        ├── checks.py
+        ├── decorators.py
+        ├── install_env.sh
+        ├── __pycache__
+        │   ├── checks.cpython-310.pyc
+        │   └── utilities.cpython-310.pyc
+        └── utilities.py
+
+112 directories, 1122 files

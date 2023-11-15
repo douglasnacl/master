@@ -39,40 +39,6 @@ initial_balance = int(os.environ.get("INITIAL_BALANCE", 1000))
 np.random.seed(42)
 tf.random.set_seed(42) 
 logging.getLogger('matplotlib').setLevel(logging.ERROR)
-
-def test_agent(trading_env, agent, test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="", name="ddqn_trader", comment="", display_reward=False, display_indicators=False):
-    with open(folder+"/parameters.json", "r") as json_file:
-        params = json.load(json_file)
-    if name == "":
-        params["agent_name"] = f"{name}.h5"
-    name = params["agent_name"][:-9]
-
-    agent.load(folder, name)
-    average_net_worth = 0
-    average_orders = 0
-    no_profit_episodes = 0
-    for episode in range(test_episodes):
-        state = trading_env.reset(env_steps_size = 720)
-        while True:
-            trading_env.render(visualize)
-            action, prediction = agent.act(state)
-            state, reward, done = trading_env.step(action)
-            if trading_env._step == trading_env._end_step:
-                average_net_worth += trading_env.net_worth
-                average_orders += trading_env.episode_orders
-                if trading_env.net_worth < trading_env.initial_balance: no_profit_episodes += 1 # calculate episode count where we had negative profit through episode
-                print("episode: {:<5}, net_worth: {:<7.2f}, average_net_worth: {:<7.2f}, orders: {}".format(episode, trading_env.net_worth, average_net_worth/(episode+1), trading_env.episode_orders))
-                trading_env
-            
-    print("average {} episodes agent net_worth: {}, orders: {}".format(test_episodes, average_net_worth/test_episodes, average_orders/test_episodes))
-    print("No profit episodes: {}".format(no_profit_episodes))
-    
-    # Salvando os resultados do teste no arquivo test_results.txt
-    with open("test_results.txt", "a+") as results:
-        current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
-        results.write(f'{current_date}, {name}, test episodes:{test_episodes}')
-        results.write(f', net worth:{average_net_worth/(episode+1)}, orders per episode:{average_orders/test_episodes}')
-        results.write(f', no profit episodes:{no_profit_episodes}, model: {agent.model}, comment: {comment}\n')
     
 def routine(processing_device="GPU", visualize=False, deterministic=False):
     logging.info("Running the routine")
@@ -95,14 +61,14 @@ def routine(processing_device="GPU", visualize=False, deterministic=False):
     df_nomalized = min_max_normalization(df[99:])[1:]
     df = df[100:].dropna()
     
-    test_window = int(len(df)*0.3) # 720*3 # 3 months
+    test_window = int(len(df)*0.3) # 30% dos dados para teste
 
     # Separando os dados em dados de treinamento e teste
-    train_df = df[:-test_window] # we leave 100 to have properly calculated indicators
+    train_df = df[:-test_window]
     test_df = df[-test_window:]
 
     # Separando os dados em dados normalizados de treinamento e teste 
-    train_df_nomalized = df_nomalized[:-test_window] # we leave 100 to have properly calculated indicators
+    train_df_nomalized = df_nomalized[:-test_window]
     test_df_nomalized = df_nomalized[-test_window:]
 
     logging.info(f"Pontos totais: {len(df)} - Pontos de treinamento: {len(train_df)} - Pontos de teste: {len(test_df)}")
@@ -156,18 +122,7 @@ def routine(processing_device="GPU", visualize=False, deterministic=False):
     if deterministic != True:
         logging.info("Realizando a execução em um periodo estocástico!")
         
-    agent.train(trading_env=trading_env, visualize=visualize, train_episodes=train_episodes, max_train_episode_steps=episode_steps)
-    # test_agent(test_df, test_df_nomalized, visualize=True, test_episodes=10, folder="/home/douglasnacl/runs/2023_01_22_19_05_ddqn_trader", name="_ddqn_trader", comment="", display_reward=True, display_indicators=True)
-    
-
-
-
-# Metrics that can be used to evaluate the performance of a reinforcement learning agent, depending on the specific task and objectives of the agent. Some common metrics include:
-
-# Average reward per episode
-# Average profit or net worth per episode
-# Sharpe ratio (a measure of risk-adjusted return)
-# Maximum drawdown (a measure of risk)
-# Win rate (percentage of profitable trades)
-# Average holding time (how long the agent holds a position)
-# Information ratio (a measure of the agent's ability to generate alpha relative to a benchmark)
+    agent.train(trading_env=trading_env, 
+                visualize=visualize, 
+                train_episodes=train_episodes,
+                max_train_episode_steps=episode_steps)    

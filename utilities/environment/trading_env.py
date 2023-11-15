@@ -100,14 +100,13 @@ class TradingEnv:
         self._step = 0
         self._end_step = self.env_steps_size
         used_indices_in_this_run = set(range(0, self._end_step))
-        # Quantidade maxima de treinos
 
       elif (self._end_step + 1 not in self._used_indices_into_steps) and ((self._end_step + 1 + self.env_steps_size ) < (len(self.df) - 1) ): 
         self._step = self._end_step + 1
         self._end_step = self._step + self.env_steps_size
         used_indices_in_this_run = set(range(self._step, self._end_step))
 
-      else: # elif self._end_step > (len(self.df) - 1) and self.env_steps_size < (len(self.df) - 1):
+      else: 
         if ((self._end_step + 1 + self.env_steps_size ) > (len(self.df) - 1) ):
           self._full_dataset_used_times+=1
           __increment = 100
@@ -241,15 +240,14 @@ class TradingEnv:
         self.episode_orders += 0
 
 
-    # Calculate reward
-    # prev_amount = prev_volume * prev_price
+    # Calcula a recompensa
     percent_change = (self.balance + self.stock_held * current_price - prev_amount) / prev_amount
     
     sharpe_ratio = 0.01
     risk_adjusted_return = percent_change / sharpe_ratio
 
     volatility_threshold = 0.02
-    # print("Volatility: ", self.current_volatility, "Volatility Threshold: ", volatility_threshold)
+
     if self.current_volatility > volatility_threshold:
         volatility_penalty = -0.01
     else:
@@ -262,14 +260,13 @@ class TradingEnv:
     reward = risk_adjusted_return + volatility_penalty + opportunity_cost_penalty
     reward = max(reward, 0) # max(reward, -1)
     
-    # Update net worth
+    # Atualiza o patrimônio líquido
     self.prev_net_worth = self.net_worth
     self.net_worth = self.balance + self.stock_held * current_price
     self.agent_returns.append(self.net_worth/self.prev_net_worth)
-    # logging.debug
 
     logging.debug("Action: ", action, "Type: ", _type, "Stock Bought: ", self.stock_bought, "Stock Sold: ", self.stock_sold, "Stock Held: ", self.stock_held, "Balance: ", self.balance, "Net Worth: ", self.net_worth, "Reward: ", reward, "Current Price: ", current_price, "Date: ", date )
-    # Update trades and return action
+    # Atualiza trades e retorna ação e recompensa
     self.trades.append({
         'Date': date,
         'High': high,

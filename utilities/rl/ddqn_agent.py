@@ -304,10 +304,9 @@ class DoubleDeepQLearningAgent:
             state = state.copy()
             state.at["net_worth"] = trading_env.net_worth if trading_env.net_worth else trading_env.balance
             state.at["balance"] = trading_env.balance
-            # print("balance: ", state.at["balance"], " net_wort: ", state.at["net_worth"])
+
             # Seleciona a melhor ação baseado na politica epsilon greedy
             action, prediction = self.act(state)
-            
             action, next_state, reward, done = trading_env.step(action)
             next_state = next_state.copy()
             next_state.at["net_worth"] = trading_env.net_worth 
@@ -334,16 +333,11 @@ class DoubleDeepQLearningAgent:
 
             # Calculate benchmark return for the current step
             if trading_env._step > 1:
-                benchmark_returns += trading_env.daily_returns.iloc[trading_env._step] # (trading_env.df.iloc[trading_env._step]['Close'] - trading_env.df.iloc[trading_env._step-1]['Close'])/trading_env.df.iloc[trading_env._step-1]['Close']
+                benchmark_returns += trading_env.daily_returns.iloc[trading_env._step] 
             else:
                 benchmark_returns = 0
 
-            loss = self.experience_replay() #states, actions, rewards, predictions, dones, next_states)
-            
-
-
-        # agent_daily_return = trading_env.agent_daily_return
-        # capm, beta = self.get_capm(trading_env._init_step, trading_env._step, agent_daily_return)
+            loss = self.experience_replay() # states, actions, rewards, predictions, dones, next_states
 
         total_net_worth.append(trading_env.net_worth)
         average_net_worth = np.average(total_net_worth)

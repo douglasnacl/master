@@ -1,4 +1,3 @@
-from utilities.io.stock_data_generator import StockDataGenerator
 from utilities.io.fetch_data import fetch_data
 from utilities.methods import routine
 from datetime import datetime
@@ -87,8 +86,6 @@ if __name__ == "__main__":
 
     elif(args.download_data):
         logging.info("Rotina de Download de Dados")
-        # stock_data = StockDataGenerator()
-        # stock_data.export_csv()
 
         asset = args.download_data
         # Ativo a ser avaliado
