@@ -5,6 +5,7 @@ import logging
 import uuid
 import numpy as np
 import os
+from utilities.utils.utilities import format_time
 
 def check_computer_device():
 
@@ -50,11 +51,6 @@ def track_results(episode, nav_mean_100, nav_mean_10,
                           nav_mean_100-1, nav_mean_10-1, 
                           market_nav_mean_100-1, market_nav_mean_10-1, 
                           win_ratio, epsilon))
-    
-    # 70 - episode | 00:10:43 - total_time |
-    # Agent: -24.3% - nav_mean_100-1 (-23.4% - nav_mean_10-1) |
-    # Market:  -3.9% - market_nav_100-1 ( -8.3% - market_nav_10-1) | 
-    # Wins: 20.0% (win_ration) | epsilon:  0.723 - epsilon
 
 def newest_file_in_dir(path):
     files = os.listdir(path)
