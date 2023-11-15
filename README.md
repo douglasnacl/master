@@ -55,7 +55,7 @@ O objetivo principal desta dissertação foi desenvolver um modelo de inteligên
 # Pré-requisitos
 
 As dependencias necessárias podem ser instaladas com uso do script `/utilities/utils/install_env.sh` 
- - este script instala as dependencias necessárias para o projeto
+ - `observações`: este script instala as dependencias necessárias para o projeto
     - é necessário ter o python3 instalado
     - é necessário ter o pip3 instalado
     - é necessário ter o virtualenv instalado
